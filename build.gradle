@@ -37,6 +37,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	runtimeOnly 'org.postgresql:postgresql'
 
+	implementation ("com.lob:lob-java:12.3.7")
+
 }
 
 tasks.named('test') {
