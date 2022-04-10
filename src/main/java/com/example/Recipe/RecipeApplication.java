@@ -7,6 +7,7 @@ import com.example.Recipe.Models.UserApp;
 import com.example.Recipe.Repositories.RoleRepository;
 import com.example.Recipe.Repositories.UserAppRepository;
 import com.google.gson.Gson;
+import org.ietf.jgss.Oid;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,6 +23,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.w3c.dom.Text;
 
 
 //
@@ -44,6 +46,7 @@ public class RecipeApplication {
 		SpringApplication.run(RecipeApplication.class, args);
 
 		String dataJson = ReadFromAPI();
+		WritOnDatabase();
 	}
 
 	/*
@@ -74,8 +77,7 @@ public class RecipeApplication {
 		String dataJson = "";
 		try {
 			// Make connection
-			URL recipesURL = new URL("https://api.spoonacular.com/recipes/complexSearch?apiKey=a5b285a93b4848aaabe8dc6eaa6c3cab");
-			//	URL recipesURL = new URL("https://api.edamam.com/api/recipes/v2?type=public&q=chicken&app_id=1db79f10&app_key=ccef1d64f150252fe1f177fae142aaae&cuisineType=American");
+			URL recipesURL = new URL("https://tasty.p.rapidapi.com/recipes/list?rapidapi-key=e9759040abmsh24f8c728a714d78p1bff50jsncd148a5fba3b&from=0&size=100");
 
 			HttpURLConnection recipeURLConnection = (HttpURLConnection) recipesURL.openConnection();
 			// send GET request
@@ -104,17 +106,20 @@ public class RecipeApplication {
 		Gson gson = new Gson();
 		//Get the results Object
 		Result RecipesResult = gson.fromJson(dataJson, Result.class);
-		// Get the Recipes Array
-		List<Recipe> RecipesArray = new ArrayList<>();
-		for (Recipe recipe :
-				RecipesResult.getResults()) {
-			RecipesArray.add(recipe);
-		}
+
+//		// Get the Recipes Array
+//		List<Recipe> RecipesArray = new ArrayList<>();
+//		for (Recipe recipe :
+//				RecipesResult.getResults()) {
+//			RecipesArray.add(recipe);
+//		}
 		//////////////////////////////////////////////////////////////////////////////
 		// Write the Array to the File :
 		File localFile = new File("recipe.json");///////////////////////////// heek done terminal
 		try (FileWriter localFileWriter = new FileWriter(localFile)) {
-			gson.toJson(RecipesArray, localFileWriter);
+			//gson.toJson(RecipesArray, localFileWriter);
+			gson.toJson(RecipesResult, localFileWriter); // Update here
+
 		}
 	}
 	/*
@@ -126,27 +131,28 @@ public class RecipeApplication {
 		JSONParser jsonParser = new JSONParser();
 		try {
 			//Parsing the contents of the JSON file
-			JSONObject jsonObject = (JSONObject) jsonParser.parse(new FileReader("/recipe.json"));
+			JSONObject jsonObject = (JSONObject) jsonParser.parse(new FileReader("recipe.json"));
 			//Retrieving the array
-			JSONArray jsonArray = (JSONArray) jsonObject.get("recipe");
+			JSONArray jsonArray = (JSONArray) jsonObject.get("results");
 			Connection con = Connect(); // Function down
-			//Insert a row into the MyPlayers table
-			PreparedStatement pstmt = con.prepareStatement("INSERT INTO recipe values (?, ?,?)");
+			//Insert a row into the recipe table
+			PreparedStatement pstmt = con.prepareStatement("INSERT INTO recipe values (?, ?,?, ?,?)");
+			//Long id = 0L;
 			for (Object object : jsonArray) {
 				JSONObject record = (JSONObject) object;
-				int id = Integer.parseInt((String) record.get("id"));
-				String title = (String) record.get("title");
-				String image = (String) record.get("image");
-//				String date = (String) record.get("Date_Of_Birth");
-//				long date_of_birth = Date.valueOf(date).getTime();
-//				String place_of_birth = (String) record.get("Place_Of_Birth");
-//				String country = (String) record.get("Country");
-				pstmt.setInt(1, id);
-				pstmt.setString(2, title);
-				pstmt.setString(3, image);
-//				pstmt.setDate(4, new Date(date_of_birth));
-//				pstmt.setString(5, place_of_birth);
-//				pstmt.setString(6, country);
+				Long id = (Long)record.get("id");
+				//id = id+1;
+				String name = (String) record.get("name");
+				String description = (String) record.get("description");
+				String thumbnail_url = (String) record.get("thumbnail_url");
+				String original_video_url = (String) record.get("original_video_url");
+
+				pstmt.setLong(1, id);
+				pstmt.setString(2, name);
+				pstmt.setString(3, description);
+				pstmt.setString(4, thumbnail_url);
+				pstmt.setString(5, original_video_url);
+
 				pstmt.executeUpdate();
 			}
 			System.out.println("Records inserted.....");
@@ -167,8 +173,8 @@ public class RecipeApplication {
 	static public Connection Connect() {
 
 		String url ="jdbc:postgresql://localhost:5432/recipedata";;
-		String user = "postgres";
-		String password = "<add your password>";
+		String user = "alaa";
+		String password = "0000";
 		Connection con = null;
 		try {
 			con = DriverManager.getConnection(url, user, password);
