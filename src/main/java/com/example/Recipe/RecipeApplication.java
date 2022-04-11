@@ -46,7 +46,7 @@ public class RecipeApplication {
 		SpringApplication.run(RecipeApplication.class, args);
 
 		String dataJson = ReadFromAPI();
-		WritOnDatabase();
+	//	WritOnDatabase();
 	}
 
 	/*
@@ -88,7 +88,6 @@ public class RecipeApplication {
 			BufferedReader recipeURLBuffered = new BufferedReader(recipeURLReader);
 			// Get the data
 			dataJson = recipeURLBuffered.readLine();
-
 			WriteOnJSonFile(dataJson);
 
 		} catch (Exception e) {
@@ -106,7 +105,7 @@ public class RecipeApplication {
 		Gson gson = new Gson();
 		//Get the results Object
 		Result RecipesResult = gson.fromJson(dataJson, Result.class);
-
+		System.out.println(RecipesResult);
 //		// Get the Recipes Array
 //		List<Recipe> RecipesArray = new ArrayList<>();
 //		for (Recipe recipe :
@@ -136,22 +135,22 @@ public class RecipeApplication {
 			JSONArray jsonArray = (JSONArray) jsonObject.get("results");
 			Connection con = Connect(); // Function down
 			//Insert a row into the recipe table
-			PreparedStatement pstmt = con.prepareStatement("INSERT INTO recipe values (?, ?,?, ?,?)");
+			PreparedStatement pstmt = con.prepareStatement("INSERT INTO recipe values (?, ?,?, ?)");
 			//Long id = 0L;
 			for (Object object : jsonArray) {
 				JSONObject record = (JSONObject) object;
 				Long id = (Long)record.get("id");
 				//id = id+1;
 				String name = (String) record.get("name");
-				String description = (String) record.get("description");
+				//String description = (String) record.get("description");
 				String thumbnail_url = (String) record.get("thumbnail_url");
 				String original_video_url = (String) record.get("original_video_url");
 
 				pstmt.setLong(1, id);
 				pstmt.setString(2, name);
-				pstmt.setString(3, description);
-				pstmt.setString(4, thumbnail_url);
-				pstmt.setString(5, original_video_url);
+				//pstmt.setString(3, description);
+				pstmt.setString(3, thumbnail_url);
+				pstmt.setString(4, original_video_url);
 
 				pstmt.executeUpdate();
 			}
