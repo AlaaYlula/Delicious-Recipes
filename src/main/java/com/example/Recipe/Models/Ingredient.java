@@ -19,10 +19,17 @@ public class Ingredient {
     public Ingredient() {
     }
 
-    public Ingredient(String name, Recipe recipeSections) {
+    public Ingredient(String name) {
         this.name = name;
     }
 
+    public Component getComponent() {
+        return component;
+    }
+
+    public void setComponent(Component component) {
+        this.component = component;
+    }
 
     public Long getIngredient_id() {
         return Ingredient_id;
