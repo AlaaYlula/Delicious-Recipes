@@ -1,6 +1,7 @@
 package com.example.Recipe;
 
 import com.example.Recipe.Models.*;
+import com.example.Recipe.Repositories.InstructionRepository;
 import com.example.Recipe.Repositories.RecipeRepository;
 import com.example.Recipe.Repositories.RoleRepository;
 import com.example.Recipe.Repositories.UserAppRepository;
@@ -37,6 +38,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 @SpringBootApplication
 public class RecipeApplication {
 
@@ -46,58 +49,74 @@ public class RecipeApplication {
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(RecipeApplication.class, args);
 
-		String dataJson = ReadFromAPI();
-
+		//String dataJson = ReadFromAPI();
+		System.out.println(ReadJsonFile("recipe.json"));
 	}
 
 	/*
 	When Run the App :
 	 */
 
-	@Bean
-	CommandLineRunner initDatabase(RecipeRepository recipeRepository,RoleRepository roleRepository, UserAppRepository userAppRepository) {
-		//Date date = new Date(1985,8,1);
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.set(1985, 11, 31);
-//		Date date = (Date) calendar.getTime();
-		return args -> {
-             //Creating a JSONParser object
-			JSONParser jsonParser = new JSONParser();
-			try {
-				//Parsing the contents of the JSON file
-				JSONObject jsonObject = (JSONObject) jsonParser.parse(new FileReader("recipe.json"));
-				//Retrieving the array
-				JSONArray jsonArray = (JSONArray) jsonObject.get("results");
-				for (Object object : jsonArray) {
-					JSONObject record = (JSONObject) object;
-					String name = (String) record.get("name");
-					String description = (String) record.get("description");
-					String thumbnail_url = (String) record.get("thumbnail_url");
-					String original_video_url = (String) record.get("original_video_url");
-					//	List<Instruction> list = (List<Instruction>)record.get("instructions");
-					Recipe recipe = new Recipe(name,description,thumbnail_url,original_video_url);
-					System.out.println(recipe);
-					log.info("Preloading " + recipeRepository.save(recipe));
-				}
-				System.out.println("Records inserted.....");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ParseException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-//			log.info("Preloading " + roleRepository.save(new Role("ADMIN")));
-//			log.info("Preloading " + roleRepository.save(new Role("CUSTOMER")));
-//			// encoder.encode(password)
-//			log.info("Preloading " + userAppRepository.save(new UserApp
-//					("admin jason", "1234", "jason", "jones", date, "amirican", "hi",
-//							new Role("ADMIN"))));
-		};
-	}
+//	@Bean
+//	CommandLineRunner initDatabase(RecipeRepository recipeRepository, InstructionRepository instructionRepository, RoleRepository roleRepository, UserAppRepository userAppRepository) {
+//		//Date date = new Date(1985,8,1);
+////		Calendar calendar = Calendar.getInstance();
+////		calendar.set(1985, 11, 31);
+////		Date date = (Date) calendar.getTime();
+//		return args -> {
+//             //Creating a JSONParser object
+//			JSONParser jsonParser = new JSONParser();
+//			try {
+//				//Parsing the contents of the JSON file
+//				JSONObject jsonObject = (JSONObject) jsonParser.parse(new FileReader("recipe.json"));
+//				//Retrieving the array
+//				JSONArray jsonArray = (JSONArray) jsonObject.get("results");
+//
+//				for (Object recipe : jsonArray) {
+//					JSONObject record = (JSONObject) recipe;
+//					//System.out.println(record);
+//					System.out.println("****************************");
+//					String name = (String) record.get("name");
+//					String description = (String) record.get("description");
+//					String thumbnail_url = (String) record.get("thumbnail_url");
+//					String original_video_url = (String) record.get("original_video_url");
+//					List<Instruction> instructionList =(List)record.get("instructions");
+////					if(instructionList !=null) {
+////						for (Instruction ins :
+////								instructionList) {
+////							System.out.println(ins);
+////						}
+////					}
+//					Recipe recipeObj = new Recipe(name,description,thumbnail_url,original_video_url,instructionList);
+//					//System.out.println(recipeObj);
+//					//log.info("Preloading " + recipeRepository.save(recipeObj));
+////					for (Instruction in :
+////							instructionList) {
+////						Instruction instruction = new Instruction(in.getPosition(),in.getDisplay_text());
+////						instruction.setRecipe(recipeObj);
+////						log.info("Preloading " + instructionRepository.save(instruction));
+////
+////					}
+//				}
+//				System.out.println("Records inserted.....");
+//			} catch (FileNotFoundException e) {
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			} catch (ParseException e) {
+//				e.printStackTrace();
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+////			log.info("Preloading " + roleRepository.save(new Role("ADMIN")));
+////			log.info("Preloading " + roleRepository.save(new Role("CUSTOMER")));
+////			// encoder.encode(password)
+////			log.info("Preloading " + userAppRepository.save(new UserApp
+////					("admin jason", "1234", "jason", "jones", date, "amirican", "hi",
+////							new Role("ADMIN"))));
+//		};
+//	}
 
 	 /*
 	 Method Make the connection and get the data as json Format And called Method WriteOnJsonFile
@@ -146,7 +165,32 @@ public class RecipeApplication {
 		}
 	}
 
-}
+	public static Result ReadJsonFile(String filename) { ///////////////////////////////////// Read Json File
+		FileReader filereader = null;
+
+		try {
+			filereader = new FileReader(filename);
+
+		} catch (IOException exception) {
+			exception.printStackTrace();
+		}
+		Gson gson = new Gson();
+		Result results = gson.fromJson(filereader, Result.class); // all recipes
+		for (Recipe recipe:// each recipe
+			 results.getResults()) {
+			for (Section section:
+				 recipe.getSections()) {
+				System.out.println(section);
+				System.out.println("////////////////////////");
+			}
+		}
+
+		return results;
+	}
+	}
+
+
+
 
 
 

@@ -42,11 +42,13 @@ public class Recipe {
         public Recipe() {
         }
 
-    public Recipe(String name, String description, String thumbnail_url, String original_video_url) {
+    public Recipe(String name, String description, String thumbnail_url, String original_video_url,List<Instruction> instructions) {
         this.name = name;
         this.description = description;
         this.thumbnail_url = thumbnail_url;
         this.original_video_url = original_video_url;
+        this.instructions = instructions;
+
     }
 
     public Recipe(String name, String  description, String thumbnail_url, String original_video_url, List<Instruction> instructions
