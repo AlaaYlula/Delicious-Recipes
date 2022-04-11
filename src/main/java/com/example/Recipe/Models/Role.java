@@ -30,4 +30,23 @@ public class Role {
         return id;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public UserApp getUser() {
+        return user;
+    }
+
+    public void setUser(UserApp user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "name='" + name + '\'' +
+                ", user=" + user +
+                '}';
+    }
 }

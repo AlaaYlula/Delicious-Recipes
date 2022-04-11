@@ -42,24 +42,22 @@ public class Recipe {
         public Recipe() {
         }
 
-    public Recipe(String name, String description, String thumbnail_url, String original_video_url,List<Instruction> instructions) {
-        this.name = name;
-        this.description = description;
-        this.thumbnail_url = thumbnail_url;
-        this.original_video_url = original_video_url;
-        this.instructions = instructions;
 
-    }
-
-    public Recipe(String name, String  description, String thumbnail_url, String original_video_url, List<Instruction> instructions
-                    , List<Section> sections ) {
+    public Recipe(String name, String  description, String thumbnail_url, String original_video_url ) {
                 this.name = name;
-              //  this.description = description;
+                this.description = description;
                 this.thumbnail_url = thumbnail_url;
                 this.original_video_url = original_video_url;
-                this.instructions = instructions;
-                this.sections = sections;
         }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public int getId() {
         return id;
@@ -113,13 +111,6 @@ public class Recipe {
         this.instructions = instructions;
     }
 
-//    public List<Sections> getSections() {
-//        return sections;
-//    }
-//
-//    public void setSections(List<Sections> sections) {
-//        this.sections = sections;
-//    }
 
     public List<Comment> getComments() {
         return comments;
@@ -154,11 +145,11 @@ public class Recipe {
                 return "Recipe{" +
                         "id=" + recipe_id +
                         ", name='" + name + '\'' +
-                      //  ", description='" + description + '\'' +
+                        ", description='" + description + '\'' +
                         ", thumbnail_url='" + thumbnail_url + '\'' +
                         ", original_video_url='" + original_video_url + '\'' +
                         ", instructions=" + instructions +
-//                        ", sections=" + sections +
+                        ", sections=" + sections +
                         ", comments=" + comments +
                         ", userOwnRecipe=" + userOwnRecipe +
                         ", userFavRecipe=" + userFavRecipe +

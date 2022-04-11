@@ -72,4 +72,131 @@ public class UserApp {
     public Long getId() {
         return id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public List<Recipe> getOwnRecipes() {
+        return ownRecipes;
+    }
+
+    public void setOwnRecipes(List<Recipe> ownRecipes) {
+        this.ownRecipes = ownRecipes;
+    }
+
+    public List<Recipe> getFavoriteRecipes() {
+        return favoriteRecipes;
+    }
+
+    public void setFavoriteRecipes(List<Recipe> favoriteRecipes) {
+        this.favoriteRecipes = favoriteRecipes;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<UserApp> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<UserApp> following) {
+        this.following = following;
+    }
+
+    public List<UserApp> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<UserApp> followers) {
+        this.followers = followers;
+    }
+
+    @Override
+    public String toString() {
+        return "UserApp{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", nationality='" + nationality + '\'' +
+                ", bio='" + bio + '\'' +
+                ", role=" + role +
+                ", ownRecipes=" + ownRecipes +
+                ", favoriteRecipes=" + favoriteRecipes +
+                ", comments=" + comments +
+                ", following=" + following +
+                ", followers=" + followers +
+                '}';
+    }
 }

@@ -1,6 +1,5 @@
 package com.example.Recipe.Models;
 
-import jdk.jfr.Enabled;
 
 import javax.persistence.*;
 
@@ -8,11 +7,11 @@ import javax.persistence.*;
 public class Instruction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "table_id", nullable = false)
-    private Long table_id;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    private int id;
     private int position;
+    @Column(columnDefinition = "TEXT")
     private String display_text;
 
     @ManyToOne
@@ -44,20 +43,13 @@ public class Instruction {
 
 
     public Long getTable_id() {
-        return table_id;
+        return id;
     }
 
-    public void setTable_id(Long table_id) {
-        this.table_id = table_id;
-    }
-
-    public void setId(int id) {
+    public void setTable_id(Long id) {
         this.id = id;
     }
 
-    public int getId() {
-        return id;
-    }
 
     public Recipe getRecipe() {
         return recipe;
