@@ -1,11 +1,7 @@
 package com.example.Recipe.Models;
 
-import lombok.Getter;
-import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
-
-import javax.persistence.Lob;
 
 
 @Entity
@@ -13,23 +9,25 @@ public class Recipe {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "id", nullable = false)
-        private Long id;
+        @Column(name = "recipe_id")
+        private int recipe_id;
 
+        private int id;
         @Column(nullable = false,unique = true)
         private String name;
-      //  @Column(columnDefinition = "TEXT")
-       // private String description;
+        @Column(columnDefinition = "TEXT")
+        private String description;
         @Column(length = 5000)
         private String thumbnail_url; // image
         @Column(length = 5000)
         private String original_video_url; // video
 
-        @OneToMany(mappedBy = "instructions")
-        private List<Instructions> instructions; // How cook ?
+        @OneToMany(mappedBy = "recipe")
+        private List<Instruction> instructions; // How cook ?
 
-//        @OneToMany
-//        private  List<Sections> sections; // Ingredients
+        @OneToMany(mappedBy = "recipeSections") // Ingredients
+        public List<Section> sections;
+
 
         @OneToMany(mappedBy = "recipeComments")
         List<Comment> comments;
@@ -44,18 +42,41 @@ public class Recipe {
         public Recipe() {
         }
 
-        public Recipe(String name, String  description, String thumbnail_url, String original_video_url, List<Instructions> instructions
-                     ) {
+    public Recipe(String name, String description, String thumbnail_url, String original_video_url) {
+        this.name = name;
+        this.description = description;
+        this.thumbnail_url = thumbnail_url;
+        this.original_video_url = original_video_url;
+    }
+
+    public Recipe(String name, String  description, String thumbnail_url, String original_video_url, List<Instruction> instructions
+                    , List<Section> sections ) {
                 this.name = name;
               //  this.description = description;
                 this.thumbnail_url = thumbnail_url;
                 this.original_video_url = original_video_url;
                 this.instructions = instructions;
-           //     this.sections = sections;
+                this.sections = sections;
         }
 
-    public void setId(Long id) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public List<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
+    }
+
+    public void setRecipe_id(int recipe_id) {
+        this.recipe_id = recipe_id;
     }
 
     public String getName() {
@@ -82,11 +103,11 @@ public class Recipe {
         this.original_video_url = original_video_url;
     }
 
-    public List<Instructions> getInstructions() {
+    public List<Instruction> getInstructions() {
         return instructions;
     }
 
-    public void setInstructions(List<Instructions> instructions) {
+    public void setInstructions(List<Instruction> instructions) {
         this.instructions = instructions;
     }
 
@@ -122,14 +143,14 @@ public class Recipe {
         this.userFavRecipe = userFavRecipe;
     }
 
-    public Long getId() {
-                return id;
+    public int getRecipe_id() {
+                return recipe_id;
         }
 
         @Override
         public String toString() {
                 return "Recipe{" +
-                        "id=" + id +
+                        "id=" + recipe_id +
                         ", name='" + name + '\'' +
                       //  ", description='" + description + '\'' +
                         ", thumbnail_url='" + thumbnail_url + '\'' +
