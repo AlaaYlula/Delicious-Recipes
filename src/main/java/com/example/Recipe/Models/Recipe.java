@@ -7,8 +7,7 @@ import java.util.List;
 
 import javax.persistence.Lob;
 
-@Setter
-@Getter
+
 @Entity
 public class Recipe {
 
@@ -19,15 +18,18 @@ public class Recipe {
 
         @Column(nullable = false,unique = true)
         private String name;
-        @Column(columnDefinition = "TEXT")
-        private String description;
+      //  @Column(columnDefinition = "TEXT")
+       // private String description;
         @Column(length = 5000)
         private String thumbnail_url; // image
         @Column(length = 5000)
         private String original_video_url; // video
-    //    private List<Instruction> instructions; // How cook ?
-//        private List<Component> sections; // ingredients
 
+        @OneToMany(mappedBy = "instructions")
+        private List<Instructions> instructions; // How cook ?
+
+//        @OneToMany
+//        private  List<Sections> sections; // Ingredients
 
         @OneToMany(mappedBy = "recipeComments")
         List<Comment> comments;
@@ -42,17 +44,85 @@ public class Recipe {
         public Recipe() {
         }
 
-        public Recipe(String name, String  description, String thumbnail_url, String original_video_url, List<Instruction> instructions,
-                      List<Component> sections) {
+        public Recipe(String name, String  description, String thumbnail_url, String original_video_url, List<Instructions> instructions
+                     ) {
                 this.name = name;
-                this.description = description;
+              //  this.description = description;
                 this.thumbnail_url = thumbnail_url;
                 this.original_video_url = original_video_url;
-//                this.instructions = instructions;
-//                this.sections = sections;
+                this.instructions = instructions;
+           //     this.sections = sections;
         }
 
-        public Long getId() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getThumbnail_url() {
+        return thumbnail_url;
+    }
+
+    public void setThumbnail_url(String thumbnail_url) {
+        this.thumbnail_url = thumbnail_url;
+    }
+
+    public String getOriginal_video_url() {
+        return original_video_url;
+    }
+
+    public void setOriginal_video_url(String original_video_url) {
+        this.original_video_url = original_video_url;
+    }
+
+    public List<Instructions> getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(List<Instructions> instructions) {
+        this.instructions = instructions;
+    }
+
+//    public List<Sections> getSections() {
+//        return sections;
+//    }
+//
+//    public void setSections(List<Sections> sections) {
+//        this.sections = sections;
+//    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public UserApp getUserOwnRecipe() {
+        return userOwnRecipe;
+    }
+
+    public void setUserOwnRecipe(UserApp userOwnRecipe) {
+        this.userOwnRecipe = userOwnRecipe;
+    }
+
+    public UserApp getUserFavRecipe() {
+        return userFavRecipe;
+    }
+
+    public void setUserFavRecipe(UserApp userFavRecipe) {
+        this.userFavRecipe = userFavRecipe;
+    }
+
+    public Long getId() {
                 return id;
         }
 
@@ -61,10 +131,10 @@ public class Recipe {
                 return "Recipe{" +
                         "id=" + id +
                         ", name='" + name + '\'' +
-                        ", description='" + description + '\'' +
+                      //  ", description='" + description + '\'' +
                         ", thumbnail_url='" + thumbnail_url + '\'' +
                         ", original_video_url='" + original_video_url + '\'' +
-//                        ", instructions=" + instructions +
+                        ", instructions=" + instructions +
 //                        ", sections=" + sections +
                         ", comments=" + comments +
                         ", userOwnRecipe=" + userOwnRecipe +
