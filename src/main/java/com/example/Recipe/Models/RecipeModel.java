@@ -2,10 +2,11 @@ package com.example.Recipe.Models;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
-public class Recipe {
+public class RecipeModel {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,16 +21,16 @@ public class Recipe {
         @Column(length = 5000)
         private String thumbnail_url; // image
         @Column(length = 5000)
-        private String original_video_url; // video
+//        private String original_video_url; // video
 
-        @OneToMany(mappedBy = "recipe")
-        private List<Instruction> instructions; // How cook ?
+//        @OneToMany(mappedBy = "recipe")
+//        private List<Instruction> instructions; // How cook ?
+//
+//        @OneToMany(mappedBy = "recipeSections") // Ingredients
+//        public List<Section> sections;
 
-        @OneToMany(mappedBy = "recipeSections") // Ingredients
-        public List<Section> sections;
 
-
-        @OneToMany(mappedBy = "recipeComments")
+        @OneToMany(mappedBy = "recipeModelComments")
         List<Comment> comments;
 
 
@@ -39,15 +40,15 @@ public class Recipe {
         @ManyToOne
         UserApp userFavRecipe;
 
-        public Recipe() {
+        public RecipeModel() {
         }
 
 
-    public Recipe(String name, String  description, String thumbnail_url, String original_video_url ) {
+    public RecipeModel(String name, String  description, String thumbnail_url ) {
                 this.name = name;
                 this.description = description;
                 this.thumbnail_url = thumbnail_url;
-                this.original_video_url = original_video_url;
+//                this.original_video_url = original_video_url;
         }
 
 
@@ -67,13 +68,13 @@ public class Recipe {
         this.id = id;
     }
 
-    public List<Section> getSections() {
-        return sections;
-    }
+//    public List<Section> getSections() {
+//        return sections;
+//    }
 
-    public void setSections(List<Section> sections) {
-        this.sections = sections;
-    }
+//    public void setSections(List<Section> sections) {
+//        this.sections = sections;
+//    }
 
     public void setRecipe_id(int recipe_id) {
         this.recipe_id = recipe_id;
@@ -95,21 +96,21 @@ public class Recipe {
         this.thumbnail_url = thumbnail_url;
     }
 
-    public String getOriginal_video_url() {
-        return original_video_url;
-    }
+//    public String getOriginal_video_url() {
+//        return original_video_url;
+//    }
+//
+//    public void setOriginal_video_url(String original_video_url) {
+//        this.original_video_url = original_video_url;
+//    }
 
-    public void setOriginal_video_url(String original_video_url) {
-        this.original_video_url = original_video_url;
-    }
+//    public List<Instruction> getInstructions() {
+//        return instructions;
+//    }
 
-    public List<Instruction> getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(List<Instruction> instructions) {
-        this.instructions = instructions;
-    }
+//    public void setInstructions(List<Instruction> instructions) {
+//        this.instructions = instructions;
+//    }
 
 
     public List<Comment> getComments() {
@@ -140,6 +141,13 @@ public class Recipe {
                 return recipe_id;
         }
 
+
+    @OneToMany(mappedBy = "recipes_ingredient")
+    Set<Ingredient> ingredientModels;
+
+    @OneToMany(mappedBy = "recipes_instruction")
+    Set<InstructionModel> instructionModels;
+
         @Override
         public String toString() {
                 return "Recipe{" +
@@ -147,9 +155,9 @@ public class Recipe {
                         ", name='" + name + '\'' +
                         ", description='" + description + '\'' +
                         ", thumbnail_url='" + thumbnail_url + '\'' +
-                        ", original_video_url='" + original_video_url + '\'' +
-                        ", instructions=" + instructions +
-                        ", sections=" + sections +
+//                        ", original_video_url='" + original_video_url + '\'' +
+//                        ", instructions=" + instructions +
+//                        ", sections=" + sections +
                         ", comments=" + comments +
                         ", userOwnRecipe=" + userOwnRecipe +
                         ", userFavRecipe=" + userFavRecipe +

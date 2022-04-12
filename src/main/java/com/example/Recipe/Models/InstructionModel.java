@@ -1,28 +1,28 @@
 package com.example.Recipe.Models;
 
-
 import javax.persistence.*;
 
 @Entity
-public class Instruction {
+public class InstructionModel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
+
+
     private int position;
     @Column(columnDefinition = "TEXT")
     private String display_text;
 
-    @ManyToOne
-    Recipe recipe;
-
-    public Instruction() {
-    }
-
-    public Instruction(int position, String display_text) {
+    public InstructionModel(int position, String display_text) {
         this.position = position;
         this.display_text = display_text;
+    }
+
+    public InstructionModel() {
+
     }
 
     public int getPosition() {
@@ -41,29 +41,14 @@ public class Instruction {
         this.display_text = display_text;
     }
 
+    @ManyToOne
+    RecipeModel recipes_instruction;
 
-    public Long getTable_id() {
-        return id;
+    public RecipeModel getRecipes_instruction() {
+        return recipes_instruction;
     }
 
-    public void setTable_id(Long id) {
-        this.id = id;
-    }
-
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
-    }
-
-    @Override
-    public String toString() {
-        return "Instruction{" +
-                "position='" + position + '\'' +
-                ", display_text='" + display_text + '\'' +
-                '}';
+    public void setRecipes_instruction(RecipeModel recipes_instruction) {
+        this.recipes_instruction = recipes_instruction;
     }
 }

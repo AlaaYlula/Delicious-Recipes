@@ -14,7 +14,7 @@ public class Comment {
     private String text;
 
     @ManyToOne
-    Recipe recipeComments;
+    RecipeModel recipeModelComments;
 
     @ManyToOne
     UserApp userComments;
@@ -42,12 +42,12 @@ public class Comment {
         this.text = text;
     }
 
-    public Recipe getRecipeComments() {
-        return recipeComments;
+    public RecipeModel getRecipeComments() {
+        return recipeModelComments;
     }
 
-    public void setRecipeComments(Recipe recipeComments) {
-        this.recipeComments = recipeComments;
+    public void setRecipeComments(RecipeModel recipeModelComments) {
+        this.recipeModelComments = recipeModelComments;
     }
 
     public UserApp getUserComments() {
@@ -62,7 +62,7 @@ public class Comment {
     public String toString() {
         return "Comment{" +
                 "text='" + text + '\'' +
-                ", recipeComments=" + recipeComments +
+                ", recipeComments=" + recipeModelComments +
                 ", userComments=" + userComments +
                 '}';
     }
