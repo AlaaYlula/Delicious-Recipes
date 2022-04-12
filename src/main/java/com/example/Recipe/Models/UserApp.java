@@ -1,8 +1,11 @@
 package com.example.Recipe.Models;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +13,7 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-public class UserApp {
+public class UserApp implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,10 +38,10 @@ public class UserApp {
     private Role role;
 
     @OneToMany(mappedBy = "userOwnRecipe")
-    List<Recipe> ownRecipes;
+    List<RecipeModel> ownRecipeModels;
 
     @OneToMany(mappedBy = "userFavRecipe")
-    List<Recipe> favoriteRecipes;
+    List<RecipeModel> favoriteRecipeModels;
 
     @OneToMany(mappedBy = "userComments")///////////////////////////
     List<Comment> comments;
@@ -57,7 +60,7 @@ public class UserApp {
     public UserApp() {
     }
 
-    public UserApp(String username, String password, String firstName, String lastName, Date dateOfBirth, String nationality, String bio, Role role) {
+    public UserApp(String username, String password, String firstName, String lastName, Date dateOfBirth, String nationality, String bio){
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -65,7 +68,7 @@ public class UserApp {
         this.dateOfBirth = dateOfBirth;
         this.nationality = nationality;
         this.bio = bio;
-        this.role = role;
+//        this.role = role;
 
     }
 
@@ -81,8 +84,33 @@ public class UserApp {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
     public String getPassword() {
@@ -141,20 +169,20 @@ public class UserApp {
         this.role = role;
     }
 
-    public List<Recipe> getOwnRecipes() {
-        return ownRecipes;
+    public List<RecipeModel> getOwnRecipes() {
+        return ownRecipeModels;
     }
 
-    public void setOwnRecipes(List<Recipe> ownRecipes) {
-        this.ownRecipes = ownRecipes;
+    public void setOwnRecipes(List<RecipeModel> ownRecipeModels) {
+        this.ownRecipeModels = ownRecipeModels;
     }
 
-    public List<Recipe> getFavoriteRecipes() {
-        return favoriteRecipes;
+    public List<RecipeModel> getFavoriteRecipes() {
+        return favoriteRecipeModels;
     }
 
-    public void setFavoriteRecipes(List<Recipe> favoriteRecipes) {
-        this.favoriteRecipes = favoriteRecipes;
+    public void setFavoriteRecipes(List<RecipeModel> favoriteRecipeModels) {
+        this.favoriteRecipeModels = favoriteRecipeModels;
     }
 
     public List<Comment> getComments() {
@@ -192,8 +220,8 @@ public class UserApp {
                 ", nationality='" + nationality + '\'' +
                 ", bio='" + bio + '\'' +
                 ", role=" + role +
-                ", ownRecipes=" + ownRecipes +
-                ", favoriteRecipes=" + favoriteRecipes +
+                ", ownRecipes=" + ownRecipeModels +
+                ", favoriteRecipes=" + favoriteRecipeModels +
                 ", comments=" + comments +
                 ", following=" + following +
                 ", followers=" + followers +

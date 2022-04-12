@@ -11,32 +11,10 @@ public class Ingredient {
     @Column(name = "Ingredient_id", nullable = false)
     private Long Ingredient_id;
 
-    public String name;
-    @OneToOne
-    @JoinColumn (name = "component_id")
-    Component component;
-
-    public Ingredient() {
-    }
+    private String name;
 
     public Ingredient(String name) {
         this.name = name;
-    }
-
-    public Component getComponent() {
-        return component;
-    }
-
-    public void setComponent(Component component) {
-        this.component = component;
-    }
-
-    public Long getIngredient_id() {
-        return Ingredient_id;
-    }
-
-    public void setIngredient_id(Long ingredient_id) {
-        Ingredient_id = ingredient_id;
     }
 
     public String getName() {
@@ -47,12 +25,19 @@ public class Ingredient {
         this.name = name;
     }
 
+    @ManyToOne
+    RecipeModel recipes_ingredient;
+
+    public Ingredient() {
+
+    }
 
 
-    @Override
-    public String toString() {
-        return "Ingredient{" +
-                "name='" + name + '\'' +
-                '}';
+    public RecipeModel getRecipes_ingredient() {
+        return recipes_ingredient;
+    }
+
+    public void setRecipes_ingredient(RecipeModel recipesModel) {
+        this.recipes_ingredient = recipesModel;
     }
 }
