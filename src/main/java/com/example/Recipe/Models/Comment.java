@@ -22,6 +22,14 @@ public class Comment {
     public Comment() {
     }
 
+    public RecipeModel getRecipeModelComments() {
+        return recipeModelComments;
+    }
+
+    public void setRecipeModelComments(RecipeModel recipeModelComments) {
+        this.recipeModelComments = recipeModelComments;
+    }
+
     public Comment(String text) {
         this.text = text;
     }

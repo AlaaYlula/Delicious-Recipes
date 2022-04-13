@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:text = "${username} + ' Recipes'"></title>
+</head>
+<body>
+
+<!-- <button onclick="showForm()">Add Recipe</button> -->
+<button  onclick="openForm()">Add Recipe</button>
+
+<form method="post"  action="/user/newRecipe"  id="myForm" style="display: none;">
+    <label for="recipeName">Recipe Name</label>
+    <input type="text" id="recipeName" name="name">
+
+    <label for="description">Recipe Description</label>
+    <input type="text" id="description" name="description">
+
+    <button type="submit">Add Recipe</button>
+</form>
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+<ul th:each="userRecipe: ${userRecipes}">
+    <div>
+        <li>
+            <div class="container">
+                <label>Recipe Name : </label><span th:text="${userRecipe.name}"></span></br>
+                <label>Recipe Description : </label><span th:text="${userRecipe.description}"></span></br>
+            </div>
+            <ul th:each="comment: ${userRecipe.comments}">
+                <div >
+                    <li>
+                        <div >
+                            <label>User :</label><span th:text="${comment.userComments.username}"></span></br>
+                            <label>comment :</label><span th:text="${comment.text}"></span></br>
+                        </div>
+
+                        <form  method="post" action="/comment/delete">
+                            <input type="hidden" th:value="${comment.id}" name="id">
+                            <button  type="submit">Delete comment</button>
+                        </form>
+
+
+
+                    </li>
+                </div>
+                <p>**********************************************************</p>
+            </ul>
+                <form method="post" action="/recipe/delete">
+                    <input type="hidden"   th:value="${userRecipe.recipe_id}" name="userRecipe_id">
+                    <input type="submit" value="Delete Recipe">
+                </form>
+            <form method="get" action="/recipe/update">
+                <input type="hidden" th:value="${userRecipe.recipe_id}" name="userRecipe_id">
+                <input type="hidden" th:value="${userRecipe.name}" name="userRecipe_name">
+                <input type="hidden" th:value="${userRecipe.description}" name="userRecipe_description">
+
+                <input type="submit" value="Update Recipe">
+            </form>
+            <!--
+            <button  onclick="openFormUpdate()">update Recipe</button>
+            <form method="post"  action="/recipe/update"  id="updateForm" style="display: none;">
+                <label for="recipeNameupdate">Recipe Name</label>
+                <input type="text" th:value="${userRecipe.name}" id="recipeNameupdate" name="name">
+
+                <label for="descriptionupdate">Recipe Description</label>
+                <input type="text" th:value="${userRecipe.description}" id="descriptionupdate" name="description">
+
+                <input type="hidden" th:value="${userRecipe.recipe_id}" name="userRecipe_id">
+
+                <button type="submit">Done</button>
+            </form>
+            -->
+        </li>
+    </div>
+</ul>
+
+
+<script>
+                function openFormUpdate() {
+                  document.getElementById("updateForm").style.display = "block";
+                }
+
+                function closeFormUpdate() {
+                  document.getElementById("updateForm").style.display = "none";
+                }
+                </script>
+<p>******************************************************</p>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<ul th:each="user: ${UserAccount}">
+    <p th:text= "'************************* '+  ${user.username} + ' Account ***************************'">  </p>
+    <div >
+        <li>
+            <div >
+                <label>First Name : </label><span th:text="${user.firstName}"></span></br>
+                <label>Last Name : </label><span th:text="${user.lastName}"></span></br>
+                <label>Date Of Birth :  </label><span th:text="${user.dateOfBirth}"></span></br>
+                <label>Bio : </label><span th:text="${user.bio}"></span></br>
+
+                <!-- Read https://www.baeldung.com/spring-thymeleaf-conditionals -->
+                <div>
+                    <td th:switch="${flag}">
+                        <span th:case="'Me'"></span>
+                        <!-- Check if the user followed or not -->
+                        <span th:case="'true'" >
+               <form  method="post" action="/users/follow">
+                   <input type="hidden" th:value="${user.id}" name="user_id">
+                   <button type="submit">Follow</button>
+               </form>
+            </span>
+                        <span th:case="'false'">
+              <form  method="post" action="/users/unfollow">
+                 <input type="hidden" th:value="${user.id}" name="user_id">
+                  <button  type="submit">UnFollow</button>
+               </form>
+            </span>
+                        <div th:case="*"></div>
+                    </td>
+                </div>
+            </div>
+        </li>
+    </div>
+</ul>
+<ul th:each="recipe: ${recipesList}">
+    <div >
+        <li>
+            <div >
+                <label>Recipe Name: </label><span th:text="${recipe.name}"></span></br>
+                <label>Recipe Description: </label><span th:text="${recipe.description}"></span></br>
+            </div>
+            <form  method="post" action="/comment">
+                <label for="comment">comment</label>
+                <input type="text" id="comment" name="text">
+                <input type="hidden" th:value="${recipe.recipe_id}" name="id">
+                <button  type="submit">Add comment</button>
+            </form>
+
+        </li>
+    </div>
+    <p>**********************************************************</p>
+</ul>
+</body>
+</html>
