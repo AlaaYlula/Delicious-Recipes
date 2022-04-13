@@ -73,38 +73,39 @@
                             <form action="/signup" method="post">
 
                                 <div class="form-outline mb-4">
-                                    <input type="text" name="username" id="username" class="form-control form-control-lg bg-success p-2 text-dark bg-opacity-10" />
+                                    <input type="text" name="username" id="username" class="form-control form-control-lg bg-success p-2 text-dark bg-opacity-10" required />
                                     <label class="form-label" for="username">User Name</label>
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <input type="password" name="password" id="password" class="form-control form-control-lg bg-success p-2 text-dark bg-opacity-10" />
+                                    <input type="password" name="password" id="password" class="form-control form-control-lg bg-success p-2 text-dark bg-opacity-10" required/>
                                     <label class="form-label" for="password">Password</label>
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <input type="text" name="firstname" id="firstname" class="form-control form-control-lg bg-success p-2 text-dark bg-opacity-10" />
+                                    <input type="text" name="firstname" id="firstname" class="form-control form-control-lg bg-success p-2 text-dark bg-opacity-10" required />
                                     <label class="form-label" for="firstname">First Name</label>
                                 </div>
 
 
                                 <div class="form-outline mb-4">
-                                    <input type="text" name="lastname" id="lastname" class="form-control form-control-lg bg-success p-2 text-dark bg-opacity-10" />
+                                    <input type="text" name="lastname" id="lastname" class="form-control form-control-lg bg-success p-2 text-dark bg-opacity-10" required />
                                     <label class="form-label" for="lastname">Last Name</label>
                                 </div>
 
 
 
                                 <div class="form-outline mb-4 ">
-                                    <textarea class="form-control form-control-lg bg-success p-2 text-dark bg-opacity-10"  name="bio" id="bio" rows="4"></textarea>
+                                    <textarea class="form-control form-control-lg bg-success p-2 text-dark bg-opacity-10"  name="bio" id="bio" rows="4" required></textarea>
                                     <label class="form-label" for="bio">Bio</label>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-5 mb-4 pb-2">
 
+
                                         <div class="form-outline ">
-                                            <input type="date" name="dateOfBirth" id="dateOfBirth" class="form-control form-control-lg bg-success p-2 text-dark bg-opacity-10" />
+                                            <input type="date" name="dateOfBirth" id="dateOfBirth" placeholder="yyyy-MM-dd" class="form-control form-control-lg bg-success p-2 text-dark bg-opacity-10" required />
                                             <label class="form-label" for="dateOfBirth">Date Of Birth</label>
                                         </div>
 
@@ -112,7 +113,7 @@
                                     <div class="col-md-7 mb-4 pb-2">
 
                                         <div class="form-outline">
-                                            <input type="text" name="nationality" id="nationality" class="form-control form-control-lg bg-success p-2 text-dark bg-opacity-10" />
+                                            <input type="text" name="nationality" id="nationality" class="form-control form-control-lg bg-success p-2 text-dark bg-opacity-10" required />
                                             <label class="form-label" for="nationality">Nationality</label>
                                         </div>
 
@@ -125,6 +126,7 @@
                                             type="checkbox"
                                             value=""
                                             id="form2Example3cg"
+                                            required
                                     />
                                     <label class="form-check-label" >
                                         I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
