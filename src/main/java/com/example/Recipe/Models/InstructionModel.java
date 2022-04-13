@@ -51,4 +51,12 @@ public class InstructionModel {
     public void setRecipes_instruction(RecipeModel recipes_instruction) {
         this.recipes_instruction = recipes_instruction;
     }
+
+    @Override
+    public String toString() {
+        return "InstructionModel{" +
+                "position=" + position +
+                ", display_text='" + display_text + '\'' +
+                '}';
+    }
 }

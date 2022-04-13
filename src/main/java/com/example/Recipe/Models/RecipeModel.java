@@ -1,10 +1,13 @@
 package com.example.Recipe.Models;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
-
+@JsonIgnoreProperties({"userFavRecipe"})
 @Entity
 public class RecipeModel {
 
@@ -148,7 +151,23 @@ public class RecipeModel {
     @OneToMany(mappedBy = "recipes_instruction")
     Set<InstructionModel> instructionModels;
 
-        @Override
+    public Set<Ingredient> getIngredientModels() {
+        return ingredientModels;
+    }
+
+    public void setIngredientModels(Set<Ingredient> ingredientModels) {
+        this.ingredientModels = ingredientModels;
+    }
+
+    public Set<InstructionModel> getInstructionModels() {
+        return instructionModels;
+    }
+
+    public void setInstructionModels(Set<InstructionModel> instructionModels) {
+        this.instructionModels = instructionModels;
+    }
+
+    @Override
         public String toString() {
                 return "Recipe{" +
                         "id=" + recipe_id +
@@ -158,8 +177,8 @@ public class RecipeModel {
 //                        ", original_video_url='" + original_video_url + '\'' +
 //                        ", instructions=" + instructions +
 //                        ", sections=" + sections +
-                        ", comments=" + comments +
-                        ", userOwnRecipe=" + userOwnRecipe +
+//                        ", comments=" + comments +
+//                        ", userOwnRecipe=" + userOwnRecipe +
                         ", userFavRecipe=" + userFavRecipe +
                         '}';
         }
