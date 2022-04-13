@@ -9,7 +9,7 @@ public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Ingredient_id", nullable = false)
-    private Long Ingredient_id;
+    private Long ingredientId;
 
     private String name;
 

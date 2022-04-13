@@ -53,16 +53,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     public List<Ingredient> getAllIngredients(){
-        List<Ingredient> listIngredient =  (List<Ingredient>)IngredientRepository.findAll();
+        List<Ingredient> listIngredient =  IngredientRepository.findAll();
         return listIngredient;
     }
 
 
     /*
-     * TODO: Get Ingredient By keyword
+     * TODO: Get Ingredient By keywords
      */
-    public List<Ingredient> getByIngredientKeyword(String keyword){
-        return IngredientRepository.searchIngredient(keyword);
+    public List<RecipeModel> getByIngredientKeyword(String keywords){
+        return IngredientRepository.searchIngredient(keywords);
     }
 
 //    public List<Ingredient> getRecipes()

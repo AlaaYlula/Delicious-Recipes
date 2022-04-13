@@ -11,8 +11,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -39,14 +42,37 @@ public class SearchController {
     }
 
 
-    @RequestMapping(path = {"/","/searchIngredients"})
-    public String homeIngredients(RecipeModel recipe, Model model, String keyword) {
-        if(keyword!=null) {
-            List<Ingredient> list = service.getByIngredientKeyword(keyword);
-            model.addAttribute("IngredientsList", list);
-        }else {
-            List<Ingredient> list = service.getAllIngredients();
-            model.addAttribute("IngredientsList", list);}
+    @GetMapping("/search/recipe/ingredients")
+    public String getAllIngredients(Model model)
+    {
+        return "searchIngredient";
+    }
+
+
+    @PostMapping("/searchIngredients")
+    public String homeIngredients(Model model, @RequestParam String keywords)  {
+
+        List <Ingredient> ingList = service.getAllIngredients();
+        List <RecipeModel> recList = new ArrayList<>();
+        for (Ingredient i: ingList) {
+            if(i.getName().contains(keywords))
+            {
+                recList.add(i.getRecipes_ingredient());
+            }
+        }
+        model.addAttribute("RecipesList",recList);
+
+//        if(keywords != null) {
+//            List<RecipeModel> list = service.getByIngredientKeyword(keywords);
+//            model.addAttribute("RecipesList", list);
+//            System.out.println("not null");
+//            System.out.println(list);
+//        }else {
+//            List<Ingredient> list = service.getAllIngredients();
+//            model.addAttribute("IngredientsList", list);
+//            System.out.println("null");
+//            System.out.println(list);
+//        }
         return "searchIngredient";
     }
 
@@ -82,12 +108,6 @@ public class SearchController {
     }
 
 
-    @GetMapping("/GetAllIngredients")
-    public String getAllIngredients(Model model)
-    {
-        model.addAttribute("IngredientsList",IngredientRepository.findAll());
-        return "searchIngredient";
-    }
 //
 
 }
