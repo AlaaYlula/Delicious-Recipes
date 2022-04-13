@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Date;
+import java.sql.Date;
 
 @Controller
 public class MainController {
@@ -80,7 +80,7 @@ public class MainController {
     @GetMapping("/")
     public String getHomePage(){
 
-        if(recipeRepository.findAll() == null){
+        if(recipeRepository.findAll().size() == 0){
             Recipe recipe = ReadJsonFile("recipe.json");
             System.out.println(recipe);
 
