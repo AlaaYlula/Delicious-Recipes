@@ -3,12 +3,13 @@ package com.example.Recipe.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 @Setter
@@ -27,7 +28,7 @@ public class UserApp implements UserDetails {
     private String firstName;
     @Column(nullable = false)
     private String lastName;
-    @Column(nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
     @Column(nullable = false)
     private String nationality;

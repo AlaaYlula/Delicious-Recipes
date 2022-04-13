@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Date;
+import java.sql.Date;
 
 @Controller
 public class MainController {
