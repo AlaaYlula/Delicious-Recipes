@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe</title>
+</head>
+<body>
+
+<ul th:each="recipe: ${recipe}" >
+
+    <label th:text="${recipe.name}" ></label><br><br>
+    <label th:text="${recipe.description}" ></label><br><br>
+    <img th:src="*{recipe.thumbnail_url}" alt="img">
+
+
+</ul>
+
+<h3> Recipe instructions </h3>
+
+<ul th:each="instruction: ${instruction}" >
+
+    <label th:text="${instruction.position}" ></label><br><br>
+    <label th:text="${instruction.display_text}" ></label><br><br>
+
+
+
+</ul>
+
+<h3> Recipe ingredient </h3>
+
+<ul th:each="ingredients: ${ingredients}" >
+
+    <label th:text="${ingredients.name}" ></label><br><br>
+
+</ul>
+
+<h3> comments </h3>
+<ul th:each="comment: ${allComment}" >
+
+    <label th:text="${comment.text}" ></label><br><br>
+    <label th:text="${comment.userComments.username}" ></label><br><br>
+    <form action="/deletecomment" method="post">
+        <input type="hidden" name="rid" th:value="${recipeId}">
+        <ul th:each="comment: ${allComment}">
+            <input type="hidden" name="cUid" th:value="${comment.userComments.id}">
+        </ul>
+
+        <input type="hidden" name="id" th:value="${comment.id}">
+        <button> Delete Comment </button>
+    </form>
+
+</ul>
+
+<form action="/favorite" method="post">
+    <input type="hidden" name="id" th:value="${recipeId}">
+    <button>Add to Favorite </button> <br><br>
+</form>
+
+<form action="/comment" method="post">
+    <textarea name="text" ></textarea>
+    <input type="hidden" name="id" th:value="${recipeId}">
+    <button> Add Comment </button>
+</form>
+
+
+</body>
+</html>
