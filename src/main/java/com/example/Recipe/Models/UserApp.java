@@ -1,5 +1,7 @@
 package com.example.Recipe.Models;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,7 +10,6 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 
 @Setter
 @Getter
@@ -219,12 +220,12 @@ public class UserApp implements UserDetails {
                 ", dateOfBirth=" + dateOfBirth +
                 ", nationality='" + nationality + '\'' +
                 ", bio='" + bio + '\'' +
-                ", role=" + role +
-                ", ownRecipes=" + ownRecipeModels +
-                ", favoriteRecipes=" + favoriteRecipeModels +
-                ", comments=" + comments +
-                ", following=" + following +
-                ", followers=" + followers +
+//                ", role=" + role +
+//                ", ownRecipes=" + ownRecipeModels +
+//                ", favoriteRecipes=" + favoriteRecipeModels +
+//                ", comments=" + comments +
+//                ", following=" + following +
+//                ", followers=" + followers +
                 '}';
     }
 }

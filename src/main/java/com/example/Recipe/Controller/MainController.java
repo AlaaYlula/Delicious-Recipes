@@ -80,7 +80,7 @@ public class MainController {
     @GetMapping("/")
     public String getHomePage(){
 
-        if(recipeRepository.findAll() == null){
+        if(recipeRepository.findAll().size() == 0){
             Recipe recipe = ReadJsonFile("recipe.json");
             System.out.println(recipe);
 
