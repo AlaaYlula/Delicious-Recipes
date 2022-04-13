@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:text = "${username} + ' Profile'"></title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div> <!-- Logout -->
+</br></br>
+
+<ul >
+<li ><a href="/information">my Information</a></li>
+    <li ><a href="/user/recipes">my Recipe</a></li>
+</ul>
+
+<ul th:each="favRecipe: ${favoriteRecipesList}">
+    <div >
+        <li>
+            <img th:src="${favRecipe.thumbnail_url}">
+            <div >
+                <label>Recipe Name : </label><span th:text="${favRecipe.name}"></span></br>
+                <label>Description : </label><span th:text="${favRecipe.description}"></span></br>
+                <label>Ingredients :</label>
+                </br>
+                <ul th:each="ingredient: ${favRecipe.ingredientModels}">
+                    <li th:text = "${ingredient.name}"></li> </br>
+                </ul>
+                </br>
+                <label>Instructions :</label>
+                </br>
+                <ul th:each="instruction: ${favRecipe.instructionModels}">
+                    <li th:text = "${instruction.display_text}"></li> </br>
+                </ul>
+                </br>
+            </div>
+        </li>
+
+    </div>
+
+</ul>
+</body>
+</html>

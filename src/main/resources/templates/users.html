@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>All Users </title>
+</head>
+<body>
+<ul th:each="user: ${usersList}">
+    <div>
+        <li>
+            <div>
+                <label>User Name : </label><span th:text="${user.username}"></span></br>
+                <label>First Name : </label><span th:text="${user.firstName}"></span></br>
+                <label>Last Name : </label><span th:text="${user.lastName}"></span></br>
+                <label>Bio : </label> <span th:text="${user.bio}"></span>  </br>
+                <!-- Check if the user followed or not -->
+
+                <div>
+                    <form  th:if="${user.flag == 'true'}" method="post" action="/users/follow">
+                        <input type="hidden" th:value="${user.id}" name="user_id">
+                        <button  type="submit">Follow</button>
+                    </form>
+                    <form  th:unless="!${user.flag == 'false'}" method="post" action="/users/unfollow">
+                        <input type="hidden" th:value="${user.id}" name="user_id">
+                        <button type="submit">UnFollow</button>
+                    </form>
+                </div>
+
+                <form  method="post" action="/account">
+                    <input type="hidden" th:value="${user.id}" name="user_id">
+                    <button  type="submit">Show Account</button>
+                </form>
+                <!-- Added -->
+                <a th:href = "'/user/account/' + ${user.id}" th:text="${user.firstName}"> </a>
+
+            </div>
+        </li>
+
+    </div>
+    <p>**********************************************************</p>
+</ul>
+</body>
+</html>

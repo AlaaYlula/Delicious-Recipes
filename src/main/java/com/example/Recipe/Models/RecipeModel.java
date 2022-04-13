@@ -17,25 +17,16 @@ public class RecipeModel {
         private int recipe_id;
 
         private int id;
-        @Column(nullable = false,unique = true)
+        @Column(nullable = false)
         private String name;
         @Column(columnDefinition = "TEXT")
         private String description;
         @Column(length = 5000)
         private String thumbnail_url; // image
         @Column(length = 5000)
-//        private String original_video_url; // video
 
-//        @OneToMany(mappedBy = "recipe")
-//        private List<Instruction> instructions; // How cook ?
-//
-//        @OneToMany(mappedBy = "recipeSections") // Ingredients
-//        public List<Section> sections;
-
-
-        @OneToMany(mappedBy = "recipeModelComments")
+        @OneToMany(mappedBy = "recipeModelComments", cascade = CascadeType.ALL )
         List<Comment> comments;
-
 
         @ManyToOne
         UserApp userOwnRecipe;
@@ -43,17 +34,20 @@ public class RecipeModel {
         @ManyToOne
         UserApp userFavRecipe;
 
-        public RecipeModel() {
-        }
+        @OneToMany(mappedBy = "recipes_ingredient" ,cascade = CascadeType.ALL)
+        Set<Ingredient> ingredientModels;
+
+        @OneToMany(mappedBy = "recipes_instruction",cascade = CascadeType.ALL)
+        Set<InstructionModel> instructionModels;
+            public RecipeModel() {
+            }
 
 
     public RecipeModel(String name, String  description, String thumbnail_url ) {
                 this.name = name;
                 this.description = description;
                 this.thumbnail_url = thumbnail_url;
-//                this.original_video_url = original_video_url;
         }
-
 
     public String getDescription() {
         return description;
@@ -71,13 +65,6 @@ public class RecipeModel {
         this.id = id;
     }
 
-//    public List<Section> getSections() {
-//        return sections;
-//    }
-
-//    public void setSections(List<Section> sections) {
-//        this.sections = sections;
-//    }
 
     public void setRecipe_id(int recipe_id) {
         this.recipe_id = recipe_id;
@@ -98,23 +85,6 @@ public class RecipeModel {
     public void setThumbnail_url(String thumbnail_url) {
         this.thumbnail_url = thumbnail_url;
     }
-
-//    public String getOriginal_video_url() {
-//        return original_video_url;
-//    }
-//
-//    public void setOriginal_video_url(String original_video_url) {
-//        this.original_video_url = original_video_url;
-//    }
-
-//    public List<Instruction> getInstructions() {
-//        return instructions;
-//    }
-
-//    public void setInstructions(List<Instruction> instructions) {
-//        this.instructions = instructions;
-//    }
-
 
     public List<Comment> getComments() {
         return comments;
@@ -145,11 +115,7 @@ public class RecipeModel {
         }
 
 
-    @OneToMany(mappedBy = "recipes_ingredient")
-    Set<Ingredient> ingredientModels;
 
-    @OneToMany(mappedBy = "recipes_instruction")
-    Set<InstructionModel> instructionModels;
 
     public Set<Ingredient> getIngredientModels() {
         return ingredientModels;

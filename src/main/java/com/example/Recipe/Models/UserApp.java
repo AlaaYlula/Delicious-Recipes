@@ -34,17 +34,19 @@ public class UserApp implements UserDetails {
     @Column(nullable = false)
     private String bio;
 
+    private String flag; // added to check if the user followed or not
+
     @OneToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
-    @OneToMany(mappedBy = "userOwnRecipe")
+    @OneToMany(mappedBy = "userOwnRecipe",cascade = CascadeType.ALL)
     List<RecipeModel> ownRecipeModels;
 
-    @OneToMany(mappedBy = "userFavRecipe")
+    @OneToMany(mappedBy = "userFavRecipe",cascade = CascadeType.ALL)
     List<RecipeModel> favoriteRecipeModels;
 
-    @OneToMany(mappedBy = "userComments")///////////////////////////
+    @OneToMany(mappedBy = "userComments",cascade = CascadeType.ALL)///////////////////////////
     List<Comment> comments;
 
     @ManyToMany
@@ -71,6 +73,30 @@ public class UserApp implements UserDetails {
         this.bio = bio;
 //        this.role = role;
 
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
+
+    public List<RecipeModel> getOwnRecipeModels() {
+        return ownRecipeModels;
+    }
+
+    public void setOwnRecipeModels(List<RecipeModel> ownRecipeModels) {
+        this.ownRecipeModels = ownRecipeModels;
+    }
+
+    public List<RecipeModel> getFavoriteRecipeModels() {
+        return favoriteRecipeModels;
+    }
+
+    public void setFavoriteRecipeModels(List<RecipeModel> favoriteRecipeModels) {
+        this.favoriteRecipeModels = favoriteRecipeModels;
     }
 
     public Long getId() {

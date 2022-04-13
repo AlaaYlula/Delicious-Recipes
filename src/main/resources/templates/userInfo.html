@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:text = "${username} + ' Information'"></title>
+</head>
+<body>
+<ul th:each="user: ${userInfo}">
+    <div >
+        <li>
+            <div >
+                <label>User Name : </label><span th:text="${user.username}"></span></br>
+                <label>First Name : </label><span th:text="${user.firstName}"></span></br>
+                <label>Last Name : </label><span th:text="${user.lastName}"></span></br>
+                <label>Date Of Birth :  </label><span th:text="${user.dateOfBirth}"></span></br>
+                <label>Nationality :  </label><span th:text="${user.nationality}"></span></br>
+                <label>Bio : </label><span th:text="${user.bio}"></span></br>
+            </div>
+        </li>
+
+    </div>
+
+    </br></br>
+    <p th:text = "'************************* '+  ${username} + ' Following ***************************'"></p>
+    </br></br>
+
+    <ul th:each="userFollowing: ${user.following}">
+        <div >
+            <li>
+                <div >
+                    <label>First Name : </label><span th:text="${userFollowing.firstName}"></span></br>
+                    <label>Last Name : </label><span th:text="${userFollowing.lastName}"></span></br>
+                    <label>Date Of Birth :  </label><span th:text="${userFollowing.dateOfBirth}"></span></br>
+                    <label>Bio : </label><span th:text="${userFollowing.bio}"></span></br>
+                    <form method="post" action="/users/unfollow">
+                        <input type="hidden" th:value="${userFollowing.id}" name="user_id">
+                        <button type="submit">UnFollow</button>
+                    </form>
+                    <!--
+                     <form method="post" action="/users/account">
+                         <input type="hidden" th:value="${userFollowing.id}" name="user_id">
+                         <button  type="submit">Show Account</button>
+                     </form>
+                     -->
+                </div>
+            </li>
+
+        </div>
+
+    </ul>
+
+    </br></br>
+    <p th:text = "'************************* '+  ${username} + ' Followers ***************************'"></p>
+    </br></br>
+
+    <ul th:each="userFollower: ${user.followers}">
+        <div >
+            <li>
+                <div >
+                    <label>First Name : </label><span th:text="${userFollower.firstName}"></span></br>
+                    <label>Last Name : </label><span th:text="${userFollower.lastName}"></span></br>
+                    <label>Date Of Birth :  </label><span th:text="${userFollower.dateOfBirth}"></span></br>
+                    <label>Bio : </label><span th:text="${userFollower.bio}"></span></br>
+                    <!--
+                    <form method="post" action="/users/account">
+                        <input type="hidden" th:value="${userFollowing.id}" name="user_id">
+                        <button  type="submit">Show Account</button>
+                    </form>
+                    -->
+                </div>
+            </li>
+
+        </div>
+
+    </ul>
+</ul>
+
+</body>
+</html>
