@@ -83,7 +83,7 @@ public class RecipeController {
         return "oneRecipe";
     }
 
-    @PostMapping("/comment")
+    @PostMapping("/comment/recipe")
     public String addComment(@RequestParam String text,@RequestParam int id ,Model model){
         RecipeModel recipeModel=recipeRepository.getById(id);
         //current user

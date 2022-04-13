@@ -57,6 +57,18 @@
         </li>
     </div>
     <p>**********************************************************</p>
+    <ul th:each="comment: ${recipe.comments}">
+        <div >
+            <li>
+                <div >
+                    <label>User </label><span th:text="${comment.userComments.username}"></span></br>
+                    <label>comment </label><span th:text="${comment.text}"></span></br>
+                </div>
+
+            </li>
+        </div>
+        <p>**********************************************************</p>
+    </ul>
 </ul>
 </body>
 </html>
