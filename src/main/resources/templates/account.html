@@ -84,9 +84,14 @@
         </div>
 
     </ul>
-    <h3>Recipes </h3>
 
-    <!-- Recipes List -->
+    <!-- Check If Follow Or not To show the Recipe -->
+    <div>
+        <td th:switch="${flag}">
+            <span th:case="'false'">
+                   <!-- Recipes List -->
+                    <h3>Recipes </h3>
+
     <ul th:each="recipe: ${recipesList}">
         <div >
             <li>
@@ -99,8 +104,8 @@
                     <div >
                         <li>
                             <div >
-                                <label>User </label><span th:text="${comment.userComments.username}"></span></br>
-                                <label>comment </label><span th:text="${comment.text}"></span></br>
+                              <label>User  : </label><a th:href = "'/user/account/' + ${comment.userComments.id}" th:text="${comment.userComments.username}"> </a></br>
+                              <label>comment </label><span th:text="${comment.text}"></span></br>
                             </div>
 
                         </li>
@@ -125,6 +130,11 @@
         <p>**********************************************************</p>
 
     </ul>
+                        </span>
+            <div th:case="*"></div>
+        </td>
+    </div>
+
 
 </ul>
 
