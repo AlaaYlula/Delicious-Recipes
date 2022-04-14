@@ -64,14 +64,17 @@ public class RecipeController {
         String currentUser= SecurityContextHolder.getContext().getAuthentication().getName();
         UserApp userApp=userAppRepository.findByUsername(currentUser);
         // add to favorite list
-        List<RecipeModel> favList=new ArrayList<>();
+        List<RecipeModel> favList= userApp.getFavoriteRecipeModels(); // updated by alaa
         favList.add(recipeModel);
 
+
         userApp.setFavoriteRecipeModels(favList);
-        userApp.setFavoriteRecipes(favList);
+       // userApp.setFavoriteRecipes(favList);
 
         recipeModel.setUserFavRecipe(userApp);
 
+        recipeRepository.save(recipeModel); // added by alaa
+        userAppRepository.save(userApp);
 
         model.addAttribute("instruction",recipeModel.getInstructionModels());
         model.addAttribute("recipe",recipeModel);
