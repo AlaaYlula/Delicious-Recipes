@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
-@JsonIgnoreProperties({"userFavRecipe"})
+//@JsonIgnoreProperties({"userFavRecipe"})//    Updated by alaa
 @Entity
 public class RecipeModel {
 

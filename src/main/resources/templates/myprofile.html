@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title th:text = "${username} + ' Profile'"></title>
+    <link th:href="@{/Style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+.w3-button {width:150px; }
+</style>
 </head>
 <body>
-<div th:replace="fragments/header :: header"></div> <!-- Logout -->
+
+<form action="/perform_logout" method="post">
+    <button class="w3-button w3-red logoutLblPos"  type="submit">Log Out</button>
+</form>
 </br></br>
 
 <ul >
@@ -13,8 +21,8 @@
     <li ><a href="/user/recipes">my Recipe</a></li>
 </ul>
 
-<ul th:each="favRecipe: ${favoriteRecipesList}">
-    <div >
+<ul  th:each="favRecipe: ${favoriteRecipesList}">
+    <div class="user" >
         <li>
             <img th:src="${favRecipe.thumbnail_url}">
             <div >
@@ -29,6 +37,7 @@
                 <label>Instructions :</label>
                 </br>
                 <ul th:each="instruction: ${favRecipe.instructionModels}">
+                    <li th:text = "${instruction.position}"></li>
                     <li th:text = "${instruction.display_text}"></li> </br>
                 </ul>
                 </br>
