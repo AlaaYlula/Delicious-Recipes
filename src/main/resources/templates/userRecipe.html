@@ -71,7 +71,7 @@ function closeForm() {
                 <div >
                     <li>
                         <div >
-                            <label>User :</label><span th:text="${comment.userComments.username}"></span></br>
+                            <label>User  : </label><a th:href = "'/user/account/' + ${comment.userComments.id}" th:text="${comment.userComments.username}"> </a></br>
                             <label>comment :</label><span th:text="${comment.text}"></span></br>
                         </div>
 
