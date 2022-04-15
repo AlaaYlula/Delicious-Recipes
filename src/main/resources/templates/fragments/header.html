@@ -71,10 +71,15 @@
                                 <li><a class="dropdown-item" href="#">Another action</a></li>
                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
                             </ul>
-                        </div>
+
+
                     </div>
                 </div>
             </div>
+        </div>
+            <form th:action="perform_logout" th:method="post">
+                <button type="submit" class="btn btn-outline-primary"  data-mdb-ripple-color="dark"  style="float: right">Logout</button>
+            </form>
         </div>
     </nav>
 
