@@ -65,16 +65,19 @@ public class RecipeController {
         String currentUser= SecurityContextHolder.getContext().getAuthentication().getName();
         UserApp userApp=userAppRepository.findByUsername(currentUser);
         // add to favorite list
-        List<RecipeModel> favList=new ArrayList<>();
+        List<RecipeModel> favList= userApp.getFavoriteRecipeModels(); // updated by alaa
         favList.add(recipeModel);
 
+
         userApp.setFavoriteRecipeModels(favList);
-        userApp.setFavoriteRecipes(favList);
+       // userApp.setFavoriteRecipes(favList);
 
         recipeModel.setUserFavRecipe(userApp);
 
+
         return new RedirectView("/recipe?id="+id);
     }
+
 
     @PostMapping("/recipe/comment")
     public RedirectView addComment(@RequestParam String text,@RequestParam int id ,Model model){
@@ -91,14 +94,6 @@ public class RecipeController {
         comment.setRecipeComments(recipeModel);
 
         commentRepository.save(comment);
-
-        model.addAttribute("instruction",recipeModel.getInstructionModels());
-        model.addAttribute("recipe",recipeModel);
-        model.addAttribute("ingredients",recipeModel.getIngredientModels());
-        model.addAttribute("recipeId",id);
-        model.addAttribute("currentUserId",userApp.getId());
-        model.addAttribute("allComment",recipeModel.getComments());
-
 
         return new RedirectView("/recipe?id="+id);
 

@@ -194,11 +194,19 @@
 <!--    <button>Add to Favorite </button> <br><br>-->
 <!--</form>-->
 
+
+<form action="/recipe/comment" method="post">
+    <textarea name="text" ></textarea>
+    <input type="hidden" name="id" th:value="${recipeId}">
+    <button> Add Comment </button>
+</form>
+
 <!--<form action="/recipe/comment" method="post">-->
 <!--    <textarea name="text" ></textarea>-->
 <!--    <input type="hidden" name="id" th:value="${recipeId}">-->
 <!--    <button> Add Comment </button>-->
 <!--</form>-->
+
 
 
 </body>

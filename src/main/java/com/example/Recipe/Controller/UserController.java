@@ -88,6 +88,9 @@ public class UserController {
             }
             return "users";
         }
+        List<RecipeModel> userFavRecipe2 = currentUser.getFavoriteRecipeModels();
+        model.addAttribute("username", name);
+        model.addAttribute("favoriteRecipesList", userFavRecipe2);
         return "myprofile";
     }
 
@@ -126,6 +129,9 @@ public class UserController {
             userToUnFollow.getFollowers().remove(currentUser);
             userAppRepository.save(userToUnFollow);
         }
+        List<RecipeModel> userFavRecipe2 = currentUser.getFavoriteRecipeModels();
+        model.addAttribute("username", name);
+        model.addAttribute("favoriteRecipesList", userFavRecipe2);
         return "myprofile";
     }
 
@@ -140,11 +146,22 @@ public class UserController {
 
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         UserApp userApp = userAppRepository.findByUsername(currentUser);
+
         List<RecipeModel> userFavRecipe = userApp.getFavoriteRecipes();
+        List<RecipeModel> userFavRecipe2 = userApp.getFavoriteRecipeModels();
+
         model.addAttribute("username", currentUser);
-        model.addAttribute("favoriteRecipesList", userFavRecipe);
+        model.addAttribute("favoriteRecipesList", userFavRecipe2);
 
         return "myprofile";
+    }
+    /*
+  User can Delete Fav recipe
+   */
+    @PostMapping("/recipe/favorite/delete")
+    public RedirectView DeleteUserFavRecipe(Integer Recipe_id) {
+        recipeRepository.deleteById(Recipe_id);
+        return new RedirectView("/myprofile");
     }
 
     /*
@@ -224,43 +241,44 @@ public class UserController {
     }
 
     ///////////////////////////////////////////////////////
-    /*
-    Get the /account page for each user
-     */
-    @GetMapping("/account")
-    public String GetAccount(Model model) {
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserApp currentUser = userAppRepository.findByUsername(name);
-        model.addAttribute("username", name);
-        return "account";
-    }
-
-    @PostMapping("/account")
-    public String GetUserFollowingAccount(Long user_id, Model model) {
-
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("username", name);
-        UserApp currentuser = userAppRepository.findByUsername(name);
-
-        UserApp appUser = userAppRepository.findUserAppById(user_id);
-        //check if the user follow the logged in account, and you want to show this logged in account
-        if (currentuser.equals(appUser)) {
-            // it must not have follow or unfollow button
-            model.addAttribute("flag", "Me");
-        } else   //Check if the user followed or not
-
-            if (currentuser.getFollowing().contains(appUser)) {
-                String flag = "false";
-                model.addAttribute("flag", flag);
-            } else {
-                String flag = "true";
-                model.addAttribute("flag", flag);
-            }
-        model.addAttribute("UserAccount", appUser);
-        model.addAttribute("recipesList", appUser.getOwnRecipes());
-
-        return "account";
-    }
+//    /*
+//    Get the /account page for each user
+//     */
+//    @GetMapping("/account")
+//    public String GetAccount(Model model) {
+//        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+//        UserApp currentUser = userAppRepository.findByUsername(name);
+//        model.addAttribute("username", name);
+//
+//        return "account";
+//    }
+//
+//    @PostMapping("/account")
+//    public String GetUserFollowingAccount(Long user_id, Model model) {
+//
+//        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+//        model.addAttribute("username", name);
+//        UserApp currentuser = userAppRepository.findByUsername(name);
+//
+//        UserApp appUser = userAppRepository.findUserAppById(user_id);
+//        //check if the user follow the logged in account, and you want to show this logged in account
+//        if(currentuser.equals(appUser)){
+//            // it must not have follow or unfollow button
+//            model.addAttribute("flag","Me");
+//        }else   //Check if the user followed or not
+//
+//            if(currentuser.getFollowing().contains(appUser)){
+//                String flag = "false";
+//                model.addAttribute("flag",flag);
+//            }else  {
+//                String flag = "true";
+//                model.addAttribute("flag",flag);
+//            }
+//        model.addAttribute("UserAccount", appUser);
+//        model.addAttribute("recipesList", appUser.getOwnRecipes());
+//
+//        return "account";
+//    }
 
     /*
    Get the /account page for each user
@@ -269,10 +287,27 @@ public class UserController {
     @GetMapping("/user/account/{id}")
     public String GetAccountUser(@PathVariable Long id, Model model) {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserApp currentUser = userAppRepository.findByUsername(name);
+        UserApp currentuser = userAppRepository.findByUsername(name);
         model.addAttribute("username", name);
 
         UserApp appUser = userAppRepository.findUserAppById(id);
+        //check if the user follow the logged in account, and you want to show this logged in account
+        if (currentuser.equals(appUser)) {
+            // it must not have follow or unfollow button
+            List<RecipeModel> userFavRecipe2 = currentuser.getFavoriteRecipeModels();
+            model.addAttribute("username", name);
+            model.addAttribute("favoriteRecipesList", userFavRecipe2);
+            return "myprofile";
+        } else {
+            //check if the user follow the logged in account, and you want to show this logged in account
+                if(currentuser.getFollowing().contains(appUser)){
+                    String flag = "false";
+                    model.addAttribute("flag",flag);
+                }else  {
+                    String flag = "true";
+                    model.addAttribute("flag",flag);
+                }
+        }
         model.addAttribute("UserAccount", appUser);
         model.addAttribute("recipesList", appUser.getOwnRecipes());
 
@@ -291,16 +326,16 @@ public class UserController {
         if (currentuser.equals(appUser)) {
             // it must not have follow or unfollow button
             model.addAttribute("flag", "Me");
-        } else   //Check if the user followed or not
+        } else {  //Check if the user followed or not
 
             if (currentuser.getFollowing().contains(appUser)) {
-                String flag = "false";
-                model.addAttribute("flag", flag);
-            } else {
                 String flag = "true";
                 model.addAttribute("flag", flag);
+            } else {
+                String flag = "false";
+                model.addAttribute("flag", flag);
             }
-
+        }
         return new RedirectView("/user/account/" + id);
     }
 
@@ -309,7 +344,7 @@ public class UserController {
     Add comments
      */
     @PostMapping("/comment")
-    public RedirectView AddCommentForRecipe(@RequestParam String text, Integer id) {
+    public RedirectView AddCommentForRecipe(@RequestParam String text, Integer id,Long user_id) {
         RecipeModel recipe = recipeRepository.getById(id);
 
         Comment comment = new Comment(text);
@@ -324,16 +359,21 @@ public class UserController {
 
         commentRepository.save(comment);
 
-        return new RedirectView("/account");
+        return new RedirectView("/user/account/"+user_id);
     }
 
     /*
     Delete Comment
      */
     @PostMapping("/comment/delete")
-    public RedirectView DeleteCommentForRecipe( Long id) {
-        commentRepository.deleteById(id);
-        return new RedirectView("/account");
+    public RedirectView DeleteCommentForRecipe( Long id,Long user_id,Long comment_user_id) {
+        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserApp userApp = userAppRepository.findByUsername(currentUser);
+
+        if(userApp.getId().equals(comment_user_id)) {
+            commentRepository.deleteById(id);
+        }
+        return new RedirectView("/user/account/"+user_id);
 
     }
 

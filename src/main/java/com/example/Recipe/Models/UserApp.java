@@ -37,6 +37,7 @@ public class UserApp implements UserDetails {
 
     private String flag; // added to check if the user followed or not
 
+    private String userImage;
     @OneToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
@@ -72,6 +73,7 @@ public class UserApp implements UserDetails {
         this.dateOfBirth = dateOfBirth;
         this.nationality = nationality;
         this.bio = bio;
+        this.userImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 //        this.role = role;
 
     }
