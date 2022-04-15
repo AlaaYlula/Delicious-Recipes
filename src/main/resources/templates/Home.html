@@ -42,6 +42,7 @@
 
 <!--    </script>-->
     <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{css/style.scss}">
 
 </head>
 <body>
@@ -74,10 +75,10 @@
 </script>
 
     <div class="container">
-        <div class="row">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col-4" th:each="recipe: ${recipesList}">
                 <a th:href="@{/recipe(id=${recipe.recipe_id})}" class="a-img">
-                    <div class="card mb-3" >
+                    <div class="card h-100 mb-3" >
                          <img
                             class="card-img-top img-padding"
                             th:src="${recipe.thumbnail_url}"

@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
@@ -53,12 +54,12 @@ public class RecipeController {
 
 
 
-        return "oneRecipe";
+        return "recipeinfo";
     }
 
     // add to favorite list rout
     @PostMapping("/favorite")
-    public String addToFavorite(@RequestParam int id,Model model){
+    public RedirectView addToFavorite(@RequestParam int id,Model model){
         RecipeModel recipeModel=recipeRepository.getById(id);
         //current user
         String currentUser= SecurityContextHolder.getContext().getAuthentication().getName();
@@ -72,19 +73,11 @@ public class RecipeController {
 
         recipeModel.setUserFavRecipe(userApp);
 
-
-        model.addAttribute("instruction",recipeModel.getInstructionModels());
-        model.addAttribute("recipe",recipeModel);
-        model.addAttribute("ingredients",recipeModel.getIngredientModels());
-        model.addAttribute("recipeId",id);
-        model.addAttribute("currentUserId",userApp.getId());
-
-
-        return "oneRecipe";
+        return new RedirectView("/recipe?id="+id);
     }
 
     @PostMapping("/recipe/comment")
-    public String addComment(@RequestParam String text,@RequestParam int id ,Model model){
+    public RedirectView addComment(@RequestParam String text,@RequestParam int id ,Model model){
         RecipeModel recipeModel=recipeRepository.getById(id);
         //current user
         String currentUser= SecurityContextHolder.getContext().getAuthentication().getName();
@@ -107,13 +100,13 @@ public class RecipeController {
         model.addAttribute("allComment",recipeModel.getComments());
 
 
-        return "oneRecipe";
+        return new RedirectView("/recipe?id="+id);
 
     }
 
 
     @PostMapping("/deletecomment")
-    public String deleteComment(@RequestParam int id, Model model, @RequestParam int rid, @RequestParam int cUid){
+    public RedirectView deleteComment(@RequestParam int id, @RequestParam int rid, @RequestParam int cUid){
         RecipeModel recipeModel=recipeRepository.getById(rid);
 
         String currentUser= SecurityContextHolder.getContext().getAuthentication().getName();
@@ -122,14 +115,9 @@ public class RecipeController {
         if (cUid==userApp.getId()){
             commentRepository.deleteById((long) id);
         }
-        model.addAttribute("instruction",recipeModel.getInstructionModels());
-        model.addAttribute("recipe",recipeModel);
-        model.addAttribute("recipeId",rid);
-        model.addAttribute("ingredients",recipeModel.getIngredientModels());
-        model.addAttribute("allComment",recipeModel.getComments());
-        model.addAttribute("currentUserId",userApp.getId());
 
-        return "oneRecipe";
+
+        return new RedirectView("/recipe?id="+rid);
     }
 
 
