@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:https="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:https="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -132,7 +132,7 @@
                                                 <span th:text="${comment.text}"></span>
                                                 <!--                                    <a th:href="@{/order/details(id=3,action='show_all')}">-->
 <!--                                            <p class="text-muted small mb-0"><a th:href = "@{/deletecomment(id=${comment.id},cUid=${comment.userComments.id},rid=${recipeId})}">delete</a> </p>-->
-                                                    <form action="/deletecomment" method="post">
+                                                <form th:if="${comment.userComments.username == username }" action="/deletecomment" method="post">
                                                         <input type="hidden" name="rid" th:value="${recipeId}">
                                                             <input type="hidden" name="cUid" th:value="${comment.userComments.id}">
 

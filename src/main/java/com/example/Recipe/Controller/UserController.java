@@ -222,14 +222,14 @@ public class UserController {
     /*
     User can Update
      */
-    @PostMapping("/recipe/update")
-    public RedirectView UpdateUserOwnRecipe(@RequestParam String name, @RequestParam String description,
-                                            Integer userRecipe_id) {
-        int update = recipeRepository.updateRecipeModelById(name, description, userRecipe_id);
-
-        return new RedirectView("/user/recipes");
-
-    }
+//    @PostMapping("/recipe/update")
+//    public RedirectView UpdateUserOwnRecipe(@RequestParam String name, @RequestParam String description,
+//                                            Integer userRecipe_id) {
+//        int update = recipeRepository.updateRecipeModelById(name, description, userRecipe_id);
+//
+//        return new RedirectView("/user/recipes");
+//
+//    }
 
     @GetMapping("/recipe/update")
     public String UpdateUserOwnRecipeByGet(@RequestParam Integer userRecipe_id, @RequestParam String userRecipe_name, @RequestParam String userRecipe_description, Model model) {
@@ -240,8 +240,7 @@ public class UserController {
 
     }
 
-    ///////////////////////////////////////////////////////
-//    /*
+    /////////////////////////////////////////////////////////    /*
 //    Get the /account page for each user
 //     */
 //    @GetMapping("/account")
@@ -249,8 +248,7 @@ public class UserController {
 //        String name = SecurityContextHolder.getContext().getAuthentication().getName();
 //        UserApp currentUser = userAppRepository.findByUsername(name);
 //        model.addAttribute("username", name);
-//
-//        return "account";
+////        return "account";
 //    }
 //
 //    @PostMapping("/account")
@@ -262,6 +260,17 @@ public class UserController {
 //
 //        UserApp appUser = userAppRepository.findUserAppById(user_id);
 //        //check if the user follow the logged in account, and you want to show this logged in account
+//        if (currentuser.equals(appUser)) {
+//            // it must not have follow or unfollow button
+//            model.addAttribute("flag", "Me");
+//        } else   //Check if the user followed or not
+//
+//            if (currentuser.getFollowing().contains(appUser)) {
+//                String flag = "false";
+//                model.addAttribute("flag", flag);
+//            } else {
+//                String flag = "true";
+//                model.addAttribute("flag", flag);
 //        if(currentuser.equals(appUser)){
 //            // it must not have follow or unfollow button
 //            model.addAttribute("flag","Me");
@@ -278,7 +287,83 @@ public class UserController {
 //        model.addAttribute("recipesList", appUser.getOwnRecipes());
 //
 //        return "account";
+//    }//
+//    /*
+//   Get the /account page for each user
+//   In the Other way using the path variable id
+//    */
+//    @GetMapping("/user/account/{id}")
+//    public String GetAccountUser(@PathVariable Long id, Model model) {
+//        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+//        UserApp currentUser = userAppRepository.findByUsername(name);
+//        model.addAttribute("username", name);
+//
+//        UserApp appUser = userAppRepository.findUserAppById(id);
+//        model.addAttribute("UserAccount", appUser);
+//        model.addAttribute("recipesList", appUser.getOwnRecipes());
+//
+//        return "account";
 //    }
+//
+//    @PostMapping("/user/account/{id}")
+//    public RedirectView GetUserAccount(@PathVariable Long id, Model model) {
+//
+//        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+//        model.addAttribute("username", name);
+//        UserApp currentuser = userAppRepository.findByUsername(name);
+//
+//        UserApp appUser = userAppRepository.findUserAppById(id);
+//        //check if the user follow the logged in account, and you want to show this logged in account
+//        if (currentuser.equals(appUser)) {
+//            // it must not have follow or unfollow button
+//            model.addAttribute("flag", "Me");
+//        } else   //Check if the user followed or not
+//
+//            if (currentuser.getFollowing().contains(appUser)) {
+//                String flag = "false";
+//                model.addAttribute("flag", flag);
+//            } else {
+//                String flag = "true";
+//                model.addAttribute("flag", flag);
+//            }
+//
+//        return new RedirectView("/user/account/" + id);
+//    }
+//
+//    ///////////////////////////////////////////////////////
+//    /*
+//    Add comments
+//     */
+//    @PostMapping("/comment")
+//    public RedirectView AddCommentForRecipe(@RequestParam String text, Integer id) {
+//        RecipeModel recipe = recipeRepository.getById(id);
+//
+//        Comment comment = new Comment(text);
+//
+//        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+//        UserApp userApp = userAppRepository.findByUsername(currentUser);
+//        userApp.getComments().add(comment);
+//        comment.setUserComments(userApp);
+//
+//        recipe.getComments().add(comment);
+//        comment.setRecipeComments(recipe);
+//
+//        commentRepository.save(comment);
+//
+//        return new RedirectView("/account");
+//    }
+//
+//    /*
+//    Delete Comment
+//     */
+//    @PostMapping("/comment/delete")
+//    public RedirectView DeleteCommentForRecipe( Long id) {
+//        commentRepository.deleteById(id);
+//        return new RedirectView("/account");
+//
+//    }
+//
+//}
 
     /*
    Get the /account page for each user
