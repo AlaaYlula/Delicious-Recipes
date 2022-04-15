@@ -23,6 +23,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Date;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -83,7 +85,14 @@ public class MainController {
 
     @GetMapping("/")
     public String getHomePage(Model model){
-        model.addAttribute("recipesList", recipeRepository.findAll()) ;
+        List<RecipeModel> recipeModelList = recipeRepository.findAll();
+//        for (RecipeModel recipe:
+//             recipeModelList) {
+//            if(recipe.getUserFavRecipe()!=null || recipe.getUserOwnRecipe()!=null){
+//                recipeModelList.remove(recipe);
+//            }
+//        }
+        model.addAttribute("recipesList", recipeModelList) ;
         return "home";
     }
 

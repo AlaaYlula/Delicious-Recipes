@@ -155,6 +155,14 @@ public class UserController {
 
         return "myprofile";
     }
+    /*
+  User can Delete Fav recipe
+   */
+    @PostMapping("/recipe/favorite/delete")
+    public RedirectView DeleteUserFavRecipe(Integer Recipe_id) {
+        recipeRepository.deleteById(Recipe_id);
+        return new RedirectView("/myprofile");
+    }
 
     /*
     show the user Information
@@ -358,8 +366,13 @@ public class UserController {
     Delete Comment
      */
     @PostMapping("/comment/delete")
-    public RedirectView DeleteCommentForRecipe( Long id,Long user_id) {
-        commentRepository.deleteById(id);
+    public RedirectView DeleteCommentForRecipe( Long id,Long user_id,Long comment_user_id) {
+        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserApp userApp = userAppRepository.findByUsername(currentUser);
+
+        if(userApp.getId().equals(comment_user_id)) {
+            commentRepository.deleteById(id);
+        }
         return new RedirectView("/user/account/"+user_id);
 
     }

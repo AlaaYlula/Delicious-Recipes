@@ -42,6 +42,10 @@
                 </ul>
                 </br>
             </div>
+            <form  method="post" action="/recipe/favorite/delete">
+                <input type="hidden" th:value="${favRecipe.recipe_id}" name="Recipe_id">
+                <button  type="submit">Delete Recipe</button>
+            </form>
         </li>
 
     </div>

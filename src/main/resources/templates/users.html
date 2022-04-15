@@ -13,6 +13,8 @@
 <ul th:each="user: ${usersList}">
     <div class="user">
         <li>
+            <img th:src="${user.userImage}">
+
             <div>
                 <label>User Name : </label><a th:href = "'/user/account/' + ${user.id}" th:text="${user.firstName}"> </a></br>
                 <label>First Name : </label><span th:text="${user.firstName}"></span></br>
