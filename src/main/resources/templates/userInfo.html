@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title th:text = "${username} + ' Information'"></title>
+    <link th:href="@{/Style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+.w3-button {width:150px; }
+</style>
 </head>
 <body>
 <ul th:each="user: ${userInfo}">
-    <div >
+    <div class="user" >
         <li>
             <div >
                 <label>User Name : </label><span th:text="${user.username}"></span></br>
@@ -25,17 +30,19 @@
     </br></br>
 
     <ul th:each="userFollowing: ${user.following}">
-        <div >
+        <div class="user">
             <li>
                 <div >
-                    <label>First Name : </label><span th:text="${userFollowing.firstName}"></span></br>
+<!--                    <label>First Name : </label><span th:text="${userFollowing.firstName}"></span></br>-->
+                    <label>First Name : </label> <span><a th:href = "'/user/account/' + ${userFollowing.id}" th:text="${userFollowing.firstName}"> </a></span></br>
+
                     <label>Last Name : </label><span th:text="${userFollowing.lastName}"></span></br>
                     <label>Date Of Birth :  </label><span th:text="${userFollowing.dateOfBirth}"></span></br>
                     <label>Bio : </label><span th:text="${userFollowing.bio}"></span></br>
-                    <form method="post" action="/users/unfollow">
-                        <input type="hidden" th:value="${userFollowing.id}" name="user_id">
-                        <button type="submit">UnFollow</button>
-                    </form>
+<!--                    <form method="post" action="/users/unfollow">-->
+<!--                        <input type="hidden" th:value="${userFollowing.id}" name="user_id">-->
+<!--                        <button type="submit">UnFollow</button>-->
+<!--                    </form>-->
                     <!--
                      <form method="post" action="/users/account">
                          <input type="hidden" th:value="${userFollowing.id}" name="user_id">
@@ -54,13 +61,14 @@
     </br></br>
 
     <ul th:each="userFollower: ${user.followers}">
-        <div >
+        <div class="user" >
             <li>
                 <div >
-                    <label>First Name : </label><span th:text="${userFollower.firstName}"></span></br>
+                    <label>First Name : </label> <span><a th:href = "'/user/account/' + ${userFollower.id}" th:text="${userFollower.firstName}"> </a></span></br>
                     <label>Last Name : </label><span th:text="${userFollower.lastName}"></span></br>
                     <label>Date Of Birth :  </label><span th:text="${userFollower.dateOfBirth}"></span></br>
                     <label>Bio : </label><span th:text="${userFollower.bio}"></span></br>
+
                     <!--
                     <form method="post" action="/users/account">
                         <input type="hidden" th:value="${userFollowing.id}" name="user_id">

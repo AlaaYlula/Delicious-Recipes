@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
-@JsonIgnoreProperties({"userFavRecipe"})
+//@JsonIgnoreProperties({"userFavRecipe"})//    Updated by alaa
 @Entity
 public class RecipeModel {
 
@@ -18,7 +18,7 @@ public class RecipeModel {
 
         private int id;
         @Column(nullable = false)
-        private String recipeName;
+        private String name;
         @Column(columnDefinition = "TEXT")
         private String description;
         @Column(length = 5000)
@@ -44,7 +44,7 @@ public class RecipeModel {
 
 
     public RecipeModel(String name, String  description, String thumbnail_url ) {
-                this.recipeName = name;
+                this.name = name;
                 this.description = description;
                 this.thumbnail_url = thumbnail_url;
         }
@@ -70,12 +70,16 @@ public class RecipeModel {
         this.recipe_id = recipe_id;
     }
 
-    public String getRecipeName() {
-        return recipeName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setRecipeName(String name) {
-        this.recipeName = name;
+        this.name = name;
     }
 
     public String getThumbnail_url() {
@@ -137,7 +141,7 @@ public class RecipeModel {
         public String toString() {
                 return "Recipe{" +
                         "id=" + recipe_id +
-                        ", name='" + recipeName + '\'' +
+                        ", name='" + name + '\'' +
                         ", description='" + description + '\'' +
                         ", thumbnail_url='" + thumbnail_url + '\'' +
 //                        ", original_video_url='" + original_video_url + '\'' +

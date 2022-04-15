@@ -11,14 +11,6 @@ import java.util.List;
 
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredient,Long> {
-//    SELECT new Users(e.id, e.email, e.firstname, e.surname) FROM Users e
-
-//    @Query(value = "SELECT * FROM recipe_model r INNER JOIN ingredient i ON r.recipe_id = i.recipes_ingredient_recipe_id AND i.name LIKE %:keywords%", nativeQuery = true)
-//    List<RecipeModel> searchIngredient(@Param("keywords") String keyword);
-
-
-//    @Query(value = "SELECT * FROM recipe_model INNER JOIN ingredient ON recipe_model.recipe_id = ingredient.recipes_ingredient_recipe_id AND ingredient.name LIKE %:keywords% ", nativeQuery = true) //+
-            /// list of objects
 
 }
 

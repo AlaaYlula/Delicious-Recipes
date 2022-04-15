@@ -7,6 +7,12 @@
 <body>
 
 
+
+<div class="bg-image"
+     style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/77.jpg');
+            height: 50vh;">
+</div>
+
 <!--<form th:action="@{/searchIngredients}" method="post">-->
 <!--    Filter<input type="text" name="keywords" id="keywords" size="50" th:value="${keywords}" required />-->
 <!--    &nbsp;-->
@@ -26,7 +32,7 @@
 <!--</form>-->
 
 
-<form th:action="@{/searchIngredients}" method="get">
+<form th:action="@{/search/Ingredients}" method="get">
     Filter<input type="text" name="keywords" id="keywords" size="50" th:value="${keywords}" required />
     &nbsp;
     <button type="submit" value="Search" >Search</button>
@@ -34,15 +40,14 @@
     &nbsp;
     <!--    <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />-->
 </form>
-
-
 <!--<table>-->
 <!--    <tr>-->
 <!--        <th>Name</th>-->
+<!--        <th>Description</th>-->
 <!--    </tr>-->
-<!--    <tr th:each="ingredient: ${IngredientsList}" class="table-row">-->
-<!--        <td th:text = "${ingredient.name}"></td>-->
-<!--&lt;!&ndash;        <td th:text = "${recipe.name}"></td>&ndash;&gt;-->
+<!--    <tr th:each="recipe: ${RecipesList}" class="table-row">-->
+<!--        <td th:text = "${recipe.name}"></td>-->
+<!--&lt;!&ndash;        <td th:text = "${recipe.description}"></td>&ndash;&gt;-->
 <!--    </tr>-->
 <!--</table>-->
 
@@ -52,7 +57,7 @@
         <th>Description</th>
     </tr>
     <tr th:each="recipe: ${RecipesList}" class="table-row">
-        <td th:text = "${recipe.recipeName}"></td>
+        <td th:text = "${recipe.name}"></td>
 <!--        <td th:text = "${recipe.description}"></td>-->
     </tr>
 </table>

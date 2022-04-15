@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>All Users </title>
+    <link th:href="@{/Style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+.w3-button {width:150px; }
+</style>
 </head>
 <body>
 <ul th:each="user: ${usersList}">
-    <div>
+    <div class="user">
         <li>
+            <img th:src="${user.userImage}">
+
             <div>
-                <label>User Name : </label><span th:text="${user.username}"></span></br>
+                <label>User Name : </label><a th:href = "'/user/account/' + ${user.id}" th:text="${user.firstName}"> </a></br>
                 <label>First Name : </label><span th:text="${user.firstName}"></span></br>
                 <label>Last Name : </label><span th:text="${user.lastName}"></span></br>
                 <label>Bio : </label> <span th:text="${user.bio}"></span>  </br>
                 <!-- Check if the user followed or not -->
-
                 <div>
                     <form  th:if="${user.flag == 'true'}" method="post" action="/users/follow">
                         <input type="hidden" th:value="${user.id}" name="user_id">
@@ -26,12 +32,7 @@
                     </form>
                 </div>
 
-                <form  method="post" action="/account">
-                    <input type="hidden" th:value="${user.id}" name="user_id">
-                    <button  type="submit">Show Account</button>
-                </form>
-                <!-- Added -->
-                <a th:href = "'/user/account/' + ${user.id}" th:text="${user.firstName}"> </a>
+
 
             </div>
         </li>

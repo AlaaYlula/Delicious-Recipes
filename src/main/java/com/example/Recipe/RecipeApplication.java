@@ -18,6 +18,9 @@ import org.springframework.context.annotation.Bean;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 
@@ -61,6 +64,7 @@ public class RecipeApplication {
 							instructionRepository.save(instructionModel);
 
 						}
+
 					}
 
 
@@ -81,6 +85,7 @@ public class RecipeApplication {
 					}
 
 				}
+
 			}
 
 

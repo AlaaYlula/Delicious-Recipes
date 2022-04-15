@@ -39,6 +39,10 @@ dependencies {
     implementation 'de.codecentric:spring-boot-admin-starter-server:2.4.1'
     implementation ("com.lob:lob-java:12.3.7")
 
+	implementation ("com.lob:lob-java:12.3.7")
+	// https://mvnrepository.com/artifact/org.webjars/bootstrap
+	implementation 'org.webjars:bootstrap:5.1.3'
+
 }
 
 

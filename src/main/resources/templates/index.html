@@ -12,7 +12,7 @@
 </script>
 <h1>Hi......</h1>
 
-<form th:action="@{/search}" method="get">
+<form th:action="@{/search/recipes}" method="get">
     Filter<input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required />
     &nbsp;
     <button type="submit" value="Search" >Search</button>
@@ -28,7 +28,7 @@
         <th>Description</th>
     </tr>
     <tr th:each="recipe: ${RecipesList}" class="table-row">
-        <td th:text = "${recipe.recipeName}"></td>
+        <td th:text = "${recipe.name}"></td>
         <td th:text = "${recipe.description}"></td>
     </tr>
 </table>
