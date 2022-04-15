@@ -28,7 +28,7 @@
         <th>Description</th>
     </tr>
     <tr th:each="recipe: ${RecipesList}" class="table-row">
-        <td th:text = "${recipe.name}"></td>
+        <td th:text = "${recipe.recipeName}"></td>
         <td th:text = "${recipe.description}"></td>
     </tr>
 </table>

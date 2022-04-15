@@ -7,7 +7,26 @@
 <body>
 
 
-<form th:action="@{/searchIngredients}" method="post">
+<!--<form th:action="@{/searchIngredients}" method="post">-->
+<!--    Filter<input type="text" name="keywords" id="keywords" size="50" th:value="${keywords}" required />-->
+<!--    &nbsp;-->
+<!--    <button type="submit" value="Search" >Search</button>-->
+<!--    <button type="submit" value="Clear"  onclick="clearSearch()" >Clear</button>-->
+<!--    &nbsp;-->
+<!--    &lt;!&ndash;    <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />&ndash;&gt;-->
+<!--</form>-->
+<!--/search/Ingredients-->
+<!--<form th:action="@{/search/Ingredients}" method="post">-->
+<!--    Filter<input type="text" name="keywords" id="keywords" size="50" th:value="${keywords}" required />-->
+<!--    &nbsp;-->
+<!--    <button type="submit" value="Search" >Search</button>-->
+<!--    <button type="submit" value="Clear"  onclick="clearSearch()" >Clear</button>-->
+<!--    &nbsp;-->
+<!--    &lt;!&ndash;    <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />&ndash;&gt;-->
+<!--</form>-->
+
+
+<form th:action="@{/searchIngredients}" method="get">
     Filter<input type="text" name="keywords" id="keywords" size="50" th:value="${keywords}" required />
     &nbsp;
     <button type="submit" value="Search" >Search</button>
@@ -33,7 +52,7 @@
         <th>Description</th>
     </tr>
     <tr th:each="recipe: ${RecipesList}" class="table-row">
-        <td th:text = "${recipe.name}"></td>
+        <td th:text = "${recipe.recipeName}"></td>
 <!--        <td th:text = "${recipe.description}"></td>-->
     </tr>
 </table>

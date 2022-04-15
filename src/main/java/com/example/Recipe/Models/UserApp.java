@@ -64,6 +64,17 @@ public class UserApp implements UserDetails {
     public UserApp() {
     }
 
+    public UserApp(String username, String password, String firstName, String lastName, Date dateOfBirth, String nationality, String bio, Role role) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.nationality = nationality;
+        this.bio = bio;
+        this.role = role;
+    }
+
     public UserApp(String username, String password, String firstName, String lastName, Date dateOfBirth, String nationality, String bio){
         this.username = username;
         this.password = password;
@@ -75,6 +86,8 @@ public class UserApp implements UserDetails {
 //        this.role = role;
 
     }
+
+
 
     public String getFlag() {
         return flag;

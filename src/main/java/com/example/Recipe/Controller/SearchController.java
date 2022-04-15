@@ -49,32 +49,55 @@ public class SearchController {
     }
 
 
-    @PostMapping("/searchIngredients")
-    public String homeIngredients(Model model, @RequestParam String keywords)  {
-
-        List <Ingredient> ingList = service.getAllIngredients();
-        List <RecipeModel> recList = new ArrayList<>();
-        for (Ingredient i: ingList) {
-            if(i.getName().contains(keywords))
-            {
-                recList.add(i.getRecipes_ingredient());
-            }
+    @RequestMapping(path = {"/","/searchIngredients"})
+    public String homeIngredients(RecipeModel recipe, Model model, String keywords) {
+        System.out.println("//////////////////////////////////ASEEL/////////////////////////////////////////");
+        System.out.println(keywords);
+        if(keywords != null) {
+            List<RecipeModel> list = service.getByIngredientKeyword(keywords);
+            model.addAttribute("RecipesList", list);
+            System.out.println("not null");
+            System.out.println(list);
         }
-        model.addAttribute("RecipesList",recList);
+        else
+        {
+            List<Ingredient> list = service.getAllIngredients();
+            model.addAttribute("IngredientsList", list);
+            System.out.println("null");
+            System.out.println(list);
+        }
 
-//        if(keywords != null) {
-//            List<RecipeModel> list = service.getByIngredientKeyword(keywords);
-//            model.addAttribute("RecipesList", list);
-//            System.out.println("not null");
-//            System.out.println(list);
-//        }else {
-//            List<Ingredient> list = service.getAllIngredients();
-//            model.addAttribute("IngredientsList", list);
-//            System.out.println("null");
-//            System.out.println(list);
-//        }
         return "searchIngredient";
     }
+
+
+
+//    @PostMapping("/search/Ingredients") //     query to select all from recipeModel and use the filter to get these recipes by ingredients input
+//    public String homeIngredients(Model model, @RequestParam String keywords)  {
+//
+//        List <Ingredient> ingList = service.getAllIngredients();
+//        List <RecipeModel> recList = new ArrayList<>();
+//        for (Ingredient i: ingList) {
+//            if(i.getName().contains(keywords))
+//            {
+//                recList.add(i.getRecipes_ingredient());
+//            }
+//        }
+//        model.addAttribute("RecipesList",recList);
+//
+////        if(keywords != null) {
+////            List<RecipeModel> list = service.getByIngredientKeyword(keywords);
+////            model.addAttribute("RecipesList", list);
+////            System.out.println("not null");
+////            System.out.println(list);
+////        }else {
+////            List<Ingredient> list = service.getAllIngredients();
+////            model.addAttribute("IngredientsList", list);
+////            System.out.println("null");
+////            System.out.println(list);
+////        }
+//        return "searchIngredient";
+//    }
 
 //    @RequestMapping(path = {"/","/searchIngredients"})
 //    public String homeIngredients(RecipeModel recipe, Model model, String keyword) {

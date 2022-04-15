@@ -18,7 +18,7 @@ public class RecipeModel {
 
         private int id;
         @Column(nullable = false)
-        private String name;
+        private String recipeName;
         @Column(columnDefinition = "TEXT")
         private String description;
         @Column(length = 5000)
@@ -44,7 +44,7 @@ public class RecipeModel {
 
 
     public RecipeModel(String name, String  description, String thumbnail_url ) {
-                this.name = name;
+                this.recipeName = name;
                 this.description = description;
                 this.thumbnail_url = thumbnail_url;
         }
@@ -70,12 +70,12 @@ public class RecipeModel {
         this.recipe_id = recipe_id;
     }
 
-    public String getName() {
-        return name;
+    public String getRecipeName() {
+        return recipeName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRecipeName(String name) {
+        this.recipeName = name;
     }
 
     public String getThumbnail_url() {
@@ -137,7 +137,7 @@ public class RecipeModel {
         public String toString() {
                 return "Recipe{" +
                         "id=" + recipe_id +
-                        ", name='" + name + '\'' +
+                        ", name='" + recipeName + '\'' +
                         ", description='" + description + '\'' +
                         ", thumbnail_url='" + thumbnail_url + '\'' +
 //                        ", original_video_url='" + original_video_url + '\'' +

@@ -2,10 +2,12 @@ package com.example.Recipe;
 import com.example.Recipe.Models.Ingredient;
 import com.example.Recipe.Models.InstructionModel;
 import com.example.Recipe.Models.RecipeModel;
+import com.example.Recipe.Models.Role;
 import com.example.Recipe.Recipe.*;
 import com.example.Recipe.Repositories.IngredientRepository;
 import com.example.Recipe.Repositories.InstructionRepository;
 import com.example.Recipe.Repositories.RecipeRepository;
+import com.example.Recipe.Repositories.RoleRepository;
 import com.google.gson.Gson;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -19,6 +21,7 @@ import java.net.URL;
 
 import org.slf4j.Logger;
 
+//@EnableAdminServer
 @SpringBootApplication
 public class RecipeApplication {
 
@@ -29,12 +32,19 @@ public class RecipeApplication {
 
 	}
 
+
 	@Bean
 	CommandLineRunner initDatabase(RecipeRepository recipeRepository, IngredientRepository ingredientRepository ,
-								   InstructionRepository instructionRepository
-								   ) {
+								   InstructionRepository instructionRepository,
+								   RoleRepository roleRepository) {
 		return args -> {
-			if(recipeRepository.findAll().size() == 0){
+			if (roleRepository.findAll().size() == 0)
+			{
+				log.info("Preloading " + roleRepository.save(new Role("ADMIN")));
+				log.info("Preloading " + roleRepository.save(new Role("USERS")));
+			}
+			if(recipeRepository.findAll().size() == 0)
+			{
 				Recipe recipe = ReadJsonFile("recipe.json");
 				System.out.println(recipe);
 

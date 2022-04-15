@@ -1,9 +1,7 @@
 package com.example.Recipe.Controller;
 
+import com.example.Recipe.Models.*;
 import com.example.Recipe.Models.Ingredient;
-import com.example.Recipe.Models.InstructionModel;
-import com.example.Recipe.Models.RecipeModel;
-import com.example.Recipe.Models.UserApp;
 import com.example.Recipe.Recipe.*;
 import com.example.Recipe.Repositories.IngredientRepository;
 import com.example.Recipe.Repositories.InstructionRepository;
@@ -70,8 +68,11 @@ public class MainController {
             @RequestParam String bio
     ){
 
-        UserApp userApp = new UserApp(username,passwordEncoder.encode(password),firstname,lastname,dateOfBirth,nationality,bio);
+        Role role = new Role();s
+        role.setId((long) 2);
+        UserApp userApp = new UserApp(username,passwordEncoder.encode(password),firstname,lastname,dateOfBirth,nationality,bio, role);
         userAppRepository.save(userApp);
+
         return "login";
     }
 

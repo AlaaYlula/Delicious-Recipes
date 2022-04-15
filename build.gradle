@@ -36,10 +36,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	runtimeOnly 'org.postgresql:postgresql'
-
-	implementation ("com.lob:lob-java:12.3.7")
+    implementation 'de.codecentric:spring-boot-admin-starter-server:2.4.1'
+    implementation ("com.lob:lob-java:12.3.7")
 
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()

@@ -39,13 +39,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //    }
 
     public List<RecipeModel> getAllRecipes(){
-        List<RecipeModel> list =  (List<RecipeModel>)RecipeRepository.findAll();
+        List<RecipeModel> list =  RecipeRepository.findAll();
         return list;
     }
 
     /*
      * TODO: Get Recipe By keyword
      */
+
     public List<RecipeModel> getByKeyword(String keyword){
         return RecipeRepository.search(keyword);
     }
@@ -61,14 +62,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     /*
      * TODO: Get Ingredient By keywords
      */
+
     public List<RecipeModel> getByIngredientKeyword(String keywords){
-        return IngredientRepository.searchIngredient(keywords);
+        return RecipeRepository.searchIngredient(keywords);
     }
-
-//    public List<Ingredient> getRecipes()
-//    {
-//    return IngredientRepository.ingrList();
-//    }
-
 
 }
