@@ -2,6 +2,7 @@ package com.example.Recipe.Models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.catalina.User;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,7 +23,7 @@ public class RecipeModel {
         @Column(columnDefinition = "TEXT")
         private String description;
         @Column(length = 5000)
-        private String thumbnail_url; // image
+        private String thumbnail_url = "https://www.cvent.com/sites/default/files/styles/focus_scale_and_crop_800x450/public/migrated_attachments/meal-918638_1280-1.jpg?itok=dMJGxEC2"; // image
         @Column(length = 5000)
 
         @OneToMany(mappedBy = "recipeModelComments", cascade = CascadeType.ALL )
@@ -31,14 +32,14 @@ public class RecipeModel {
         @ManyToOne
         UserApp userOwnRecipe;
 
-        @ManyToOne
-        UserApp userFavRecipe;
+        @ManyToMany(mappedBy = "favoriteRecipeModels")
+        private List<UserApp> userFavRecipe;
 
         @OneToMany(mappedBy = "recipes_ingredient" ,cascade = CascadeType.ALL)
-        Set<Ingredient> ingredientModels;
+        List<Ingredient> ingredientModels;
 
         @OneToMany(mappedBy = "recipes_instruction",cascade = CascadeType.ALL)
-        Set<InstructionModel> instructionModels;
+        List<InstructionModel> instructionModels;
             public RecipeModel() {
             }
 
@@ -70,11 +71,15 @@ public class RecipeModel {
         this.recipe_id = recipe_id;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setRecipeName(String name) {
         this.name = name;
     }
 
@@ -102,11 +107,12 @@ public class RecipeModel {
         this.userOwnRecipe = userOwnRecipe;
     }
 
-    public UserApp getUserFavRecipe() {
+
+    public List<UserApp> getUserFavRecipe() {
         return userFavRecipe;
     }
 
-    public void setUserFavRecipe(UserApp userFavRecipe) {
+    public void setUserFavRecipe(List<UserApp> userFavRecipe) {
         this.userFavRecipe = userFavRecipe;
     }
 
@@ -114,22 +120,19 @@ public class RecipeModel {
                 return recipe_id;
         }
 
-
-
-
-    public Set<Ingredient> getIngredientModels() {
+    public List<Ingredient> getIngredientModels() {
         return ingredientModels;
     }
 
-    public void setIngredientModels(Set<Ingredient> ingredientModels) {
+    public void setIngredientModels(List<Ingredient> ingredientModels) {
         this.ingredientModels = ingredientModels;
     }
 
-    public Set<InstructionModel> getInstructionModels() {
+    public List<InstructionModel> getInstructionModels() {
         return instructionModels;
     }
 
-    public void setInstructionModels(Set<InstructionModel> instructionModels) {
+    public void setInstructionModels(List<InstructionModel> instructionModels) {
         this.instructionModels = instructionModels;
     }
 

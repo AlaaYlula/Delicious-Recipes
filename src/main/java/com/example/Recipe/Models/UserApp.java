@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.sql.Date;
 import java.util.List;
 
+//@JsonIgnoreProperties({"favoriteRecipeModels"})
 @Setter
 @Getter
 @Entity
@@ -45,8 +46,17 @@ public class UserApp implements UserDetails {
     @OneToMany(mappedBy = "userOwnRecipe",cascade = CascadeType.ALL)
     List<RecipeModel> ownRecipeModels;
 
-    @OneToMany(mappedBy = "userFavRecipe",cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "userFavRecipe",cascade = CascadeType.ALL)
+//    List<RecipeModel> favoriteRecipeModels;
+
+    @ManyToMany
+    @JoinTable(
+            name = "userFavRecipes",
+            joinColumns = @JoinColumn(name = "Recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "User_id")
+    )
     List<RecipeModel> favoriteRecipeModels;
+
 
     @OneToMany(mappedBy = "userComments",cascade = CascadeType.ALL)///////////////////////////
     List<Comment> comments;
@@ -65,6 +75,17 @@ public class UserApp implements UserDetails {
     public UserApp() {
     }
 
+    public UserApp(String username, String password, String firstName, String lastName, Date dateOfBirth, String nationality, String bio, Role role) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.nationality = nationality;
+        this.bio = bio;
+        this.role = role;
+    }
+
     public UserApp(String username, String password, String firstName, String lastName, Date dateOfBirth, String nationality, String bio){
         this.username = username;
         this.password = password;
@@ -77,6 +98,8 @@ public class UserApp implements UserDetails {
 //        this.role = role;
 
     }
+
+
 
     public String getFlag() {
         return flag;

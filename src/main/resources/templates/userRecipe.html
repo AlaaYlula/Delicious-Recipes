@@ -60,9 +60,11 @@ function closeForm() {
 
 <h3>Recipes</h3>
 <ul th:each="userRecipe: ${userRecipes}">
-    <div>
+    <div class="user">
         <li>
             <div class="container">
+<!--                <a th:href="@{/recipe/user(id=${userRecipe.recipe_id})}"></a>-->
+                <img   th:src="${userRecipe.thumbnail_url}"></br>
                 <label>Recipe Name : </label><span th:text="${userRecipe.name}"></span></br>
                 <label>Recipe Description : </label><span th:text="${userRecipe.description}"></span></br>
             </div>
@@ -75,26 +77,33 @@ function closeForm() {
                             <label>comment :</label><span th:text="${comment.text}"></span></br>
                         </div>
 
+                        <form th:if="${comment.userComments.username == username }"  method="post" action="/comment/delete">
+                            <input type="hidden" th:value="${comment.userComments.id}" name="comment_user_id">
+                            <input type="hidden" th:value="${userRecipe.userOwnRecipe.id}" name="user_id">
+                            <input type="hidden" th:value="${comment.id}" name="id">
+                            <button  type="submit">Delete comment</button>
+                        </form>
                     </li>
                 </div>
                 <p>**********************************************************</p>
             </ul>
-<!--            <form  method="post" action="/comment">-->
-<!--                <label for="comment">comment</label>-->
-<!--                <input type="text" id="comment" name="text">-->
-<!--                <input type="hidden" th:value="${userRecipe.userOwnRecipe.id}" name="user_id">-->
-<!--                <input type="hidden" th:value="${recipe.recipe_id}" name="id">-->
-<!--                <button  type="submit">Add comment</button>-->
-<!--            </form>-->
+            <form  method="post" action="/comment">
+                <label for="comment">comment</label>
+                <input type="text" id="comment" name="text">
+                <input type="hidden" th:value="${userRecipe.userOwnRecipe.id}" name="user_id">
+                <input type="hidden" th:value="${userRecipe.recipe_id}" name="id">
+                <button  type="submit">Add comment</button>
+            </form>
+
 
             <form method="post" action="/recipe/delete">
                     <input type="hidden"   th:value="${userRecipe.recipe_id}" name="userRecipe_id">
                     <input type="submit" value="Delete Recipe">
                 </form>
             <form method="get" action="/recipe/update">
-                <input type="hidden" th:value="${userRecipe.recipe_id}" name="userRecipe_id">
-                <input type="hidden" th:value="${userRecipe.name}" name="userRecipe_name">
-                <input type="hidden" th:value="${userRecipe.description}" name="userRecipe_description">
+                <input type="hidden" th:value="${userRecipe.recipe_id}" name="recipe_id">
+                <input type="hidden" th:value="${userRecipe.name}" name="name">
+                <input type="hidden" th:value="${userRecipe.description}" name="description">
 
                 <input type="submit" value="Update Recipe">
             </form>

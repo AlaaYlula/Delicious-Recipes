@@ -16,59 +16,50 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    UserAppRepository userAppRepository;
+        @Autowired
+        UserAppRepository userAppRepository;
 
-    @Autowired
-    RecipeRepository RecipeRepository;
+        @Autowired
+        RecipeRepository RecipeRepository;
 
-    @Autowired
-    IngredientRepository IngredientRepository;
+        @Autowired
+        IngredientRepository IngredientRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userAppRepository.findByUsername(username);
-    }
-
-
-//    public List<RecipeModel> listAll(String keyword) {
-//        if (keyword != null) {
-//            return RecipeRepository.search(keyword);
-//        }
-//        return RecipeRepository.findAll();
-//    }
-
-    public List<RecipeModel> getAllRecipes(){
-        List<RecipeModel> list =  (List<RecipeModel>)RecipeRepository.findAll();
-        return list;
-    }
-
-    /*
-     * TODO: Get Recipe By keyword
-     */
-    public List<RecipeModel> getByKeyword(String keyword){
-        return RecipeRepository.search(keyword);
-    }
+        @Override
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+            return userAppRepository.findByUsername(username);
+        }
 
 
 
-    public List<Ingredient> getAllIngredients(){
-        List<Ingredient> listIngredient =  IngredientRepository.findAll();
-        return listIngredient;
-    }
+
+        public List<RecipeModel> getAllRecipes(){
+            List<RecipeModel> list =  RecipeRepository.findAll();
+            return list;
+        }
+
+        /*
+         * TODO: Get Recipe By keyword
+         */
+
+        public List<RecipeModel> getByKeyword(String keyword){
+            return RecipeRepository.search(keyword);
+        }
 
 
-    /*
-     * TODO: Get Ingredient By keywords
-     */
-    public List<RecipeModel> getByIngredientKeyword(String keywords){
-        return IngredientRepository.searchIngredient(keywords);
-    }
 
-//    public List<Ingredient> getRecipes()
-//    {
-//    return IngredientRepository.ingrList();
-//    }
+        public List<Ingredient> getAllIngredients(){
+            List<Ingredient> listIngredient =  IngredientRepository.findAll();
+            return listIngredient;
+        }
 
+
+        /*
+         * TODO: Get Ingredient By keywords
+         */
+
+        public List<RecipeModel> getByIngredientKeyword(String keywords){
+            return RecipeRepository.searchIngredient(keywords);
+        }
 
 }
