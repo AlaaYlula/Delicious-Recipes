@@ -71,11 +71,15 @@ public class RecipeModel {
         this.recipe_id = recipe_id;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setRecipeName(String name) {
         this.name = name;
     }
 

@@ -190,6 +190,7 @@ public class UserController {
     /*
     User can Update By Query
      */
+
     @PostMapping("/recipe/update")
     public RedirectView UpdateUserOwnRecipe(@RequestParam String name, @RequestParam String description,
                                             @RequestParam Integer recipe_id) {
@@ -203,6 +204,7 @@ public class UserController {
         return new RedirectView("/user/recipes");
 
     }
+
     @GetMapping("/recipe/update")
     public String UpdateUserOwnRecipeByGet(@RequestParam Integer recipe_id, @RequestParam String name, @RequestParam String description, Model model) {
         model.addAttribute("recipe_id", recipe_id);
@@ -225,8 +227,6 @@ public class UserController {
         return new RedirectView("/user/recipes");
 
     }
-
-///////////////////////////////////////////////////////////////////////////
 
     /*
    Get the /account page for each user
@@ -333,7 +333,5 @@ public class UserController {
         return new RedirectView("/user/account/"+user_id);
 
     }
-
-
 
 }

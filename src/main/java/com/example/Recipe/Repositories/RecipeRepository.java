@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
 
 
 @Repository
-public interface RecipeRepository extends JpaRepository<RecipeModel,Integer> {
+public interface RecipeRepository extends JpaRepository<RecipeModel, Integer> {
 
 
     @Query(value = "select * from recipe_model s where s.name like %:keyword% or s.description like %:keyword%", nativeQuery = true)
