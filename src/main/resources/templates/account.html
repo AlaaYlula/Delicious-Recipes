@@ -93,9 +93,10 @@
                     <h3>Recipes </h3>
 
     <ul th:each="recipe: ${recipesList}">
-        <div >
+        <div class = "user">
             <li>
                 <div >
+                    <a th:href="@{/recipe/user(id=${recipe.recipe_id})}"><img   th:src="${recipe.thumbnail_url}"></a></br>
                     <label>Recipe Name: </label><span th:text="${recipe.name}"></span></br>
                     <label>Recipe Description: </label><span th:text="${recipe.description}"></span></br>
                 </div>
@@ -109,7 +110,7 @@
                             </div>
 
                         </li>
-                        <form  method="post" action="/comment/delete">
+                        <form th:if="${comment.userComments.username == username }"  method="post" action="/comment/delete">
                             <input type="hidden" th:value="${comment.userComments.id}" name="comment_user_id">
                             <input type="hidden" th:value="${user.id}" name="user_id">
                             <input type="hidden" th:value="${comment.id}" name="id">

@@ -26,7 +26,7 @@
         <li>
             <img th:src="${favRecipe.thumbnail_url}">
             <div >
-                <label>Recipe Name : </label><span th:text="${favRecipe.name}"></span></br>
+                <label>Recipe Name : </label><a th:href = "'/recipe?id=' + ${favRecipe.recipe_id}" th:text="${favRecipe.name}"> </a></br>
                 <label>Description : </label><span th:text="${favRecipe.description}"></span></br>
                 <label>Ingredients :</label>
                 </br>

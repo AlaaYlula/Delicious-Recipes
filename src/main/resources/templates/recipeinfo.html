@@ -120,7 +120,8 @@
                                                 />
                                                 <div>
                                                     <h6 class="fw-bold text-primary mb-1">
-                                                        <span th:text="${comment.userComments.username}"></span>
+                                                        <span><a th:href = "'/user/account/' + ${comment.userComments.id}" th:text="${comment.userComments.username}"> </a></span>
+<!--                                                        <span th:text="${comment.userComments.username}"></span>-->
                                                     </h6>
                                                     <p class="text-muted small mb-0">
                                                         Shared publicly - Jan 2020
@@ -132,7 +133,7 @@
                                                 <span th:text="${comment.text}"></span>
                                                 <!--                                    <a th:href="@{/order/details(id=3,action='show_all')}">-->
 <!--                                            <p class="text-muted small mb-0"><a th:href = "@{/deletecomment(id=${comment.id},cUid=${comment.userComments.id},rid=${recipeId})}">delete</a> </p>-->
-                                                <form th:if="${comment.userComments.username == username }" action="/deletecomment" method="post">
+                                                    <form th:if="${comment.userComments.username == username }" action="/deletecomment" method="post">
                                                         <input type="hidden" name="rid" th:value="${recipeId}">
                                                             <input type="hidden" name="cUid" th:value="${comment.userComments.id}">
 

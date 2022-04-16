@@ -51,7 +51,7 @@ public class RecipeController {
         model.addAttribute("recipeId",id);
         model.addAttribute("currentUserId",userApp.getId());
         model.addAttribute("allComment",recipeModel.getComments());
-
+        model.addAttribute("username",currentUser);
 
 
         return "recipeinfo";
@@ -65,15 +65,16 @@ public class RecipeController {
         String currentUser= SecurityContextHolder.getContext().getAuthentication().getName();
         UserApp userApp=userAppRepository.findByUsername(currentUser);
         // add to favorite list
-        List<RecipeModel> favList= userApp.getFavoriteRecipeModels(); // updated by alaa
+        List<RecipeModel> favList= userApp.getFavoriteRecipeModels();
         favList.add(recipeModel);
-
-
         userApp.setFavoriteRecipeModels(favList);
-       // userApp.setFavoriteRecipes(favList);
+        userAppRepository.save(userApp);
 
-        recipeModel.setUserFavRecipe(userApp);
+        List<UserApp> usersFav = recipeModel.getUserFavRecipe();
+        usersFav.add(userApp);
+        recipeModel.setUserFavRecipe(usersFav);
 
+        recipeRepository.save(recipeModel); // added by alaa
 
         return new RedirectView("/recipe?id="+id);
     }
