@@ -3,142 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link th:href="@{/Style.css}" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <style>
-.w3-button {width:150px; }
-</style>
+<!--    <link th:href="@{/Style.css}" rel="stylesheet"/>-->
+<!--    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
+<!--    <style>-->
+<!--.w3-button {width:150px; }-->
+<!--</style>-->
+
+    <!-- Font Awesome -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css"
+            rel="stylesheet"
+    />
+
+    <!-- MDB -->
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"
+    ></script>
+
+    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{css/style.scss}">
 </head>
 <body>
 
-<ul th:each="user: ${UserAccount}">
-    <p th:text= "'************************* '+  ${user.username} + ' Account ***************************'">  </p>
-    <div class="user">
-        <li>
-            <div >
-                <label>First Name : </label><span th:text="${user.firstName}"></span></br>
-                <label>Last Name : </label><span th:text="${user.lastName}"></span></br>
-                <label>Date Of Birth :  </label><span th:text="${user.dateOfBirth}"></span></br>
-                <label>Bio : </label><span th:text="${user.bio}"></span></br>
 
-                <!-- Read https://www.baeldung.com/spring-thymeleaf-conditionals -->
-                <div>
-                    <td th:switch="${flag}">
-                    <!-- Check if the user followed or not -->
-                        <span th:case="'true'" >
-                       <form  method="post" action="/users/follow">
-                           <input type="hidden" th:value="${user.id}" name="user_id">
-                           <button type="submit">Follow</button>
-                       </form>
-                       </span>
-                        <span th:case="'false'">
-                      <form  method="post" action="/users/unfollow">
-                         <input type="hidden" th:value="${user.id}" name="user_id">
-                          <button  type="submit">UnFollow</button>
-                       </form>
-                        </span>
-                        <div th:case="*"></div>
-                    </td>
-                </div>
+<section style="background-color: #eee;">
+    <div class="container py-5">
 
-            </div>
-        </li>
-    </div>
-
-    <!-- Following List -->
-
-    </br></br>
-    <p th:text = "'************************* '+  ${user.username} + ' Following ***************************'"></p>
-    </br></br>
-
-    <ul th:each="userFollowing: ${user.following}">
-        <div class="user">
-            <li>
-                <div >
-                    <label>First Name : </label> <span><a th:href = "'/user/account/' + ${userFollowing.id}" th:text="${userFollowing.firstName}"> </a></span></br>
-                    <label>Last Name : </label><span th:text="${userFollowing.lastName}"></span></br>
-                    <label>Date Of Birth :  </label><span th:text="${userFollowing.dateOfBirth}"></span></br>
-                    <label>Bio : </label><span th:text="${userFollowing.bio}"></span></br>
-
-                </div>
-            </li>
-
-        </div>
-
-    </ul>
-
-    <!-- Follower List -->
-
-    </br></br>
-    <p th:text = "'************************* '+  ${user.username} + ' Followers ***************************'"></p>
-    </br></br>
-
-    <ul th:each="userFollower: ${user.followers}">
-        <div class="user" >
-            <li>
-                    <label>First Name : </label> <span><a th:href = "'/user/account/' + ${userFollower.id}" th:text="${userFollower.firstName}"> </a></span></br>
-                    <label>Last Name : </label><span th:text="${userFollower.lastName}"></span></br>
-                    <label>Date Of Birth :  </label><span th:text="${userFollower.dateOfBirth}"></span></br>
-                    <label>Bio : </label><span th:text="${userFollower.bio}"></span></br>
-            </li>
-        </div>
-
-    </ul>
-
-    <!-- Check If Follow Or not To show the Recipe -->
-    <div>
-        <td th:switch="${flag}">
-            <span th:case="'false'">
-                   <!-- Recipes List -->
-                    <h3>Recipes </h3>
-
-    <ul th:each="recipe: ${recipesList}">
-        <div class = "user">
-            <li>
-                <div >
-                    <a th:href="@{/recipe/user(id=${recipe.recipe_id})}"><img   th:src="${recipe.thumbnail_url}"></a></br>
-                    <label>Recipe Name: </label><span th:text="${recipe.name}"></span></br>
-                    <label>Recipe Description: </label><span th:text="${recipe.description}"></span></br>
-                </div>
-                <h4>comments </h4>
-                <ul th:each="comment: ${recipe.comments}">
-                    <div >
-                        <li>
-                            <div >
-                              <label>User  : </label><a th:href = "'/user/account/' + ${comment.userComments.id}" th:text="${comment.userComments.username}"> </a></br>
-                              <label>comment </label><span th:text="${comment.text}"></span></br>
-                            </div>
-
-                        </li>
-                        <form th:if="${comment.userComments.username == username }"  method="post" action="/comment/delete">
-                            <input type="hidden" th:value="${comment.userComments.id}" name="comment_user_id">
-                            <input type="hidden" th:value="${user.id}" name="user_id">
-                            <input type="hidden" th:value="${comment.id}" name="id">
-                            <button  type="submit">Delete comment</button>
-                        </form>
+        <div class="row">
+            <div class="col-lg-4">
+                <!--User Description-->
+                <div class="card mb-4">
+                    <div class="card-body text-center" th:each="user: ${UserAccount}">
+<!--                        style="width:auto;height: 250px;object-fit: cover;"-->
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;height: 150px;object-fit: cover;">
+                        <h5 class="my-3"><span th:text="${user.username}"></span></h5>
+                        <p class="text-muted mb-1"><span th:text="${user.bio}"></span></p>
+                        <div class="d-flex justify-content-center mb-2">
+                            <td th:switch="${flag}">
+                                <!-- Check if the user followed or not -->
+                                <span th:case="'true'" >
+                                    <form  method="post" action="/users/follow">
+                                        <input type="hidden" th:value="${user.id}" name="user_id">
+                                        <button type="submit" class="btn btn-primary">Follow</button>
+                                    </form>
+                                </span>
+                                <span th:case="'false'">
+                                    <form  method="post" action="/users/unfollow">
+                                        <input type="hidden" th:value="${user.id}" name="user_id">
+                                        <button  type="submit" class="btn btn-outline-primary ms-1">UnFollow</button>
+                                    </form>
+                                </span>
+                                <div th:case="*"></div>
+                            </td>
+                        </div>
                     </div>
-                </ul>
-                <form  method="post" action="/comment">
-                    <label for="comment">comment</label>
-                    <input type="text" id="comment" name="text">
-                    <input type="hidden" th:value="${user.id}" name="user_id">
-                    <input type="hidden" th:value="${recipe.recipe_id}" name="id">
-                    <button  type="submit">Add comment</button>
-                </form>
+                </div>
+                <!--User Links-->
+                <div class="card mb-4 mb-lg-0">
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush rounded-3">
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fas fa-globe fa-lg text-warning"></i>
+                                <p class="mb-0">https://mdbootstrap.com</p>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fab fa-github fa-lg" style="color: #333333;"></i>
+                                <p class="mb-0">mdbootstrap</p>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
+                                <p class="mb-0">@mdbootstrap</p>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                                <p class="mb-0">mdbootstrap</p>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+                                <p class="mb-0">mdbootstrap</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <!--User Info-->
+                <div class="card mb-4">
+                    <div class="card-body" th:each="user: ${UserAccount}">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Full Name</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0"><span th:text="${user.firstName}"></span> <span th:text="${user.lastName}"></span> </p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Date Of Birth</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0"><span th:text="${user.dateOfBirth}"></span></p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Nationality</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0"><span th:text="${user.nationality}"></span> </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Recipes-->
+                <td th:switch="${flag}">
+                                <span th:case="'false'">
+                <div class="row row-cols-1 row-cols-md-2 g-4">
 
+                    <div class="col" th:each="recipe: ${recipesList}">
+                        <div class="card h-100" >
+                            <img  th:src="${recipe.thumbnail_url}" class="card-img-top" alt="..."/>
+                            <div class="card-body">
+                                <h5 class="card-title"><span th:text="${recipe.name}"></span></h5>
+                                <p class="card-text text" style="
+                                                                overflow: hidden;
+                                                                text-overflow: ellipsis;
+                                                                display: -webkit-box;
+                                                                -webkit-line-clamp: 2; /* number of lines to show */
+                                                                -webkit-box-orient: vertical;">
+                                    <span th:text="${recipe.description}"></span>
+                                </p>
 
-            </li>
+                                <a class="btn btn-primary" th:href = "'/recipe?id=' + ${recipe.recipe_id}">Read more →</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                                </span>
+                    <div th:case="*"></div>
+                </td>
+            </div>
         </div>
-        <p>**********************************************************</p>
-
-    </ul>
-                        </span>
-            <div th:case="*"></div>
-        </td>
     </div>
+</section>
+<!--<ul th:each="user: ${UserAccount}">-->
+<!--    <p th:text= "'************************* '+  ${user.username} + ' Account ***************************'">  </p>-->
+<!--    <div class="user">-->
+<!--        <li>-->
+<!--            <div >-->
+<!--                <label>First Name : </label><span th:text="${user.firstName}"></span></br>-->
+<!--                <label>Last Name : </label><span th:text="${user.lastName}"></span></br>-->
+<!--                <label>Date Of Birth :  </label><span th:text="${user.dateOfBirth}"></span></br>-->
+<!--                <label>Bio : </label><span th:text="${user.bio}"></span></br>-->
+
+<!--                &lt;!&ndash; Read https://www.baeldung.com/spring-thymeleaf-conditionals &ndash;&gt;-->
+<!--                <div>-->
+<!--                    <td th:switch="${flag}">-->
+<!--                    &lt;!&ndash; Check if the user followed or not &ndash;&gt;-->
+<!--                        <span th:case="'true'" >-->
+<!--                       <form  method="post" action="/users/follow">-->
+<!--                           <input type="hidden" th:value="${user.id}" name="user_id">-->
+<!--                           <button type="submit">Follow</button>-->
+<!--                       </form>-->
+<!--                       </span>-->
+<!--                        <span th:case="'false'">-->
+<!--                      <form  method="post" action="/users/unfollow">-->
+<!--                         <input type="hidden" th:value="${user.id}" name="user_id">-->
+<!--                          <button  type="submit">UnFollow</button>-->
+<!--                       </form>-->
+<!--                        </span>-->
+<!--                        <div th:case="*"></div>-->
+<!--                    </td>-->
+<!--                </div>-->
+
+<!--            </div>-->
+<!--        </li>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Following List &ndash;&gt;-->
+
+<!--    </br></br>-->
+<!--    <p th:text = "'************************* '+  ${user.username} + ' Following ***************************'"></p>-->
+<!--    </br></br>-->
+
+<!--    <ul th:each="userFollowing: ${user.following}">-->
+<!--        <div class="user">-->
+<!--            <li>-->
+<!--                <div >-->
+<!--                    <label>First Name : </label> <span><a th:href = "'/user/account/' + ${userFollowing.id}" th:text="${userFollowing.firstName}"> </a></span></br>-->
+<!--                    <label>Last Name : </label><span th:text="${userFollowing.lastName}"></span></br>-->
+<!--                    <label>Date Of Birth :  </label><span th:text="${userFollowing.dateOfBirth}"></span></br>-->
+<!--                    <label>Bio : </label><span th:text="${userFollowing.bio}"></span></br>-->
+
+<!--                </div>-->
+<!--            </li>-->
+
+<!--        </div>-->
+
+<!--    </ul>-->
+
+<!--    &lt;!&ndash; Follower List &ndash;&gt;-->
+
+<!--    </br></br>-->
+<!--    <p th:text = "'************************* '+  ${user.username} + ' Followers ***************************'"></p>-->
+<!--    </br></br>-->
+
+<!--    <ul th:each="userFollower: ${user.followers}">-->
+<!--        <div class="user" >-->
+<!--            <li>-->
+<!--                    <label>First Name : </label> <span><a th:href = "'/user/account/' + ${userFollower.id}" th:text="${userFollower.firstName}"> </a></span></br>-->
+<!--                    <label>Last Name : </label><span th:text="${userFollower.lastName}"></span></br>-->
+<!--                    <label>Date Of Birth :  </label><span th:text="${userFollower.dateOfBirth}"></span></br>-->
+<!--                    <label>Bio : </label><span th:text="${userFollower.bio}"></span></br>-->
+<!--            </li>-->
+<!--        </div>-->
+
+<!--    </ul>-->
+
+<!--    &lt;!&ndash; Check If Follow Or not To show the Recipe &ndash;&gt;-->
+<!--    <div>-->
+<!--        <td th:switch="${flag}">-->
+<!--            <span th:case="'false'">-->
+<!--                   &lt;!&ndash; Recipes List &ndash;&gt;-->
+<!--                    <h3>Recipes </h3>-->
+
+<!--    <ul th:each="recipe: ${recipesList}">-->
+<!--        <div class = "user">-->
+<!--            <li>-->
+<!--                <div >-->
+<!--                    <a th:href="@{/recipe/user(id=${recipe.recipe_id})}"><img   th:src="${recipe.thumbnail_url}"></a></br>-->
+<!--                    <label>Recipe Name: </label><span th:text="${recipe.name}"></span></br>-->
+<!--                    <label>Recipe Description: </label><span th:text="${recipe.description}"></span></br>-->
+<!--                </div>-->
+<!--                <h4>comments </h4>-->
+<!--                <ul th:each="comment: ${recipe.comments}">-->
+<!--                    <div >-->
+<!--                        <li>-->
+<!--                            <div >-->
+<!--                              <label>User  : </label><a th:href = "'/user/account/' + ${comment.userComments.id}" th:text="${comment.userComments.username}"> </a></br>-->
+<!--                              <label>comment </label><span th:text="${comment.text}"></span></br>-->
+<!--                            </div>-->
+
+<!--                        </li>-->
+<!--                        <form th:if="${comment.userComments.username == username }"  method="post" action="/comment/delete">-->
+<!--                            <input type="hidden" th:value="${comment.userComments.id}" name="comment_user_id">-->
+<!--                            <input type="hidden" th:value="${user.id}" name="user_id">-->
+<!--                            <input type="hidden" th:value="${comment.id}" name="id">-->
+<!--                            <button  type="submit">Delete comment</button>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </ul>-->
+<!--                <form  method="post" action="/comment">-->
+<!--                    <label for="comment">comment</label>-->
+<!--                    <input type="text" id="comment" name="text">-->
+<!--                    <input type="hidden" th:value="${user.id}" name="user_id">-->
+<!--                    <input type="hidden" th:value="${recipe.recipe_id}" name="id">-->
+<!--                    <button  type="submit">Add comment</button>-->
+<!--                </form>-->
 
 
-</ul>
+<!--            </li>-->
+<!--        </div>-->
+<!--        <p>**********************************************************</p>-->
+
+<!--    </ul>-->
+<!--                        </span>-->
+<!--            <div th:case="*"></div>-->
+<!--        </td>-->
+<!--    </div>-->
+
+
+<!--</ul>-->
 
 
 </body>
