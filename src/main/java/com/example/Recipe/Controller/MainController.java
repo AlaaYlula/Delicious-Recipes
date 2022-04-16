@@ -86,12 +86,8 @@ public class MainController {
     @GetMapping("/")
     public String getHomePage(Model model){
         List<RecipeModel> recipeModelList = recipeRepository.findAll();
-//        for (RecipeModel recipe:
-//             recipeModelList) {
-//            if(recipe.getUserFavRecipe()!=null || recipe.getUserOwnRecipe()!=null){
-//                recipeModelList.remove(recipe);
-//            }
-//        }
+        //Remove th own recipes from the Home page
+        recipeModelList.removeIf(recipe -> recipe.getUserOwnRecipe() != null);
         model.addAttribute("recipesList", recipeModelList) ;
         return "home";
     }

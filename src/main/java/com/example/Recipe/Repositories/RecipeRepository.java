@@ -18,13 +18,11 @@ import javax.transaction.Transactional;
 @Repository
 public interface RecipeRepository extends JpaRepository<RecipeModel,Integer> {
 
+
     @Query(value = "select * from recipe_model s where s.name like %:keyword% or s.description like %:keyword%", nativeQuery = true)
     List<RecipeModel> search(@Param("keyword") String keyword);
 
-    RecipeModel findRecipeModelById(int id);
 
-
-    @Transactional
     @Modifying
     @Query("update RecipeModel r set r.name = ?1, r.description = ?2 where r.recipe_id = ?3")
     int updateRecipeModelById(String name, String description, Integer id);

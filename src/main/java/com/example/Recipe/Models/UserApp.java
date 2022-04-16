@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.sql.Date;
 import java.util.List;
 
+//@JsonIgnoreProperties({"favoriteRecipeModels"})
 @Setter
 @Getter
 @Entity
@@ -45,8 +46,17 @@ public class UserApp implements UserDetails {
     @OneToMany(mappedBy = "userOwnRecipe",cascade = CascadeType.ALL)
     List<RecipeModel> ownRecipeModels;
 
-    @OneToMany(mappedBy = "userFavRecipe",cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "userFavRecipe",cascade = CascadeType.ALL)
+//    List<RecipeModel> favoriteRecipeModels;
+
+    @ManyToMany
+    @JoinTable(
+            name = "userFavRecipes",
+            joinColumns = @JoinColumn(name = "Recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "User_id")
+    )
     List<RecipeModel> favoriteRecipeModels;
+
 
     @OneToMany(mappedBy = "userComments",cascade = CascadeType.ALL)///////////////////////////
     List<Comment> comments;
