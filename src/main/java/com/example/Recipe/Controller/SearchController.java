@@ -34,34 +34,34 @@ public class SearchController {
         public String home(RecipeModel recipe, Model model, String keyword) {
             if(keyword!=null) {
                 List<RecipeModel> list = service.getByKeyword(keyword);
-                model.addAttribute("RecipesList", list);
+                model.addAttribute("recipesList", list);
             }else {
                 List<RecipeModel> list = service.getAllRecipes();
-                model.addAttribute("RecipesList", list);}
-            return "index";
+                model.addAttribute("recipesList", list);}
+            return "testhome";
         }
 
 
-        @GetMapping("/search/recipe/ingredients")
-        public String getAllIngredients(Model model)
-        {
-            return "searchIngredient";
-        }
+//        @GetMapping("/search/recipe/ingredients")
+//        public String getAllIngredients(Model model)
+//        {
+//            return "searchIngredient";
+//        }
 
 
         @RequestMapping(path = {"/","/search/Ingredients"})
         public String homeIngredients(Model model, String keywords) {
             if(keywords != null) {
                 List<RecipeModel> list = service.getByIngredientKeyword(keywords);
-                model.addAttribute("RecipesList", list);
+                model.addAttribute("recipesList", list);
             }
             else
             {
                 List<Ingredient> list = service.getAllIngredients();
-                model.addAttribute("IngredientsList", list);
+                model.addAttribute("recipesList", list);
             }
 
-            return "searchIngredient";
+            return "testhome";
         }
 
 

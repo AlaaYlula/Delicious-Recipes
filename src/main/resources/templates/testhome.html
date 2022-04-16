@@ -1,48 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>All Users </title>-->
-<!--    <link th:href="@{/Style.css}" rel="stylesheet"/>-->
-<!--    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
-<!--    <style>-->
-<!--.w3-button {width:150px; }-->
-<!--</style>-->
-<!--</head>-->
-<!--<body>-->
-<!--<ul th:each="user: ${usersList}">-->
-<!--    <div class="user">-->
-<!--        <li>-->
-<!--            <img th:src="${user.userImage}">-->
-
-<!--            <div>-->
-<!--                <label>User Name : </label><a th:href = "'/user/account/' + ${user.id}" th:text="${user.firstName}"> </a></br>-->
-<!--                <label>First Name : </label><span th:text="${user.firstName}"></span></br>-->
-<!--                <label>Last Name : </label><span th:text="${user.lastName}"></span></br>-->
-<!--                <label>Bio : </label> <span th:text="${user.bio}"></span>  </br>-->
-<!--                &lt;!&ndash; Check if the user followed or not &ndash;&gt;-->
-<!--                <div>-->
-<!--                    <form  th:if="${user.flag == 'true'}" method="post" action="/users/follow">-->
-<!--                        <input type="hidden" th:value="${user.id}" name="user_id">-->
-<!--                        <button  type="submit">Follow</button>-->
-<!--                    </form>-->
-<!--                    <form  th:unless="!${user.flag == 'false'}" method="post" action="/users/unfollow">-->
-<!--                        <input type="hidden" th:value="${user.id}" name="user_id">-->
-<!--                        <button type="submit">UnFollow</button>-->
-<!--                    </form>-->
-<!--                </div>-->
-
-
-
-<!--            </div>-->
-<!--        </li>-->
-
-<!--    </div>-->
-<!--    <p>**********************************************************</p>-->
-<!--</ul>-->
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,10 +65,9 @@
                     </ul>
                 </li>
             </ul>
-            <form class="d-flex">
+            <form class="d-flex" >
                 <button class="btn btn-outline-dark" type="submit">
-                    <i class="bi-cart-fill me-1"></i>
-                    Cart
+
                     <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                 </button>
             </form>
@@ -121,44 +75,65 @@
     </div>
 </nav>
 <!-- Header-->
-<header class="bg-dark py-5">
+<header class="bg-dark py-5"
+        style="
+        background-image: url('https://scontent.xx.fbcdn.net/v/t1.15752-9/276152154_285392690320344_1122630085287061798_n.jpg?stp=dst-jpg_p206x206&_nc_cat=109&ccb=1-5&_nc_sid=aee45a&_nc_ohc=w1M0k-FAwIgAX8QKcd4&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVKZ2iWUWvh6lY5FHLO8_JDJQuhNjCVJgwTcf5AlOFDBpg&oe=627E615B');width: 100%;height: 100%;background-repeat: no-repeat;background-size: cover">
     <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Shop in style</h1>
+        <div class="text-center text-white" >
+            <h1 class="display-4 fw-bolder">Delicious Recipes</h1>
             <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
         </div>
     </div>
 </header>
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+       <form action="/search/recipes" method="get">
+           <div class="input-group" >
+               <input type="search" name="keyword"  th:value="${keyword}" class="form-control rounded" placeholder="Search by recipe" aria-label="Search" aria-describedby="search-addon" required />
+               <button type="submit" class="btn btn-outline-primary">search</button>
+           </div>
+       </form>
+
+        <form action="/search/Ingredients" method="get">
+            <div class="input-group">
+                <input type="search" name="keywords" id="keywords"  class="form-control rounded" placeholder="Search by ingredients" aria-label="Search" aria-describedby="search-addon" required />
+                <button type="submit" class="btn btn-outline-primary">search</button>
+            </div>
+        </form>
+    </div>
+</nav>
 <!-- Section-->
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <div class="col mb-5" th:each="user: ${usersList}">
+            <div class="col mb-5" th:each="recipe: ${recipesList}">
                 <div class="card h-100">
-                    <!-- User image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- User details-->
+                    <!-- Product image-->
+                    <img class="card-img-top" th:src="${recipe.thumbnail_url}"
+                         style="width:auto;height: 250px;object-fit: cover;"
+                         alt="..."
+                    />
+                    <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">
-                            <!-- Username-->
-                            <h5 class="fw-bolder"><a th:href = "'/user/account/' + ${user.id}" th:text="${user.firstName}"> </a></h5>
-                            <!-- Full name-->
-                           <span th:text="${user.firstName}"></span> <span th:text="${user.lastName}"></span>
-                            <!--Follow-->
-                            <form  th:if="${user.flag == 'true'}" method="post" action="/users/follow">
-                                <input type="hidden" th:value="${user.id}" name="user_id">
-                                <button  type="submit" class="btn btn-success">Follow</button>
-                            </form>
-                            <!--Unfollow-->
-                            <form  th:unless="!${user.flag == 'false'}" method="post" action="/users/unfollow">
-                                <input type="hidden" th:value="${user.id}" name="user_id">
-                                <button type="submit" class="btn btn-danger">UnFollow</button>
-                            </form>
-
+                            <!-- Product name-->
+                            <h5 class="fw-bolder"><span th:text="${recipe.name}"></span></h5>
+                            <!-- Product price-->
+                            <p class="card-text"
+                               style="  overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        display: -webkit-box;
+                                        -webkit-line-clamp: 2; /* number of lines to show */
+                                        -webkit-box-orient: vertical;">
+                                <span th:text="${recipe.description}"></span></p>
                         </div>
                     </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" th:href="@{/recipe(id=${recipe.recipe_id})}">View options</a></div>
+                    </div>
                 </div>
-            </div>
+             </div>
         </div>
     </div>
 </section>
@@ -168,5 +143,7 @@
 </footer>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
 </body>
 </html>

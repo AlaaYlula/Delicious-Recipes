@@ -90,7 +90,7 @@ public class MainController {
         //Remove th own recipes from the Home page
         recipeModelList.removeIf(recipe -> recipe.getUserOwnRecipe() != null);
         model.addAttribute("recipesList", recipeModelList) ;
-        return "home";
+        return "testhome";
     }
 
 

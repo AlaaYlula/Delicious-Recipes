@@ -105,6 +105,7 @@ public class UserController {
 
         model.addAttribute("username", currentUser);
         model.addAttribute("favoriteRecipesList", userFavRecipe2);
+        model.addAttribute("userInfo", userApp);
 
         return "myprofile";
     }
@@ -134,15 +135,66 @@ public class UserController {
     /*
     show the user Information
      */
-    @GetMapping("/information")
-    public String GetUserInformation(Model model) {
+//    @GetMapping("/information")
+//    public String GetUserInformation(Model model) {
+//        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+//        UserApp userApp = userAppRepository.findByUsername(currentUser);
+//
+//        model.addAttribute("username", currentUser);
+//        model.addAttribute("userInfo", userApp);
+//        return "/userInfo";
+//    }
+
+    /*
+    show the User Follower
+     */
+    @GetMapping("/followers")
+    public String GetUserFollowers(Model model) {
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         UserApp userApp = userAppRepository.findByUsername(currentUser);
+        List<UserApp> allUser = userAppRepository.findAll();
+        allUser.remove(userApp);
 
-        model.addAttribute("username", currentUser);
-        model.addAttribute("userInfo", userApp);
-        return "/userInfo";
+        for (int i = 0; i < allUser.size(); i++) {
+            if (userApp.getFollowing().contains(allUser.get(i))) {
+                // to show unfollow button
+                allUser.get(i).setFlag("false");
+            } else {
+                // to show follow button
+                allUser.get(i).setFlag("true");
+            }
+        }
+
+        model.addAttribute("usersList", userApp.getFollowers());
+        return "users";
     }
+        /*
+    show the User Follower
+     */
+    @GetMapping("/following")
+    public String GetUserFollowing(Model model) {
+        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserApp userApp = userAppRepository.findByUsername(currentUser);
+        List<UserApp> allUser = userAppRepository.findAll();
+        allUser.remove(userApp);
+
+        for (int i = 0; i < allUser.size(); i++) {
+            if (userApp.getFollowing().contains(allUser.get(i))) {
+                // to show unfollow button
+                allUser.get(i).setFlag("false");
+            } else {
+                // to show follow button
+                allUser.get(i).setFlag("true");
+            }
+        }
+
+        model.addAttribute("usersList", userApp.getFollowing());
+
+
+
+        return "users";
+    }
+
 
     /*
         show the User Own Recipes
@@ -194,12 +246,12 @@ public class UserController {
     @PostMapping("/recipe/update")
     public RedirectView UpdateUserOwnRecipe(@RequestParam String name, @RequestParam String description,
                                             @RequestParam Integer recipe_id) {
-       // int update = recipeRepository.updateRecipeModelById(name, description, recipe_id);
+        int update = recipeRepository.updateRecipeModelById(name, description, recipe_id);
 
-        RecipeModel recipefounded = recipeRepository.getById(recipe_id);
-        recipefounded.setDescription(description);
-        recipefounded.setName(name);
-        recipeRepository.save(recipefounded);
+//        RecipeModel recipefounded = recipeRepository.getById(recipe_id);
+//        recipefounded.setDescription(description);
+//        recipefounded.setName(name);
+//        recipeRepository.save(recipefounded);
 
         return new RedirectView("/user/recipes");
 
