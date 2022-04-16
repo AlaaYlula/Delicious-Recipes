@@ -184,10 +184,15 @@
             </div>
             <!-- Side widget-->
             <div class="card mb-4">
-                <div class="card-header">Side Widget</div>
-                <div class="card-body"><!-- Button trigger modal -->
+                <div class="card-header">My Recipe</div>
+
+                <div class="card-body btn-group">
+                    <form action="/user/recipes">
+                        <button type="submit" class="btn btn-primary">View All My Recipe</button>
+                    </form>
+                    <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
-                        Launch demo modal
+                        Create New Recipe
                     </button>
 
                     <!-- Modal -->

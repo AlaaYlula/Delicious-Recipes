@@ -39,6 +39,8 @@ public class UserApp implements UserDetails {
     private String flag; // added to check if the user followed or not
 
     private String userImage;
+
+
     @OneToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
@@ -84,6 +86,7 @@ public class UserApp implements UserDetails {
         this.nationality = nationality;
         this.bio = bio;
         this.role = role;
+        this.userImage = "https://picsum.photos/200";
     }
 
     public UserApp(String username, String password, String firstName, String lastName, Date dateOfBirth, String nationality, String bio){
@@ -123,6 +126,14 @@ public class UserApp implements UserDetails {
 
     public void setFavoriteRecipeModels(List<RecipeModel> favoriteRecipeModels) {
         this.favoriteRecipeModels = favoriteRecipeModels;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
     }
 
     public Long getId() {

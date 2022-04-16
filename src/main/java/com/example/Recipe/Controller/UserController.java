@@ -69,7 +69,7 @@ public class UserController {
         userToFollow.getFollowers().add(currentUser);
         userAppRepository.save(userToFollow);
 
-        return new RedirectView( "/users");
+        return new RedirectView( "/user/account/"+user_id);
     }
 
     // UnFollow the user from the Application
