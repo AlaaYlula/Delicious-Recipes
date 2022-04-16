@@ -93,7 +93,7 @@ public class MainController {
 //            }
 //        }
         model.addAttribute("recipesList", recipeModelList) ;
-        return "home";
+        return "testhome";
     }
 
 
