@@ -51,7 +51,7 @@ public class UserApp implements UserDetails {
 //    @OneToMany(mappedBy = "userFavRecipe",cascade = CascadeType.ALL)
 //    List<RecipeModel> favoriteRecipeModels;
 
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
             name = "userFavRecipes",
             joinColumns = @JoinColumn(name = "Recipe_id"),
@@ -63,7 +63,7 @@ public class UserApp implements UserDetails {
     @OneToMany(mappedBy = "userComments",cascade = CascadeType.ALL)///////////////////////////
     List<Comment> comments;
 
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
             name = "user_user",
             joinColumns = {@JoinColumn(name = "from_id")},
@@ -71,13 +71,14 @@ public class UserApp implements UserDetails {
     )
     public List<UserApp> following;
 
-    @ManyToMany(mappedBy = "following", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "following", fetch = FetchType.EAGER,cascade=CascadeType.ALL)
     public List<UserApp> followers;
 
     public UserApp() {
     }
 
-    public UserApp(String username, String password, String firstName, String lastName, Date dateOfBirth, String nationality, String bio, Role role) {
+
+    public UserApp(String username, String password, String firstName, String lastName, Date dateOfBirth, String nationality, String bio) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -85,23 +86,8 @@ public class UserApp implements UserDetails {
         this.dateOfBirth = dateOfBirth;
         this.nationality = nationality;
         this.bio = bio;
-        this.role = role;
-        this.userImage = "https://picsum.photos/200";
+        this.userImage = "https://i.pravatar.cc/300";
     }
-
-    public UserApp(String username, String password, String firstName, String lastName, Date dateOfBirth, String nationality, String bio){
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.nationality = nationality;
-        this.bio = bio;
-        this.userImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
-//        this.role = role;
-
-    }
-
 
 
     public String getFlag() {

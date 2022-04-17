@@ -29,7 +29,7 @@ public class RecipeModel {
         @OneToMany(mappedBy = "recipeModelComments", cascade = CascadeType.ALL )
         List<Comment> comments;
 
-        @ManyToOne
+        @ManyToOne(cascade=CascadeType.ALL)
         UserApp userOwnRecipe;
 
         @ManyToMany(mappedBy = "favoriteRecipeModels")

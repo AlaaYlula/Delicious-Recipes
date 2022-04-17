@@ -1,13 +1,7 @@
 package com.example.Recipe.Controller;
 
 import com.example.Recipe.Models.*;
-import com.example.Recipe.Models.Ingredient;
-import com.example.Recipe.Recipe.*;
-import com.example.Recipe.Repositories.IngredientRepository;
-import com.example.Recipe.Repositories.InstructionRepository;
-import com.example.Recipe.Repositories.RecipeRepository;
-import com.example.Recipe.Repositories.UserAppRepository;
-import com.google.gson.Gson;
+import com.example.Recipe.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,14 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.sql.Date;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Controller
@@ -33,15 +22,17 @@ public class MainController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     private final UserAppRepository userAppRepository;
+    private final RoleRepository roleRepository;
     private final InstructionRepository instructionRepository;
    private final RecipeRepository recipeRepository;
    private final IngredientRepository ingredientRepository;
 
     public MainController(UserAppRepository userAppRepository,
-                          InstructionRepository instructionRepository,
+                          RoleRepository roleRepository, InstructionRepository instructionRepository,
                           RecipeRepository recipeRepository,
                           IngredientRepository ingredientRepository) {
         this.userAppRepository = userAppRepository;
+        this.roleRepository = roleRepository;
         this.instructionRepository = instructionRepository;
         this.recipeRepository = recipeRepository;
         this.ingredientRepository = ingredientRepository;
@@ -74,9 +65,9 @@ public class MainController {
             @RequestParam String bio
     ){
 
-        Role role = new Role();
-        role.setId((long) 2);
-        UserApp userApp = new UserApp(username,passwordEncoder.encode(password),firstname,lastname,dateOfBirth,nationality,bio, role);
+        UserApp userApp = new UserApp(username,passwordEncoder.encode(password),firstname,lastname,dateOfBirth,nationality,bio);
+        Role role = roleRepository.getById(2L);
+        userApp.setRole(role);
         userAppRepository.save(userApp);
 
         return "login";
