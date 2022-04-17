@@ -36,10 +36,10 @@ public class RecipeModel {
         private List<UserApp> userFavRecipe;
 
         @OneToMany(mappedBy = "recipes_ingredient" ,cascade = CascadeType.ALL)
-        Set<Ingredient> ingredientModels;
+        List<Ingredient> ingredientModels;
 
         @OneToMany(mappedBy = "recipes_instruction",cascade = CascadeType.ALL)
-        Set<InstructionModel> instructionModels;
+        List<InstructionModel> instructionModels;
             public RecipeModel() {
             }
 
@@ -117,21 +117,19 @@ public class RecipeModel {
         }
 
 
-
-
-    public Set<Ingredient> getIngredientModels() {
+    public List<Ingredient> getIngredientModels() {
         return ingredientModels;
     }
 
-    public void setIngredientModels(Set<Ingredient> ingredientModels) {
+    public void setIngredientModels(List<Ingredient> ingredientModels) {
         this.ingredientModels = ingredientModels;
     }
 
-    public Set<InstructionModel> getInstructionModels() {
+    public List<InstructionModel> getInstructionModels() {
         return instructionModels;
     }
 
-    public void setInstructionModels(Set<InstructionModel> instructionModels) {
+    public void setInstructionModels(List<InstructionModel> instructionModels) {
         this.instructionModels = instructionModels;
     }
 

@@ -49,7 +49,7 @@ public class UserApp implements UserDetails {
 //    @OneToMany(mappedBy = "userFavRecipe",cascade = CascadeType.ALL)
 //    List<RecipeModel> favoriteRecipeModels;
 
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
             name = "userFavRecipes",
             joinColumns = @JoinColumn(name = "Recipe_id"),
@@ -61,7 +61,7 @@ public class UserApp implements UserDetails {
     @OneToMany(mappedBy = "userComments",cascade = CascadeType.ALL)///////////////////////////
     List<Comment> comments;
 
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
             name = "user_user",
             joinColumns = {@JoinColumn(name = "from_id")},
@@ -69,7 +69,7 @@ public class UserApp implements UserDetails {
     )
     public List<UserApp> following;
 
-    @ManyToMany(mappedBy = "following", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "following", fetch = FetchType.EAGER,cascade=CascadeType.ALL)
     public List<UserApp> followers;
 
     public UserApp() {

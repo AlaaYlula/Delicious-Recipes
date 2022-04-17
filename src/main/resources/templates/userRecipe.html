@@ -45,6 +45,15 @@
         <label class="form-label" for="description">Decription</label>
     </div>
 
+    <div class="form-outline">
+        <textarea class="form-control" id="ingredients" name="ingredientModels" rows="4"></textarea>
+        <label class="form-label" for="ingredients">Ingredients</label>
+    </div>
+
+    <div class="form-outline">
+        <textarea class="form-control" id="instructions" name="instructionModels" rows="4"></textarea>
+        <label class="form-label" for="instructions">Instruction</label>
+    </div>
 
     <button type="submit">Add Recipe</button>
 </form>
@@ -67,6 +76,15 @@ function closeForm() {
                 <img   th:src="${userRecipe.thumbnail_url}"></br>
                 <label>Recipe Name : </label><span th:text="${userRecipe.name}"></span></br>
                 <label>Recipe Description : </label><span th:text="${userRecipe.description}"></span></br>
+                <label>Recipe Ingredients : </label></br>
+                <ul  th:each="ingredients: ${userRecipe.ingredientModels}" >
+                    <p class="list-group-item"><span th:text="${ingredients.name}" ></span></p>
+                </ul></br>
+                <label>Recipe Instructions : </label></br>
+
+                <ul class="list-group " th:each="instruction: ${userRecipe.instructionModels}" >
+                    <p class="list-group-item"><span th:text="${instruction.display_text}" ></span></p>
+                </ul></br>
             </div>
             <h4>comments</h4>
             <ul th:each="comment: ${userRecipe.comments}">

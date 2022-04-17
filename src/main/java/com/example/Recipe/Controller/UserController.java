@@ -1,8 +1,6 @@
 package com.example.Recipe.Controller;
 
-import com.example.Recipe.Models.Comment;
-import com.example.Recipe.Models.RecipeModel;
-import com.example.Recipe.Models.UserApp;
+import com.example.Recipe.Models.*;
 import com.example.Recipe.Repositories.CommentRepository;
 import com.example.Recipe.Repositories.RecipeRepository;
 import com.example.Recipe.Repositories.UserAppRepository;
@@ -12,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -52,6 +52,7 @@ public class UserController {
         model.addAttribute("usersList", allUser);
         model.addAttribute("username", currentUser);
 
+
         return "users";
     }
 
@@ -69,7 +70,9 @@ public class UserController {
         userToFollow.getFollowers().add(currentUser);
         userAppRepository.save(userToFollow);
 
-        return new RedirectView( "/users");
+       // return new RedirectView( "/users");
+        return new RedirectView( "/user/account/"+user_id);
+
     }
 
     // UnFollow the user from the Application
@@ -87,6 +90,8 @@ public class UserController {
         userAppRepository.save(userToUnFollow);
 
         return new RedirectView("/users");
+        //return new RedirectView( "/user/account/"+user_id);
+
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -105,6 +110,7 @@ public class UserController {
 
         model.addAttribute("username", currentUser);
         model.addAttribute("favoriteRecipesList", userFavRecipe2);
+        model.addAttribute("userInfo", userApp);
 
         return "myprofile";
     }
@@ -128,11 +134,12 @@ public class UserController {
         recipeModel.setUserFavRecipe(usersFav);
         recipeRepository.save(recipeModel);
 
+
         return new RedirectView("/myprofile");
     }
 
     /*
-    show the user Information
+    show the user Information >> No Need
      */
     @GetMapping("/information")
     public String GetUserInformation(Model model) {
@@ -162,13 +169,35 @@ public class UserController {
         User Can Add Own Recipes
      */
     @PostMapping("/user/newRecipe")
-    public RedirectView AddNewOwnRecipe(@RequestParam String name, @RequestParam String description) {
+    public RedirectView AddNewOwnRecipe(@RequestParam String name, @RequestParam String description ,
+                                        @RequestParam String ingredientModels , @RequestParam String instructionModels) {
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         UserApp userApp = userAppRepository.findByUsername(currentUser);
 
         RecipeModel recipe = new RecipeModel();
         recipe.setName(name);
         recipe.setDescription(description);
+        // For Ingredients :////////////////////////
+        String[] ingredients = ingredientModels.split(",");
+        List<Ingredient> ingredientList = new ArrayList<>();
+        for (String ingredient:
+             ingredients) {
+            Ingredient ingredientNew = new Ingredient(ingredient);
+            ingredientNew.setRecipes_ingredient(recipe);
+            ingredientList.add(ingredientNew);
+        }
+        recipe.setIngredientModels(ingredientList);
+        ///////////////////////////////////////////
+        // For Instructions :////////////////////////
+        String[] instructions = instructionModels.split(",");
+        List<InstructionModel> instructionList = new ArrayList<>();
+        for (int i = 0; i <instructions.length ; i++) {
+            InstructionModel instructionNew = new InstructionModel(i+1,instructions[i]);
+            instructionNew.setRecipes_instruction(recipe);
+            instructionList.add(instructionNew);
+        }
+        recipe.setInstructionModels(instructionList);
+        ///////////////////////////////////////////
         recipe.setUserOwnRecipe(userApp);
         List<RecipeModel> ownRecipeList = userApp.getOwnRecipes();
         ownRecipeList.add(recipe);
@@ -193,12 +222,12 @@ public class UserController {
     @PostMapping("/recipe/update")
     public RedirectView UpdateUserOwnRecipe(@RequestParam String name, @RequestParam String description,
                                             @RequestParam Integer recipe_id) {
-       // int update = recipeRepository.updateRecipeModelById(name, description, recipe_id);
+        int update = recipeRepository.updateRecipeModelById(name, description, recipe_id);
 
-        RecipeModel recipefounded = recipeRepository.getById(recipe_id);
-        recipefounded.setDescription(description);
-        recipefounded.setName(name);
-        recipeRepository.save(recipefounded);
+//        RecipeModel recipefounded = recipeRepository.getById(recipe_id);
+//        recipefounded.setDescription(description);
+//        recipefounded.setName(name);
+//        recipeRepository.save(recipefounded);
 
         return new RedirectView("/user/recipes");
 
@@ -333,7 +362,6 @@ public class UserController {
         return new RedirectView("/user/account/"+user_id);
 
     }
-
 
 
 }
