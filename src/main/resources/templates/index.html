@@ -9,31 +9,49 @@
     function clearSearch() {
         window.location = "[[@{/}]]";
     }
+
+    function changeScope(elemToShow,elemToHide) {
+    document.getElementById(elemToShow).style.display = "block";
+    document.getElementById(elemToHide).style.display = "none";
+}
+
 </script>
 <h1>Hi......</h1>
 
-<form th:action="@{/search/recipes}" method="get">
-    Filter<input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required />
-    &nbsp;
-    <button type="submit" value="Search" >Search</button>
-    <button type="submit" value="Clear"  onclick="clearSearch()" >Clear</button>
-    &nbsp;
-<!--    <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />-->
+<div class="bg-image"
+     style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/77.jpg');
+            height: 50vh;">
+</div>
+
+
+<form>
+    <input type="radio" name=searchOption value="one" onclick="changeScope('oneSearch','twoSearch');"> One Search
+    <input type="radio" name=searchOption value="two" onclick="changeScope('twoSearch','oneSearch');" > Two Search<br>
 </form>
 
 
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-    </tr>
-    <tr th:each="recipe: ${RecipesList}" class="table-row">
-        <td th:text = "${recipe.name}"></td>
-        <td th:text = "${recipe.description}"></td>
-    </tr>
-</table>
+<!--<form th:action="@{/search/recipes}" method="get">-->
+<!--    Filter<input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required />-->
+<!--    &nbsp;-->
+<!--    <button type="submit" value="Search" >Search</button>-->
+<!--    <button type="submit" value="Clear"  onclick="clearSearch()" >Clear</button>-->
+<!--    &nbsp;-->
+<!--&lt;!&ndash;    <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />&ndash;&gt;-->
+<!--</form>-->
 
-<h2>*************************************************************************************</h2>
+
+<!--<table>-->
+<!--    <tr>-->
+<!--        <th>Name</th>-->
+<!--        <th>Description</th>-->
+<!--    </tr>-->
+<!--    <tr th:each="recipe: ${RecipesList}" class="table-row">-->
+<!--        <td th:text = "${recipe.name}"></td>-->
+<!--        <td th:text = "${recipe.description}"></td>-->
+<!--    </tr>-->
+<!--</table>-->
+
+<!--<h2>*************************************************************************************</h2>-->
 
 </body>
 </html>

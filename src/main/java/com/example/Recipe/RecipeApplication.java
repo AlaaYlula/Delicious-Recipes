@@ -59,6 +59,11 @@ public class RecipeApplication {
 			{
 				log.info("Preloading " + roleRepository.save(new Role("ADMIN")));
 				log.info("Preloading " + roleRepository.save(new Role("USERS")));
+
+//				Role role = roleRepository.getById(1L);
+//				UserApp admin = new UserApp("admin","admin","admin","admin",'3891-07-15',"admin","admin");
+//				admin.setRole(role);
+
 			}
 			if(recipeRepository.findAll().size() == 0)
 			{
@@ -101,7 +106,14 @@ public class RecipeApplication {
 			/*
 			Add 8 users
 			 */
+
+
 			if(userAppRepository.findAll().size() < 8) {
+
+
+
+				/*              **************************************                          */
+
 				Faker faker = new Faker();
 				String firstName = faker.name().firstName();
 				String lastName = faker.name().lastName();
@@ -156,6 +168,7 @@ public class RecipeApplication {
 			}
 		};
 	}
+
 
 	public static String ReadFromAPI() throws FileNotFoundException {
 		String dataJson = "";

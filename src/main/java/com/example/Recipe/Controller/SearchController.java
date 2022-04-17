@@ -74,5 +74,12 @@ public class SearchController {
         }
 
 
+    @GetMapping("/searchbar")
+    public String getSearchbar(Model model)
+    {
+//        model.addAttribute("RecipesList",RecipeRepository.findAll());
+                return "radio";
+    }
+
 }
 

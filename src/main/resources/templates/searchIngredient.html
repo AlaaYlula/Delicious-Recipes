@@ -6,40 +6,26 @@
 </head>
 <body>
 
+<!--<script type="text/javascript">-->
+<!--        function changeScope(elemToShow,elemToHide) {-->
+<!--            document.getElementById(elemToShow).style.display = "block";-->
+<!--            document.getElementById(elemToHide).style.display = "none";-->
+<!--}-->
+<!--</script>-->
 
 
-<div class="bg-image"
-     style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/77.jpg');
-            height: 50vh;">
-</div>
+<!--<div class="bg-image"-->
+<!--     style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/77.jpg');-->
+<!--            height: 50vh;">-->
+<!--</div>-->
 
-<!--<form th:action="@{/searchIngredients}" method="post">-->
-<!--    Filter<input type="text" name="keywords" id="keywords" size="50" th:value="${keywords}" required />-->
-<!--    &nbsp;-->
-<!--    <button type="submit" value="Search" >Search</button>-->
-<!--    <button type="submit" value="Clear"  onclick="clearSearch()" >Clear</button>-->
-<!--    &nbsp;-->
-<!--    &lt;!&ndash;    <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />&ndash;&gt;-->
-<!--</form>-->
-<!--/search/Ingredients-->
-<!--<form th:action="@{/search/Ingredients}" method="post">-->
-<!--    Filter<input type="text" name="keywords" id="keywords" size="50" th:value="${keywords}" required />-->
-<!--    &nbsp;-->
-<!--    <button type="submit" value="Search" >Search</button>-->
-<!--    <button type="submit" value="Clear"  onclick="clearSearch()" >Clear</button>-->
-<!--    &nbsp;-->
-<!--    &lt;!&ndash;    <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />&ndash;&gt;-->
-<!--</form>-->
+<h1> Hello AYA </h1>
 
-
-<form th:action="@{/search/Ingredients}" method="get">
-    Filter<input type="text" name="keywords" id="keywords" size="50" th:value="${keywords}" required />
-    &nbsp;
-    <button type="submit" value="Search" >Search</button>
-    <button type="submit" value="Clear"  onclick="clearSearch()" >Clear</button>
-    &nbsp;
-    <!--    <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />-->
+<form>
+    <input type="radio" name=searchOption value="one" onclick="changeScope('oneSearch','twoSearch');"> One Search
+    <input type="radio" name=searchOption value="two" onclick="changeScope('twoSearch','oneSearch');" > Two Search<br>
 </form>
+
 <!--<table>-->
 <!--    <tr>-->
 <!--        <th>Name</th>-->
@@ -50,17 +36,6 @@
 <!--&lt;!&ndash;        <td th:text = "${recipe.description}"></td>&ndash;&gt;-->
 <!--    </tr>-->
 <!--</table>-->
-
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-    </tr>
-    <tr th:each="recipe: ${RecipesList}" class="table-row">
-        <td th:text = "${recipe.name}"></td>
-<!--        <td th:text = "${recipe.description}"></td>-->
-    </tr>
-</table>
 
 </body>
 </html>
