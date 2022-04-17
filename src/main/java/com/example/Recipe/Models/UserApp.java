@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -80,7 +81,7 @@ public class UserApp implements UserDetails {
 
     public UserApp(String username, String password, String firstName, String lastName, Date dateOfBirth, String nationality, String bio) {
         this.username = username;
-        this.password = password;
+        this.password =  password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;

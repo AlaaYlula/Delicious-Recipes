@@ -65,6 +65,12 @@ public class MainController {
             @RequestParam String bio
     ){
 
+
+        UserApp userApp1=userAppRepository.findByUsername(username);
+        if(userApp1 != null){
+            return "signup";
+        }
+
         UserApp userApp = new UserApp(username,passwordEncoder.encode(password),firstname,lastname,dateOfBirth,nationality,bio);
         Role role = roleRepository.getById(2L);
         userApp.setRole(role);

@@ -148,7 +148,7 @@ public class RecipeModel {
 //                        ", sections=" + sections +
 //                        ", comments=" + comments +
 //                        ", userOwnRecipe=" + userOwnRecipe +
-                        ", userFavRecipe=" + userFavRecipe +
+//                        ", userFavRecipe=" + userFavRecipe +
                         '}';
         }
 }

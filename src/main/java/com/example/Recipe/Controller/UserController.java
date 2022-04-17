@@ -218,8 +218,9 @@ public class UserController {
         User Can Add Own Recipes
      */
     @PostMapping("/user/newRecipe")
-    public RedirectView AddNewOwnRecipe(@RequestParam String name, @RequestParam String description ,
-                                        @RequestParam String ingredientModels , @RequestParam String instructionModels) {
+    public RedirectView AddNewOwnRecipe(@RequestParam String name, @RequestParam String description
+//                                        @RequestParam String ingredientModels , @RequestParam String instructionModels
+    ) {
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         UserApp userApp = userAppRepository.findByUsername(currentUser);
 
@@ -227,25 +228,25 @@ public class UserController {
         recipe.setName(name);
         recipe.setDescription(description);
         // For Ingredients :////////////////////////
-        String[] ingredients = ingredientModels.split(",");
-        List<Ingredient> ingredientList = new ArrayList<>();
-        for (String ingredient:
-             ingredients) {
-            Ingredient ingredientNew = new Ingredient(ingredient);
-            ingredientNew.setRecipes_ingredient(recipe);
-            ingredientList.add(ingredientNew);
-        }
-        recipe.setIngredientModels(ingredientList);
-        ///////////////////////////////////////////
-        // For Instructions :////////////////////////
-        String[] instructions = instructionModels.split(",");
-        List<InstructionModel> instructionList = new ArrayList<>();
-        for (int i = 0; i <instructions.length ; i++) {
-            InstructionModel instructionNew = new InstructionModel(i+1,instructions[i]);
-            instructionNew.setRecipes_instruction(recipe);
-            instructionList.add(instructionNew);
-        }
-        recipe.setInstructionModels(instructionList);
+//        String[] ingredients = ingredientModels.split(",");
+//        List<Ingredient> ingredientList = new ArrayList<>();
+//        for (String ingredient:
+//             ingredients) {
+//            Ingredient ingredientNew = new Ingredient(ingredient);
+//            ingredientNew.setRecipes_ingredient(recipe);
+//            ingredientList.add(ingredientNew);
+//        }
+//        recipe.setIngredientModels(ingredientList);
+//        ///////////////////////////////////////////
+//        // For Instructions :////////////////////////
+//        String[] instructions = instructionModels.split(",");
+//        List<InstructionModel> instructionList = new ArrayList<>();
+//        for (int i = 0; i <instructions.length ; i++) {
+//            InstructionModel instructionNew = new InstructionModel(i+1,instructions[i]);
+//            instructionNew.setRecipes_instruction(recipe);
+//            instructionList.add(instructionNew);
+//        }
+//        recipe.setInstructionModels(instructionList);
         ///////////////////////////////////////////
         recipe.setUserOwnRecipe(userApp);
         List<RecipeModel> ownRecipeList = userApp.getOwnRecipes();
