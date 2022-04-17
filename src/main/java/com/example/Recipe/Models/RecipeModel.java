@@ -29,7 +29,7 @@ public class RecipeModel {
         @OneToMany(mappedBy = "recipeModelComments", cascade = CascadeType.ALL )
         List<Comment> comments;
 
-        @ManyToOne
+        @ManyToOne(cascade=CascadeType.ALL)
         UserApp userOwnRecipe;
 
         @ManyToMany(mappedBy = "favoriteRecipeModels")
@@ -71,11 +71,15 @@ public class RecipeModel {
         this.recipe_id = recipe_id;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setRecipeName(String name) {
         this.name = name;
     }
 
@@ -115,7 +119,6 @@ public class RecipeModel {
     public int getRecipe_id() {
                 return recipe_id;
         }
-
 
     public List<Ingredient> getIngredientModels() {
         return ingredientModels;

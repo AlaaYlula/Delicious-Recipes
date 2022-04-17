@@ -9,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
-
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,9 +68,9 @@ public class UserController {
         userToFollow.getFollowers().add(currentUser);
         userAppRepository.save(userToFollow);
 
-       // return new RedirectView( "/users");
-        return new RedirectView( "/user/account/"+user_id);
 
+
+        return new RedirectView( "/user/account/"+user_id);
     }
 
     // UnFollow the user from the Application
@@ -141,15 +139,66 @@ public class UserController {
     /*
     show the user Information >> No Need
      */
-    @GetMapping("/information")
-    public String GetUserInformation(Model model) {
+//    @GetMapping("/information")
+//    public String GetUserInformation(Model model) {
+//        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+//        UserApp userApp = userAppRepository.findByUsername(currentUser);
+//
+//        model.addAttribute("username", currentUser);
+//        model.addAttribute("userInfo", userApp);
+//        return "/userInfo";
+//    }
+
+    /*
+    show the User Follower
+     */
+    @GetMapping("/followers")
+    public String GetUserFollowers(Model model) {
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         UserApp userApp = userAppRepository.findByUsername(currentUser);
+        List<UserApp> allUser = userAppRepository.findAll();
+        allUser.remove(userApp);
 
-        model.addAttribute("username", currentUser);
-        model.addAttribute("userInfo", userApp);
-        return "/userInfo";
+        for (int i = 0; i < allUser.size(); i++) {
+            if (userApp.getFollowing().contains(allUser.get(i))) {
+                // to show unfollow button
+                allUser.get(i).setFlag("false");
+            } else {
+                // to show follow button
+                allUser.get(i).setFlag("true");
+            }
+        }
+
+        model.addAttribute("usersList", userApp.getFollowers());
+        return "users";
     }
+        /*
+    show the User Follower
+     */
+    @GetMapping("/following")
+    public String GetUserFollowing(Model model) {
+        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserApp userApp = userAppRepository.findByUsername(currentUser);
+        List<UserApp> allUser = userAppRepository.findAll();
+        allUser.remove(userApp);
+
+        for (int i = 0; i < allUser.size(); i++) {
+            if (userApp.getFollowing().contains(allUser.get(i))) {
+                // to show unfollow button
+                allUser.get(i).setFlag("false");
+            } else {
+                // to show follow button
+                allUser.get(i).setFlag("true");
+            }
+        }
+
+        model.addAttribute("usersList", userApp.getFollowing());
+
+
+
+        return "users";
+    }
+
 
     /*
         show the User Own Recipes
@@ -219,19 +268,15 @@ public class UserController {
     /*
     User can Update By Query
      */
+
     @PostMapping("/recipe/update")
     public RedirectView UpdateUserOwnRecipe(@RequestParam String name, @RequestParam String description,
                                             @RequestParam Integer recipe_id) {
         int update = recipeRepository.updateRecipeModelById(name, description, recipe_id);
-
-//        RecipeModel recipefounded = recipeRepository.getById(recipe_id);
-//        recipefounded.setDescription(description);
-//        recipefounded.setName(name);
-//        recipeRepository.save(recipefounded);
-
         return new RedirectView("/user/recipes");
 
     }
+
     @GetMapping("/recipe/update")
     public String UpdateUserOwnRecipeByGet(@RequestParam Integer recipe_id, @RequestParam String name, @RequestParam String description, Model model) {
         model.addAttribute("recipe_id", recipe_id);
@@ -254,8 +299,6 @@ public class UserController {
         return new RedirectView("/user/recipes");
 
     }
-
-///////////////////////////////////////////////////////////////////////////
 
     /*
    Get the /account page for each user
@@ -362,6 +405,5 @@ public class UserController {
         return new RedirectView("/user/account/"+user_id);
 
     }
-
 
 }

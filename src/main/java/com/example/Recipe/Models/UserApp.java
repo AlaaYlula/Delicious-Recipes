@@ -39,6 +39,8 @@ public class UserApp implements UserDetails {
     private String flag; // added to check if the user followed or not
 
     private String userImage;
+
+
     @OneToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
@@ -75,7 +77,8 @@ public class UserApp implements UserDetails {
     public UserApp() {
     }
 
-    public UserApp(String username, String password, String firstName, String lastName, Date dateOfBirth, String nationality, String bio){
+
+    public UserApp(String username, String password, String firstName, String lastName, Date dateOfBirth, String nationality, String bio) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -83,10 +86,9 @@ public class UserApp implements UserDetails {
         this.dateOfBirth = dateOfBirth;
         this.nationality = nationality;
         this.bio = bio;
-        this.userImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
-//        this.role = role;
-
+        this.userImage = "https://i.pravatar.cc/300";
     }
+
 
     public String getFlag() {
         return flag;
@@ -110,6 +112,14 @@ public class UserApp implements UserDetails {
 
     public void setFavoriteRecipeModels(List<RecipeModel> favoriteRecipeModels) {
         this.favoriteRecipeModels = favoriteRecipeModels;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
     }
 
     public Long getId() {
