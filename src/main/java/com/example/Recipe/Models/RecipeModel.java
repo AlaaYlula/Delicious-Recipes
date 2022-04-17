@@ -29,26 +29,29 @@ public class RecipeModel {
         @OneToMany(mappedBy = "recipeModelComments", cascade = CascadeType.ALL )
         List<Comment> comments;
 
-        @ManyToOne(cascade=CascadeType.ALL)
+        @ManyToOne
         UserApp userOwnRecipe;
 
-        @ManyToMany(mappedBy = "favoriteRecipeModels")
-        private List<UserApp> userFavRecipe;
+//        @ManyToMany(mappedBy = "favoriteRecipeModels",cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+     @ManyToMany(mappedBy = "favoriteRecipeModels",cascade = CascadeType.MERGE,fetch = FetchType. EAGER)
+    private List<UserApp> userFavRecipe;
 
         @OneToMany(mappedBy = "recipes_ingredient" ,cascade = CascadeType.ALL)
         List<Ingredient> ingredientModels;
 
         @OneToMany(mappedBy = "recipes_instruction",cascade = CascadeType.ALL)
         List<InstructionModel> instructionModels;
-            public RecipeModel() {
-            }
 
+
+        public RecipeModel() {
+            }
 
     public RecipeModel(String name, String  description, String thumbnail_url ) {
                 this.name = name;
                 this.description = description;
                 this.thumbnail_url = thumbnail_url;
         }
+
 
     public String getDescription() {
         return description;

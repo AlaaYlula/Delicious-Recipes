@@ -1,6 +1,8 @@
 package com.example.Recipe.Models;
 ;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 
 
@@ -11,12 +13,14 @@ public class Comment {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(columnDefinition = "TEXT")
     private String text;
 
     @ManyToOne
     RecipeModel recipeModelComments;
 
     @ManyToOne
+    //@Cascade(CascadeType.SAVE_UPDATE)
     UserApp userComments;
 
     public Comment() {
