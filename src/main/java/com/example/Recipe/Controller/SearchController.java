@@ -26,7 +26,7 @@ public class SearchController {
 
         @Autowired
         IngredientRepository IngredientRepository;
-        
+
 
     @RequestMapping(path = {"/","/search"})
     public String homePage(RecipeModel recipe, Model model, @RequestParam String type, @RequestParam String searchterms) { //

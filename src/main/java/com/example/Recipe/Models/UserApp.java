@@ -48,10 +48,8 @@ public class UserApp implements UserDetails {
     @OneToMany(mappedBy = "userOwnRecipe",cascade = CascadeType.ALL)
     List<RecipeModel> ownRecipeModels;
 
-//    @OneToMany(mappedBy = "userFavRecipe",cascade = CascadeType.ALL)
-//    List<RecipeModel> favoriteRecipeModels;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "userFavRecipes",
             joinColumns = @JoinColumn(name = "Recipe_id"),

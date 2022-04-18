@@ -145,20 +145,6 @@ public class UserController {
 
         return new RedirectView("/myprofile");
     }
-
-    /*
-    show the user Information >> No Need
-     */
-//    @GetMapping("/information")
-//    public String GetUserInformation(Model model) {
-//        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-//        UserApp userApp = userAppRepository.findByUsername(currentUser);
-//
-//        model.addAttribute("username", currentUser);
-//        model.addAttribute("userInfo", userApp);
-//        return "/userInfo";
-//    }
-
     /*
     show the User Follower
      */
@@ -333,21 +319,6 @@ public class UserController {
         return "updateRecipe";
 
     }
-    @PutMapping("/recipe/update")
-    public  RedirectView updatePlayerByID(
-            @RequestBody Integer recipe_id,
-            @RequestBody String name, @RequestBody String description ){
-
-        RecipeModel findRecipe = recipeRepository.getById(recipe_id);
-
-          findRecipe.setName(name);
-          findRecipe.setDescription(description);
-
-          recipeRepository.save(findRecipe);
-        return new RedirectView("/user/recipes");
-
-    }
-
     /*
    Get the /account page for each user
    In the Other way using the path variable id
@@ -361,7 +332,6 @@ public class UserController {
         UserApp appUser = userAppRepository.findUserAppById(id);
         //check if the user follow the logged in account, and you want to show this logged in account
         if (currentuser.equals(appUser)) {
-            // it must not have follow or unfollow button
             List<RecipeModel> userFavRecipe2 = currentuser.getFavoriteRecipeModels();
             model.addAttribute("username", name);
             model.addAttribute("favoriteRecipesList", userFavRecipe2);
@@ -398,13 +368,13 @@ public class UserController {
             model.addAttribute("flag", "Me");
         } else {  //Check if the user followed or not
 
+            String flag;
             if (currentuser.getFollowing().contains(appUser)) {
-                String flag = "true";
-                model.addAttribute("flag", flag);
+                flag = "true";
             } else {
-                String flag = "false";
-                model.addAttribute("flag", flag);
+                flag = "false";
             }
+            model.addAttribute("flag", flag);
         }
         return new RedirectView("/user/account/" + id);
     }
@@ -413,82 +383,49 @@ public class UserController {
     /*
     Add comments
      */
-    @PostMapping("/comment")
-    public RedirectView AddCommentForRecipe(@RequestParam String text, Integer id,Long user_id) {
-        RecipeModel recipe = recipeRepository.getById(id);
-
-        Comment comment = new Comment(text);
-
-        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserApp userApp = userAppRepository.findByUsername(currentUser);
-
-        userApp.getComments().add(comment);
-        comment.setUserComments(userApp);
-
-        recipe.getComments().add(comment);
-        comment.setRecipeComments(recipe);
-
-        commentRepository.save(comment);
-
-        if(userApp.getId().equals(user_id)){
-            return new RedirectView("/user/recipes");
-
-        }
-        return new RedirectView("/user/account/"+user_id);
-    }
+//    @PostMapping("/comment")
+//    public RedirectView AddCommentForRecipe(@RequestParam String text, Integer id,Long user_id) {
+//        RecipeModel recipe = recipeRepository.getById(id);
+//
+//        Comment comment = new Comment(text);
+//
+//        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+//        UserApp userApp = userAppRepository.findByUsername(currentUser);
+//
+//        userApp.getComments().add(comment);
+//        comment.setUserComments(userApp);
+//
+//        recipe.getComments().add(comment);
+//        comment.setRecipeComments(recipe);
+//
+//        commentRepository.save(comment);
+//
+//        if(userApp.getId().equals(user_id)){
+//            return new RedirectView("/user/recipes");
+//
+//        }
+//        return new RedirectView("/user/account/"+user_id);
+//    }
 
     /*
     Delete Comment
      */
-    @PostMapping("/comment/delete")
-    public RedirectView DeleteCommentForRecipe( Long id,Long user_id,Long comment_user_id) {
-        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserApp userApp = userAppRepository.findByUsername(currentUser);
-        if(userApp.getId().equals(comment_user_id)) {
-            commentRepository.deleteById(id);
-        }
-        if(userApp.getId().equals(user_id)){
-            return new RedirectView("/user/recipes");
-
-        }
-        return new RedirectView("/user/account/"+user_id);
-
-    }
-
-
-//    @PostMapping("/user/update")
-//    public RedirectView updateUser( String username, String password,
-//                                    String firstName,  String lastName,
-//                                    Date dateOfBirth,
-//                                    String nationality, String bio, Integer id,
-//                                    Model model) {
-//
-//        UserApp userApp1=userAppRepository.findByUsername(username);
-//        if(userApp1 != null){
-//            return new RedirectView("/user/update") ;
+//    @PostMapping("/comment/delete")
+//    public RedirectView DeleteCommentForRecipe( Long id,Long user_id,Long comment_user_id) {
+//        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+//        UserApp userApp = userAppRepository.findByUsername(currentUser);
+//        if(userApp.getId().equals(comment_user_id)) {
+//            commentRepository.deleteById(id);
 //        }
+//        if(userApp.getId().equals(user_id)){
+//            return new RedirectView("/user/recipes");
 //
-//        int updateInfo = service.updateUsersInfo(username, passwordEncoder.encode(password), firstName, lastName, dateOfBirth, nationality, bio,id);
-//
-//        return new RedirectView("/login");
-//
-//    }
-//
-//    @GetMapping("/user/update")
-//    public String updateUserInfo( String username,String password,
-//                                  String firstName, String lastName,
-//                                  Date dateOfBirth,
-//                                  String nationality, String bio,Integer id, Model model) {
-//        model.addAttribute("username", username);
-//        model.addAttribute("password", password);
-//        model.addAttribute("firstname", firstName);
-//        model.addAttribute("lastname", lastName);
-//        model.addAttribute("dateOfBirth", dateOfBirth);
-//        model.addAttribute("nationality", nationality);
-//        model.addAttribute("bio", bio);
-//        model.addAttribute("id", id);
-//        return "updateUsers";
+//        }
+//        return new RedirectView("/user/account/"+user_id);
 //
 //    }
+
+
+
 
 }
