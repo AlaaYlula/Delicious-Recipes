@@ -29,6 +29,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final AuthenticationManagerBuilder authManagerBuilder) throws Exception {
         authManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+
+
+        authManagerBuilder.inMemoryAuthentication().passwordEncoder(passwordEncoder()).withUser("spring")
+                .password(passwordEncoder().encode("secret")).roles("USERS");
+
+        authManagerBuilder.inMemoryAuthentication().passwordEncoder(passwordEncoder()).withUser("secret")
+                .password(passwordEncoder().encode("1234")).roles("ADMIN");
     }
 
 
@@ -40,6 +47,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/login", "/signup").permitAll()
                 .antMatchers("/css/style.css", "/css/style.css", "/js/bootstrap.js","carouselExampleControls","/css/style.scss").permitAll()
+                .antMatchers("/login" ,"/signup").permitAll()
+                .antMatchers("/css/style.css","/js/bootstrap.js","carouselExampleControls","/css/style.scss").permitAll()
+                .antMatchers("/admin").hasAuthority("USERS")
                 .anyRequest()
                 .authenticated()
                 .and()
