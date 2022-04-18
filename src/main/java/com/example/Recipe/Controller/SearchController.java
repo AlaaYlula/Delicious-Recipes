@@ -30,8 +30,33 @@ public class SearchController {
         @Autowired
         IngredientRepository IngredientRepository;
 
+
+
+    @RequestMapping(path = {"/","/search"})
+    public String homePage(RecipeModel recipe, Model model, @RequestParam String type, @RequestParam String searchterms) { //
+
+        System.out.println(type);
+        if(type.equals("recipe")) {
+            List<RecipeModel> list = service.getByKeyword(searchterms);
+            model.addAttribute("recipesList", list);
+        }
+
+        else if(type.equals("ingredient")) {
+            List<RecipeModel> list = service.getByIngredientKeyword(searchterms);
+            model.addAttribute("recipesList", list);
+        }
+
+        else {
+            List<RecipeModel> list = service.getAllRecipes();
+            model.addAttribute("recipesList", list);}
+
+        return "testhome";
+    }
+
+
+
         @RequestMapping(path = {"/","/search/recipes"})
-        public String home(RecipeModel recipe, Model model, String keyword) {
+        public String home(RecipeModel recipe, Model model, String keyword) { //
             if(keyword!=null) {
                 List<RecipeModel> list = service.getByKeyword(keyword);
                 model.addAttribute("recipesList", list);
@@ -49,7 +74,7 @@ public class SearchController {
 //        }
 
 
-        @RequestMapping(path = {"/","/search/Ingredients"})
+        @RequestMapping(path = {"/","en/search/Ingredients"})
         public String homeIngredients(Model model, String keywords) {
             if(keywords != null) {
                 List<RecipeModel> list = service.getByIngredientKeyword(keywords);

@@ -21,21 +21,21 @@
 
 <h1> Hello AYA </h1>
 
-<form>
-    <input type="radio" name=searchOption value="one" onclick="changeScope('oneSearch','twoSearch');"> One Search
-    <input type="radio" name=searchOption value="two" onclick="changeScope('twoSearch','oneSearch');" > Two Search<br>
-</form>
+<!--<form>-->
+<!--    <input type="radio" name=searchOption value="one" onclick="changeScope('oneSearch','twoSearch');"> One Search-->
+<!--    <input type="radio" name=searchOption value="two" onclick="changeScope('twoSearch','oneSearch');" > Two Search<br>-->
+<!--</form>-->
 
-<!--<table>-->
-<!--    <tr>-->
-<!--        <th>Name</th>-->
-<!--        <th>Description</th>-->
-<!--    </tr>-->
-<!--    <tr th:each="recipe: ${RecipesList}" class="table-row">-->
-<!--        <td th:text = "${recipe.name}"></td>-->
-<!--&lt;!&ndash;        <td th:text = "${recipe.description}"></td>&ndash;&gt;-->
-<!--    </tr>-->
-<!--</table>-->
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr th:each="recipe: ${recipesList}" class="table-row">
+        <td th:text = "${recipe.name}"></td>
+<!--        <td th:text = "${recipe.description}"></td>-->
+    </tr>
+</table>
 
 </body>
 </html>

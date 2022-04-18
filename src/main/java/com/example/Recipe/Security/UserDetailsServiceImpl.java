@@ -58,8 +58,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
          * TODO: Get Ingredient By keywords
          */
 
-        public List<RecipeModel> getByIngredientKeyword(String keywords){
-            return RecipeRepository.searchIngredient(keywords);
+        public List<RecipeModel> getByIngredientKeyword(String keyword){
+            return RecipeRepository.searchIngredient(keyword);
         }
 
 }

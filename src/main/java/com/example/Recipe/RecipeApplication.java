@@ -65,6 +65,25 @@ public class RecipeApplication {
 //				admin.setRole(role);
 
 			}
+
+			if (userAppRepository.findByUsername("admin") == null) {
+				Role role = roleRepository.getById(1L);
+				String firstName = "admin";
+				String lastName = "admin";
+				String username = "admin";
+				Date dateOfBirth = new Date(1991, 6, 15);
+				String password = "1234";
+				String nationality = "Jordanian";
+				String bio = "Lorem ipsum dolor sit amet";
+				String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+				UserApp admin = new UserApp(username, hashedPassword, firstName, lastName, dateOfBirth, nationality, bio);
+				admin.setRole(role);
+
+				userAppRepository.save(admin);
+
+				System.out.println("-----------------------------------------" + admin.toString());
+			}
+
 			if(recipeRepository.findAll().size() == 0)
 			{
 				Recipe recipe = ReadJsonFile("recipe.json");
