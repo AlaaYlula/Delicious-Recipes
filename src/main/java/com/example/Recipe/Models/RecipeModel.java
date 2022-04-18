@@ -33,7 +33,7 @@ public class RecipeModel {
         UserApp userOwnRecipe;
 
 //        @ManyToMany(mappedBy = "favoriteRecipeModels",cascade = CascadeType.ALL, fetch= FetchType.EAGER)
-        @ManyToMany(mappedBy = "favoriteRecipeModels",cascade = CascadeType.ALL)
+       @ManyToMany(mappedBy = "favoriteRecipeModels",cascade=CascadeType.ALL, fetch = FetchType.EAGER)
         private List<UserApp> userFavRecipe;
 
         @OneToMany(mappedBy = "recipes_ingredient" ,cascade = CascadeType.ALL)

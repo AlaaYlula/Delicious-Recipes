@@ -20,7 +20,6 @@ import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -109,7 +108,6 @@ public class RecipeApplication {
 			if(userAppRepository.findAll().size() < 6) {
 
 				Role role = roleRepository.getById(2L);
-//				List<UserApp> users = getUsers(role);
 
 				Faker faker = new Faker();
 				////////////////// USER 1 /////////////////////////////
@@ -122,16 +120,9 @@ public class RecipeApplication {
 				String bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incid";
 				String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
 				UserApp user1 = new UserApp(username, hashedPassword, firstName, lastName, dateOfBirth, nationality, bio);
-				userAppRepository.save(user1);
 
 				user1.setRole(role);
-				// create 3 own recipes
-				List<RecipeModel> recipes = createRecipes(user1);
-
-				//user1.setOwnRecipes(recipes);
-
-
-//				List<RecipeModel> favList = SetFavRecipes(user1,recipeRepository.findAll());
+				SetData(user1);
 
 				////////////////// USER 2 /////////////////////////////
 				String firstName2 = faker.name().firstName();
@@ -144,10 +135,8 @@ public class RecipeApplication {
 				String hashedPassword2 = BCrypt.hashpw(password, BCrypt.gensalt(12));
 				UserApp user2 = new UserApp(username2, hashedPassword2, firstName2, lastName2, dateOfBirth2, nationality2, bio2);
 				user2.setRole(role);
+				SetData(user2);
 
-				// create 3 own recipes
-//				List<RecipeModel> recipes2 = createRecipes(user2);
-//				user2.setOwnRecipes(recipes2);
 
 				////////////////// USER 3 /////////////////////////////
 
@@ -163,77 +152,38 @@ public class RecipeApplication {
 				String hashedPassword3 = BCrypt.hashpw(password, BCrypt.gensalt(12));
 				UserApp user3 = new UserApp(username3, hashedPassword3, firstName3, lastName3, dateOfBirth3, nationality3, bio3);
 				user3.setRole(role);
-
-				// create 3 own recipes
-//				List<RecipeModel> recipes3 = createRecipes(user3);
-//				user3.setOwnRecipes(recipes3);
-
-				///////////////// Follow ////////////////////
-				List<UserApp> user1Following = new ArrayList<>();
-				user1Following.add(user2);
-				user1.setFollowing(user1Following);
-				List<UserApp> user2Followers = new ArrayList<>();
-				user2Followers.add(user1);
-				user2.setFollowers(user2Followers);
-				///////////////////////////////////////
-				// Add Comment to Recipe
-//				List<Comment> comments = getComments(user1,recipeRepository.getById(1));
-//				for (Comment comment:
-//					 comments) {
-//					commentRepository.save(comment);
-//				}
-//				List<Comment> comments2 = getComments(user2,recipeRepository.getById(2));
-//				for (Comment comment:
-//						comments2) {
-//					commentRepository.save(comment);
-//				}
-
-				//log.info("Preloading" + userAppRepository.save(user1));
-				log.info("Preloading" + userAppRepository.save(user2));
-				log.info("Preloading" + userAppRepository.save(user3));
-
+				SetData(user3);
 
 ///////////////////////////////////////
 			}
 		};
 	}
+	public void SetData(UserApp user){
+		log.info("Preloading" + userAppRepository.save(user));
 
-	public  List<UserApp> getUsers(Role role){
-		List<UserApp> users = new ArrayList<>();
-		Faker faker = new Faker();
+		// create recipe
+		RecipeModel recipe = createRecipes(user);
 
-		for (int i = 0; i < 3; i++) {
-			String firstName = faker.name().firstName();
-			String lastName = faker.name().lastName();
-			String username = faker.name().username();
-			Date dateOfBirth = new Date(1991, 6, 15);
-			String password = "1234";
-			String nationality = "Jordanian";
-			String bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incid";
-			String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+		log.info("Preloading" + recipeRepository.save(recipe));
 
-			UserApp user = new UserApp(username, hashedPassword, firstName, lastName, dateOfBirth, nationality, bio);
+		// Add comment For this recipe
+		getComment(user,recipe);
 
-			user.setRole(role);
-			// create 3 own recipes
-			List<RecipeModel> recipes = createRecipes(user);
-			user.setOwnRecipes(recipes);
+		// Add Favorite Recipe For user
+		SetFavRecipes(user,recipeRepository.findAll(),1);
 
-		}
-		return users;
+		log.info("Preloading" + userAppRepository.save(user));
 	}
 	@Transactional
-	public  List<RecipeModel> createRecipes(UserApp user){
+	public  RecipeModel createRecipes(UserApp user){
 		Faker faker = new Faker();
-		List<RecipeModel> recipes = new ArrayList<>();
-		for (int i = 0; i < 3; i++) {
-			RecipeModel recipe = new RecipeModel();
+		RecipeModel recipe = new RecipeModel();
+
 			// For each Recipe
 			String name = faker.food().dish();
 			String description = faker.food().dish();
 			recipe.setName(name);
 			recipe.setDescription(description);
-			recipeRepository.save(recipe);
 
 			// Ingredients
 			String ingredient1 = faker.food().ingredient();
@@ -251,9 +201,8 @@ public class RecipeApplication {
 			ingredients.add(ingredientObj1);
 			ingredients.add(ingredientObj2);
 			ingredients.add(ingredientObj3);
-			ingredientRepository.save(ingredientObj1);
-			ingredientRepository.save(ingredientObj2);
-			ingredientRepository.save(ingredientObj3);
+			recipe.setIngredientModels(ingredients);
+
 
 			// Instructions
 			String instruction1 = faker.food().measurement();
@@ -267,55 +216,40 @@ public class RecipeApplication {
 			List<InstructionModel> instructions  = new ArrayList<>();
 			instructions.add(instructionObj1);
 			instructions.add(instructionObj2);
-
-			instructionRepository.save(instructionObj1);
-			instructionRepository.save(instructionObj2);
-
-//			List<Comment> comments = getComments(user,recipe);
-//			recipe.setComments(comments);
-
-
-			recipe.setIngredientModels(ingredients);
 			recipe.setInstructionModels(instructions);
 
-
 			recipe.setUserOwnRecipe(user);
-			List<RecipeModel> ownRecipeList = new ArrayList<>();
-			ownRecipeList.add(recipe);
-			user.setOwnRecipes(ownRecipeList);
-			
-			recipes.add(recipe);
-			recipeRepository.save(recipe);
 
-
-
-		}
-		return recipes;
+		return recipe;
 	}
 	//Write comments on the users Recipe
-	public  List<Comment> getComments(UserApp user,RecipeModel recipe) {
+	public  void getComment(UserApp user,RecipeModel recipe) {
 		Faker faker = new Faker();
-		List<Comment> comments = new ArrayList<>();
 		Comment comment = new Comment("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
 		comment.setRecipeComments(recipe);
 		comment.setUserComments(user);
-		for (int i = 0; i < 3; i++) {
-			comments.add(comment);
-			commentRepository.save(comment);
-		}
-	return comments;
+		commentRepository.save(comment);
+		recipeRepository.save(recipe);
+
+
 	}
-	public  List<RecipeModel> SetFavRecipes(UserApp user , List<RecipeModel> recipes) {
-		List<RecipeModel> recipesFavResult = recipes.stream().limit(3).collect(Collectors.toList());
-		user.setFavoriteRecipeModels(recipesFavResult);
-		for (RecipeModel recipe:
-			 recipesFavResult) {
-			recipe.getUserFavRecipe().add(user);
-			recipe.setUserFavRecipe(recipe.getUserFavRecipe());
-			recipeRepository.save(recipe);
-		}
-		return recipesFavResult;
+	public  void SetFavRecipes(UserApp user , List<RecipeModel> recipes , int i) {
+
+		RecipeModel recipe = recipes.get(i);
+
+		List<RecipeModel> favList= new ArrayList<>();
+		favList.add(recipe);
+		user.setFavoriteRecipeModels(favList);
+		userAppRepository.save(user);
+
+		recipe.getUserFavRecipe().add(user);
+		recipe.setUserFavRecipe(recipe.getUserFavRecipe());
+		recipeRepository.save(recipe);
+
+		getComment(user,recipe);
+
 	}
+
 	///////////////////////////////////////////// DATABASE //////////////////////////////////////////////////////
 		public static String ReadFromAPI() throws FileNotFoundException {
 		String dataJson = "";
