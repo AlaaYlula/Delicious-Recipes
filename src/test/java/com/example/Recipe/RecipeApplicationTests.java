@@ -56,6 +56,9 @@ class RecipeApplicationTests {
 	public void setUp() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webapplicationContext).apply(springSecurity()).build();
 	}
+	/*
+	in order to make the test pass need to use @WithMockUser("spring") with logged-in user and have data in it
+	 */
 
 	///////////////////////////////////////////////// Main controller testing /////////////////////////////////////////////////
 	@Test
