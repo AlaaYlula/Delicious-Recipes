@@ -37,13 +37,15 @@ public class RecipeApplication {
 	private final IngredientRepository ingredientRepository;
 	private final InstructionRepository instructionRepository;
 	private final UserAppRepository userAppRepository;
+	private final RoleRepository roleRepository;
 
-	public RecipeApplication(RecipeRepository recipeRepository, CommentRepository commentRepository, IngredientRepository ingredientRepository, InstructionRepository instructionRepository, UserAppRepository userAppRepository) {
+	public RecipeApplication(RecipeRepository recipeRepository, CommentRepository commentRepository, IngredientRepository ingredientRepository, InstructionRepository instructionRepository, UserAppRepository userAppRepository, RoleRepository roleRepository) {
 		this.recipeRepository = recipeRepository;
 		this.commentRepository = commentRepository;
 		this.ingredientRepository = ingredientRepository;
 		this.instructionRepository = instructionRepository;
 		this.userAppRepository = userAppRepository;
+		this.roleRepository = roleRepository;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -106,57 +108,31 @@ public class RecipeApplication {
 			Add 8 users
 			 */
 			if(userAppRepository.findAll().size() < 6) {
+				// Create 3 users
+				for (int i = 0; i < 3; i++) {
+					GetUser();
+				}
 
-				Role role = roleRepository.getById(2L);
-
-				Faker faker = new Faker();
-				////////////////// USER 1 /////////////////////////////
-				String firstName = faker.name().firstName();
-				String lastName = faker.name().lastName();
-				String username = faker.name().username();
-				Date dateOfBirth = new Date(1991, 6, 15);
-				String password = "1234";
-				String nationality = "Jordanian";
-				String bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incid";
-				String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
-				UserApp user1 = new UserApp(username, hashedPassword, firstName, lastName, dateOfBirth, nationality, bio);
-
-				user1.setRole(role);
-				SetData(user1);
-
-				////////////////// USER 2 /////////////////////////////
-				String firstName2 = faker.name().firstName();
-				String lastName2 = faker.name().lastName();
-				String username2 = faker.name().username();
-				Date dateOfBirth2 = new Date(1991, 6, 15);
-				String password2 = "1234";
-				String nationality2 = "Jordanian";
-				String bio2 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incid";
-				String hashedPassword2 = BCrypt.hashpw(password, BCrypt.gensalt(12));
-				UserApp user2 = new UserApp(username2, hashedPassword2, firstName2, lastName2, dateOfBirth2, nationality2, bio2);
-				user2.setRole(role);
-				SetData(user2);
-
-
-				////////////////// USER 3 /////////////////////////////
-
-				String firstName3 = faker.name().firstName();
-				String lastName3 = faker.name().lastName();
-				String username3 = faker.name().username();
-				Date dateOfBirth3 = new Date(1991, 6, 15);
-//				String image3 = faker.avatar().image();
-//				System.out.println("*********************************************"+image3);
-				String password3 = "1234";
-				String nationality3 = "Jordanian";
-				String bio3 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incid";
-				String hashedPassword3 = BCrypt.hashpw(password, BCrypt.gensalt(12));
-				UserApp user3 = new UserApp(username3, hashedPassword3, firstName3, lastName3, dateOfBirth3, nationality3, bio3);
-				user3.setRole(role);
-				SetData(user3);
-
-///////////////////////////////////////
 			}
 		};
+	}
+	////////////////////////////////////// INIT  DATA ////////////////////////////////////////
+	public void GetUser (){
+		Role role = roleRepository.getById(2L);
+
+		Faker faker = new Faker();
+		String firstName = faker.name().firstName();
+		String lastName = faker.name().lastName();
+		String username = faker.name().username();
+		Date dateOfBirth = new Date(1991, 6, 15);
+		String password = "1234";
+		String nationality = "Jordanian";
+		String bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incid";
+		String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+		UserApp user = new UserApp(username, hashedPassword, firstName, lastName, dateOfBirth, nationality, bio);
+		user.setRole(role);
+		SetData(user);
+
 	}
 	public void SetData(UserApp user){
 		log.info("Preloading" + userAppRepository.save(user));
