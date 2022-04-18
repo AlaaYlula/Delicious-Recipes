@@ -20,7 +20,6 @@ public class Comment {
     RecipeModel recipeModelComments;
 
     @ManyToOne
-    //@Cascade(CascadeType.SAVE_UPDATE)
     UserApp userComments;
 
     public Comment() {

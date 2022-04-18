@@ -1,5 +1,7 @@
 package com.example.Recipe.Models;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 
 
@@ -25,6 +27,8 @@ public class Ingredient {
         this.name = name;
     }
 
+    //@ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.MERGE,CascadeType.DETACH})
+    //@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @ManyToOne
     RecipeModel recipes_ingredient;
 

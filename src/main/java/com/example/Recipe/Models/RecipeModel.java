@@ -26,15 +26,15 @@ public class RecipeModel {
         private String thumbnail_url = "https://www.cvent.com/sites/default/files/styles/focus_scale_and_crop_800x450/public/migrated_attachments/meal-918638_1280-1.jpg?itok=dMJGxEC2"; // image
         @Column(length = 5000)
 
-        @OneToMany(mappedBy = "recipeModelComments", cascade = CascadeType.ALL )
+        @OneToMany(mappedBy = "recipeModelComments", cascade = CascadeType.MERGE )
         List<Comment> comments;
 
         @ManyToOne
         UserApp userOwnRecipe;
 
 //        @ManyToMany(mappedBy = "favoriteRecipeModels",cascade = CascadeType.ALL, fetch= FetchType.EAGER)
-     @ManyToMany(mappedBy = "favoriteRecipeModels",cascade = CascadeType.MERGE,fetch = FetchType. EAGER)
-    private List<UserApp> userFavRecipe;
+        @ManyToMany(mappedBy = "favoriteRecipeModels",cascade = CascadeType.ALL)
+        private List<UserApp> userFavRecipe;
 
         @OneToMany(mappedBy = "recipes_ingredient" ,cascade = CascadeType.ALL)
         List<Ingredient> ingredientModels;

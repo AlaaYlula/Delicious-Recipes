@@ -313,10 +313,11 @@ public class UserController {
         UserApp appUser = userAppRepository.findUserAppById(id);
         //check if the user follow the logged in account, and you want to show this logged in account
         if (currentuser.equals(appUser)) {
-            // it must not have follow or unfollow button
             List<RecipeModel> userFavRecipe2 = currentuser.getFavoriteRecipeModels();
             model.addAttribute("username", name);
             model.addAttribute("favoriteRecipesList", userFavRecipe2);
+            model.addAttribute("userInfo", currentuser);
+
             return "myprofile";
         } else {
             //check if the user follow the logged in account, and you want to show this logged in account
