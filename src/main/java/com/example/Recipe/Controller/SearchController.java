@@ -35,6 +35,12 @@ public class SearchController {
         if(type.equals("recipe")) {
             List<RecipeModel> list = service.getByKeyword(searchterms);
             model.addAttribute("recipesList", list);
+
+        }
+
+        else if(type.equals("ingredient")) {
+            List<RecipeModel> list = service.getByIngredientKeyword(searchterms);
+            model.addAttribute("recipesList", list);
         }
 
         else if(type.equals("ingredient")) {
@@ -49,6 +55,49 @@ public class SearchController {
         return "testhome";
     }
 
+
+
+        @RequestMapping(path = {"/","/search/recipes"})
+        public String home(RecipeModel recipe, Model model, String keyword) { //
+            if(keyword!=null) {
+                List<RecipeModel> list = service.getByKeyword(keyword);
+                model.addAttribute("recipesList", list);
+            }else {
+                List<RecipeModel> list = service.getAllRecipes();
+                model.addAttribute("recipesList", list);}
+            return "testhome";
+        }
+
+
+//        @GetMapping("/search/recipe/ingredients")
+//        public String getAllIngredients(Model model)
+//        {
+//            return "searchIngredient";
+//        }
+
+
+        @RequestMapping(path = {"/","en/search/Ingredients"})
+        public String homeIngredients(Model model, String keywords) {
+            if(keywords != null) {
+                List<RecipeModel> list = service.getByIngredientKeyword(keywords);
+                model.addAttribute("recipesList", list);
+            }
+            else
+            {
+                List<Ingredient> list = service.getAllIngredients();
+                model.addAttribute("recipesList", list);
+            }
+
+            return "testhome";
+        }
+
+
+    @GetMapping("/searchbar")
+    public String getSearchbar(Model model)
+    {
+//        model.addAttribute("RecipesList",RecipeRepository.findAll());
+                return "radio";
+    }
 
 }
 
