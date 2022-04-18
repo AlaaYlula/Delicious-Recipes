@@ -1,62 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title th:text = "${username} + ' Profile'"></title>-->
-<!--    <link th:href="@{/Style.css}" rel="stylesheet"/>-->
-<!--    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
-<!--    <style>-->
-<!--.w3-button {width:150px; }-->
-<!--</style>-->
-<!--</head>-->
-<!--<body>-->
-
-
-
-
-<!--&lt;!&ndash;<form action="/perform_logout" method="post">&ndash;&gt;-->
-<!--&lt;!&ndash;    <button class="w3-button w3-red logoutLblPos"  type="submit">Log Out</button>&ndash;&gt;-->
-<!--&lt;!&ndash;</form>&ndash;&gt;-->
-<!--&lt;!&ndash;</br></br>&ndash;&gt;-->
-
-<!--&lt;!&ndash;<ul >&ndash;&gt;-->
-<!--&lt;!&ndash;<li ><a href="/information">my Information</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;    <li ><a href="/user/recipes">my Recipe</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;</ul>&ndash;&gt;-->
-
-<!--&lt;!&ndash;<ul  th:each="favRecipe: ${favoriteRecipesList}">&ndash;&gt;-->
-<!--&lt;!&ndash;    <div class="user" >&ndash;&gt;-->
-<!--&lt;!&ndash;        <li>&ndash;&gt;-->
-<!--&lt;!&ndash;            <img th:src="${favRecipe.thumbnail_url}">&ndash;&gt;-->
-<!--&lt;!&ndash;            <div >&ndash;&gt;-->
-<!--&lt;!&ndash;                <label>Recipe Name : </label><a th:href = "'/recipe?id=' + ${favRecipe.recipe_id}" th:text="${favRecipe.name}"> </a></br>&ndash;&gt;-->
-<!--&lt;!&ndash;                <label>Description : </label><span th:text="${favRecipe.description}"></span></br>&ndash;&gt;-->
-<!--&lt;!&ndash;                <label>Ingredients :</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                </br>&ndash;&gt;-->
-<!--&lt;!&ndash;                <ul th:each="ingredient: ${favRecipe.ingredientModels}">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li th:text = "${ingredient.name}"></li> </br>&ndash;&gt;-->
-<!--&lt;!&ndash;                </ul>&ndash;&gt;-->
-<!--&lt;!&ndash;                </br>&ndash;&gt;-->
-<!--&lt;!&ndash;                <label>Instructions :</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                </br>&ndash;&gt;-->
-<!--&lt;!&ndash;                <ul th:each="instruction: ${favRecipe.instructionModels}">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li th:text = "${instruction.position}"></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li th:text = "${instruction.display_text}"></li> </br>&ndash;&gt;-->
-<!--&lt;!&ndash;                </ul>&ndash;&gt;-->
-<!--&lt;!&ndash;                </br>&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;            <form  method="post" action="/recipe/favorite/delete">&ndash;&gt;-->
-<!--&lt;!&ndash;                <input type="hidden" th:value="${favRecipe.recipe_id}" name="Recipe_id">&ndash;&gt;-->
-<!--&lt;!&ndash;                <button  type="submit">Delete Recipe</button>&ndash;&gt;-->
-<!--&lt;!&ndash;            </form>&ndash;&gt;-->
-<!--&lt;!&ndash;        </li>&ndash;&gt;-->
-
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;</ul>&ndash;&gt;-->
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
@@ -100,148 +41,183 @@
 </head>
 <body>
 <!-- Responsive navbar-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#!">Start Bootstrap</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<!-- Page header with logo and tagline-->
-<header class="py-5 bg-light border-bottom mb-4">
-    <div class="container">
-        <div class="text-center my-5">
-            <h1 class="fw-bolder">Welcome to Blog Home!</h1>
-            <p class="lead mb-0">A Bootstrap 5 starter layout for your next blog homepage</p>
-        </div>
-    </div>
-</header>
+<div th:replace="fragments/header :: header"></div>
 <!-- Page content-->
-<div class="container">
-    <div class="row">
-        <!-- Blog entries-->
-        <div class="col-lg-8" th:each="user: ${userInfo}">
-            <!-- Featured blog post-->
-            <div class="card mb-4">
-                <a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a><!-- 850x350-->
-                <div class="card-body">
-                    <div class="small text-muted"><span th:text="${user.dateOfBirth}"></span></div>
-                    <h2 class="card-title"><span th:text="${user.username}"></span></h2>
-                    <p class="card-text"> <span th:text="${user.bio}"></span></p>
-                </div>
-            </div>
-            <!-- Nested row for non-featured blog posts-->
-            <div class="row">
-                <div class="col-lg-6" th:each="favRecipe: ${favoriteRecipesList}">
-                    <!-- Blog post-->
-                    <div class="card mb-4 h-100">
-                        <img
-                                class="card-img-top"
-                                th:src="${favRecipe.thumbnail_url}"
-                                style="width:auto;height: 250px;object-fit: cover;"
-                                alt="..." />
-                        <div class="card-body">
-                            <div class="small text-muted">January 1, 2022</div>
-                            <h2 class="card-title h4"><span th:text="${favRecipe.name}"></span></h2>
-                            <p class="card-text text"><span th:text="${favRecipe.description}"></span></p>
 
-                            <form  method="post" action="/recipe/favorite/delete">
-                                <a class="btn btn-primary" th:href = "'/recipe?id=' + ${favRecipe.recipe_id}">Read more →</a>
-                                <input type="hidden" th:value="${favRecipe.recipe_id}" name="Recipe_id">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+<section style="background-color: #eee;">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-4">
+                <!--User Description-->
+                <div class="card mb-4">
+                    <div class="card-body text-center" th:each="user: ${userInfo}">
+                        <!--                        style="width:auto;height: 250px;object-fit: cover;"-->
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;height: 150px;object-fit: cover;">
+                        <h5 class="my-3"><span th:text="${user.username}"></span></h5>
+                        <p class="text-muted mb-1"><span th:text="${user.bio}"></span></p>
+                        <div class="d-flex justify-content-center mb-2">
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- Side widgets-->
-        <div class="col-lg-4">
-            <!-- Categories widget-->
-            <div class="card mb-4">
-                <div class="card-header">Follow</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="/followers">Followers</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-sm-6">
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="/following">Following</a></li>
-                            </ul>
-                        </div>
+                <!--User Links-->
+                <div class="card mb-4 mb-lg-0">
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush rounded-3">
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+                                        Create New Recipe
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <form method="post"  action="/user/newRecipe">
+                                                        <!-- Name input -->
+                                                        <div class="input-group mb-4">
+
+                                                            <input type="text" id="form4Example1" name="name" class="form-control rounded" placeholder="Recipe Name" />
+
+                                                        </div>
+
+                                                        <!-- Description input -->
+                                                        <div class="input-group mb-4">
+                                                            <textarea class="form-control rounded"  name="description" id="form4Example3" rows="4" placeholder="Recipe Description"></textarea>
+                                                        </div>
+                                                        <!--Ingredients input -->
+                                                        <div class="input-group mb-4">
+                                                            <textarea class="form-control rounded"  name="ingredientModels" id="ingredients" rows="4" placeholder="Recipe Ingredients"></textarea>
+                                                        </div>
+                                                        <!--Instruction input -->
+                                                        <div class="input-group mb-4">
+                                                            <textarea class="form-control rounded"  name="instructionModels" id="instruction" rows="4" placeholder="Recipe Instruction"></textarea>
+                                                        </div>
+
+                                                        <!-- Submit button -->
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Add Recipe</button>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <form action="/user/recipes">
+                                    <button type="submit" class="btn btn-primary">View All My Recipe</button>
+                                </form>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                 <form action="/followers" method="get">
+                                     <button type="submit" class="btn btn-outline-info" data-mdb-ripple-color="dark">Follower</button>
+                                 </form>
+                                <form action="/following" method="get">
+                                    <button type="submit" class="btn btn-outline-info" data-mdb-ripple-color="dark">Following</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--User Links-->
+                <div class="card mb-4 mb-lg-0">
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush rounded-3">
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fas fa-globe fa-lg text-warning"></i>
+                                <p class="mb-0">https://mdbootstrap.com</p>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fab fa-github fa-lg" style="color: #333333;"></i>
+                                <p class="mb-0">mdbootstrap</p>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
+                                <p class="mb-0">@mdbootstrap</p>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                                <p class="mb-0">mdbootstrap</p>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+                                <p class="mb-0">mdbootstrap</p>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <!-- Side widget-->
-            <div class="card mb-4">
-                <div class="card-header">My Recipe</div>
-
-                <div class="card-body btn-group">
-                    <form action="/user/recipes">
-                        <button type="submit" class="btn btn-primary">View All My Recipe</button>
-                    </form>
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
-                        Create New Recipe
-                    </button>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-
-                                    <form method="post"  action="/user/newRecipe">
-                                        <!-- Name input -->
-                                        <div class="input-group mb-4">
-
-                                            <input type="text" id="form4Example1" name="name" class="form-control rounded" placeholder="Recipe Name" />
-
-                                        </div>
-
-                                        <!-- Message input -->
-                                        <div class="input-group mb-4">
-                                            <textarea class="form-control rounded"  name="description" id="form4Example3" rows="4" placeholder="Recipe Description"></textarea>
-                                        </div>
-
-                                        <!-- Submit button -->
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Add Recipe</button>
-                                        </div>
-                                    </form>
-
-                                </div>
-
+            <div class="col-lg-8">
+                <!--User Info-->
+                <div class="card mb-4">
+                    <div class="card-body" th:each="user: ${userInfo}">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Full Name</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0"><span th:text="${user.firstName}"></span> <span th:text="${user.lastName}"></span> </p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Date Of Birth</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0"><span th:text="${user.dateOfBirth}"></span></p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Nationality</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0"><span th:text="${user.nationality}"></span> </p>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!--Recipes-->
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+
+                    <div class="col" th:each="favRecipe: ${favoriteRecipesList}">
+                        <div class="card h-100" >
+                            <img  th:src="${favRecipe.thumbnail_url}" class="card-img-top" style="width:auto;height: 250px;object-fit: cover;" alt="..."/>
+                            <div class="card-body">
+                                <h5 class="card-title"><span th:text="${favRecipe.name}"></span></h5>
+                                <p class="card-text text" style="
+                                                                overflow: hidden;
+                                                                text-overflow: ellipsis;
+                                                                display: -webkit-box;
+                                                                -webkit-line-clamp: 2; /* number of lines to show */
+                                                                -webkit-box-orient: vertical;">
+                                    <span th:text="${favRecipe.description}"></span>
+                                </p>
+                                <a class="btn btn-primary" th:href = "'/recipe?id=' + ${favRecipe.recipe_id}">Read more →</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>
-</div>
+</section>
 <!-- Footer-->
-<footer class="py-5 bg-dark">
-    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
-</footer>
-<!-- Bootstrap core JS-->
-
-<!-- Core theme JS-->
-<!--<script src="js/scripts.js"></script>-->
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

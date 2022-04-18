@@ -65,7 +65,6 @@ public class MainController {
             @RequestParam String bio
     ){
 
-
         UserApp userApp1=userAppRepository.findByUsername(username);
         if(userApp1 != null){
             return "signup";

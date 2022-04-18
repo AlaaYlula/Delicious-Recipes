@@ -1,21 +1,11 @@
 package com.example.Recipe;
+import com.example.Recipe.Models.*;
+
 import com.example.Recipe.Models.Ingredient;
-import com.example.Recipe.Models.InstructionModel;
-import com.example.Recipe.Models.RecipeModel;
-
-import com.example.Recipe.Models.UserApp;
-
-import com.example.Recipe.Models.Role;
-
 import com.example.Recipe.Recipe.*;
-import com.example.Recipe.Repositories.IngredientRepository;
-import com.example.Recipe.Repositories.InstructionRepository;
-import com.example.Recipe.Repositories.RecipeRepository;
+import com.example.Recipe.Repositories.*;
 
-import com.example.Recipe.Repositories.UserAppRepository;
 import com.github.javafaker.Faker;
-
-import com.example.Recipe.Repositories.RoleRepository;
 
 import com.google.gson.Gson;
 import org.slf4j.LoggerFactory;
@@ -32,8 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
-import com.github.javafaker.Faker;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+
+import javax.transaction.Transactional;
 
 //@EnableAdminServer
 @SpringBootApplication
@@ -41,18 +32,33 @@ public class RecipeApplication {
 
 
 	private static final Logger log = LoggerFactory.getLogger(RecipeApplication.class);
+	private final RecipeRepository recipeRepository;
+	private final CommentRepository commentRepository;
+	private final IngredientRepository ingredientRepository;
+	private final InstructionRepository instructionRepository;
+	private final UserAppRepository userAppRepository;
+	private final RoleRepository roleRepository;
+
+	public RecipeApplication(RecipeRepository recipeRepository, CommentRepository commentRepository, IngredientRepository ingredientRepository, InstructionRepository instructionRepository, UserAppRepository userAppRepository, RoleRepository roleRepository) {
+		this.recipeRepository = recipeRepository;
+		this.commentRepository = commentRepository;
+		this.ingredientRepository = ingredientRepository;
+		this.instructionRepository = instructionRepository;
+		this.userAppRepository = userAppRepository;
+		this.roleRepository = roleRepository;
+	}
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(RecipeApplication.class, args);
 
 	}
 
-
+	@Transactional
 	@Bean
 	CommandLineRunner initDatabase(RecipeRepository recipeRepository, IngredientRepository ingredientRepository ,
 
 								   InstructionRepository instructionRepository , UserAppRepository userAppRepository,RoleRepository roleRepository
-								   ) {
+								   ,CommentRepository commentRepository) {
 
 		return args -> {
 			if (roleRepository.findAll().size() == 0)
@@ -81,7 +87,7 @@ public class RecipeApplication {
 			if(recipeRepository.findAll().size() == 0)
 			{
 				Recipe recipe = ReadJsonFile("recipe.json");
-				System.out.println(recipe);
+				//System.out.println(recipe);
 
 				for (Result r:recipe.results
 				) {
@@ -119,63 +125,127 @@ public class RecipeApplication {
 			/*
 			Add 8 users
 			 */
-			if(userAppRepository.findAll().size() < 8) {
-				Faker faker = new Faker();
-				String firstName = faker.name().firstName();
-				String lastName = faker.name().lastName();
-				String username = faker.name().username();
-				Date dateOfBirth = new Date(1991, 6, 15);
-				String password = "1234";
-				String nationality = "Jordanian";
-				String bio = "Hello welcome 1";
-				String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
-				UserApp user1 = new UserApp(username, hashedPassword, firstName, lastName, dateOfBirth, nationality, bio);
-				Role role = roleRepository.getById(2L);
-				user1.setRole(role);
-				///////////////////////////////////////////////
-				String firstName2 = faker.name().firstName();
-				String lastName2 = faker.name().lastName();
-				String username2 = faker.name().username();
-				Date dateOfBirth2 = new Date(1991, 6, 15);
-				String password2 = "1234";
-				String nationality2 = "Jordanian";
-				String bio2 = "Hello welcome 2";
-				String hashedPassword2 = BCrypt.hashpw(password, BCrypt.gensalt(12));
-				UserApp user2 = new UserApp(username2, hashedPassword2, firstName2, lastName2, dateOfBirth2, nationality2, bio2);
-				user2.setRole(role);
+			if(userAppRepository.findAll().size() < 6) {
+				// Create 3 users
+				for (int i = 0; i < 3; i++) {
+					GetUser();
+				}
 
-
-
-				String firstName3 = faker.name().firstName();
-				String lastName3 = faker.name().lastName();
-				String username3 = faker.name().username();
-				Date dateOfBirth3 = new Date(1991, 6, 15);
-//				String image3 = faker.avatar().image();
-//				System.out.println("*********************************************"+image3);
-				String password3 = "1234";
-				String nationality3 = "Jordanian";
-				String bio3 = "Hello welcome 3";
-				String hashedPassword3 = BCrypt.hashpw(password, BCrypt.gensalt(12));
-				UserApp user3 = new UserApp(username3, hashedPassword3, firstName3, lastName3, dateOfBirth3, nationality3, bio3);
-				user3.setRole(role);
-
-
-				///////////////////////////////////////
-				List<UserApp> user1Following = new ArrayList<>();
-				user1Following.add(user2);
-				user1.setFollowing(user1Following);
-				List<UserApp> user2Followers = new ArrayList<>();
-				user2Followers.add(user1);
-				user2.setFollowers(user2Followers);
-				log.info("Preloading" + userAppRepository.save(user1));
-				log.info("Preloading" + userAppRepository.save(user2));
-				log.info("Preloading" + userAppRepository.save(user3));
-///////////////////////////////////////
 			}
 		};
 	}
+	////////////////////////////////////// INIT  DATA ////////////////////////////////////////
+	public void GetUser (){
+		Role role = roleRepository.getById(2L);
 
-	public static String ReadFromAPI() throws FileNotFoundException {
+		Faker faker = new Faker();
+		String firstName = faker.name().firstName();
+		String lastName = faker.name().lastName();
+		String username = faker.name().username();
+		Date dateOfBirth = new Date(1991, 6, 15);
+		String password = "1234";
+		String nationality = "Jordanian";
+		String bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incid";
+		String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+		UserApp user = new UserApp(username, hashedPassword, firstName, lastName, dateOfBirth, nationality, bio);
+		user.setRole(role);
+		SetData(user);
+
+	}
+	public void SetData(UserApp user){
+		log.info("Preloading" + userAppRepository.save(user));
+
+		// create recipe
+		RecipeModel recipe = createRecipes(user);
+
+		log.info("Preloading" + recipeRepository.save(recipe));
+
+		// Add comment For this recipe
+		getComment(user,recipe);
+
+		// Add Favorite Recipe For user
+		SetFavRecipes(user,recipeRepository.findAll(),1);
+
+		log.info("Preloading" + userAppRepository.save(user));
+	}
+	@Transactional
+	public  RecipeModel createRecipes(UserApp user){
+		Faker faker = new Faker();
+		RecipeModel recipe = new RecipeModel();
+
+			// For each Recipe
+			String name = faker.food().dish();
+			String description = faker.food().dish();
+			recipe.setName(name);
+			recipe.setDescription(description);
+
+			// Ingredients
+			String ingredient1 = faker.food().ingredient();
+			String ingredient2= faker.food().ingredient();
+			String ingredient3 = faker.food().ingredient();
+
+			Ingredient ingredientObj1 = new Ingredient(ingredient1);
+			ingredientObj1.setRecipes_ingredient(recipe);
+			Ingredient ingredientObj2 = new Ingredient(ingredient2);
+			ingredientObj1.setRecipes_ingredient(recipe);
+			Ingredient ingredientObj3 = new Ingredient(ingredient3);
+			ingredientObj1.setRecipes_ingredient(recipe);
+
+			List<Ingredient> ingredients = new ArrayList<>();
+			ingredients.add(ingredientObj1);
+			ingredients.add(ingredientObj2);
+			ingredients.add(ingredientObj3);
+			recipe.setIngredientModels(ingredients);
+
+
+			// Instructions
+			String instruction1 = faker.food().measurement();
+			String instruction2 = faker.food().measurement();
+
+			InstructionModel instructionObj1 = new InstructionModel(1,instruction1);
+			instructionObj1.setRecipes_instruction(recipe);
+			InstructionModel instructionObj2 = new InstructionModel(2,instruction2);
+			instructionObj2.setRecipes_instruction(recipe);
+
+			List<InstructionModel> instructions  = new ArrayList<>();
+			instructions.add(instructionObj1);
+			instructions.add(instructionObj2);
+			recipe.setInstructionModels(instructions);
+
+			recipe.setUserOwnRecipe(user);
+
+		return recipe;
+	}
+	//Write comments on the users Recipe
+	public  void getComment(UserApp user,RecipeModel recipe) {
+		Faker faker = new Faker();
+		Comment comment = new Comment("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+		comment.setRecipeComments(recipe);
+		comment.setUserComments(user);
+		commentRepository.save(comment);
+		recipeRepository.save(recipe);
+
+
+	}
+	public  void SetFavRecipes(UserApp user , List<RecipeModel> recipes , int i) {
+
+		RecipeModel recipe = recipes.get(i);
+
+		List<RecipeModel> favList= new ArrayList<>();
+		favList.add(recipe);
+		user.setFavoriteRecipeModels(favList);
+		userAppRepository.save(user);
+
+		recipe.getUserFavRecipe().add(user);
+		recipe.setUserFavRecipe(recipe.getUserFavRecipe());
+		recipeRepository.save(recipe);
+
+		getComment(user,recipe);
+
+	}
+
+	///////////////////////////////////////////// DATABASE //////////////////////////////////////////////////////
+		public static String ReadFromAPI() throws FileNotFoundException {
 		String dataJson = "";
 		try {
 			// Make connection
