@@ -1,9 +1,7 @@
 package com.example.Recipe.Controller;
 
 import com.example.Recipe.Models.*;
-import com.example.Recipe.Repositories.CommentRepository;
-import com.example.Recipe.Repositories.RecipeRepository;
-import com.example.Recipe.Repositories.UserAppRepository;
+import com.example.Recipe.Repositories.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,12 +16,15 @@ public class UserController {
     private final UserAppRepository userAppRepository;
     private final RecipeRepository recipeRepository;
     private final CommentRepository commentRepository;
+    private final IngredientRepository ingredientRepository;
+    private final InstructionRepository instructionRepository;
 
-
-    public UserController(UserAppRepository userAppRepository, RecipeRepository recipeRepository, CommentRepository commentRepository) {
+    public UserController(UserAppRepository userAppRepository, RecipeRepository recipeRepository, CommentRepository commentRepository, IngredientRepository ingredientRepository, InstructionRepository instructionRepository) {
         this.userAppRepository = userAppRepository;
         this.recipeRepository = recipeRepository;
         this.commentRepository = commentRepository;
+        this.ingredientRepository = ingredientRepository;
+        this.instructionRepository = instructionRepository;
     }
 
     /*
@@ -234,6 +235,7 @@ public class UserController {
             Ingredient ingredientNew = new Ingredient(ingredient);
             ingredientNew.setRecipes_ingredient(recipe);
             ingredientList.add(ingredientNew);
+            ingredientRepository.save(ingredientNew);
         }
         recipe.setIngredientModels(ingredientList);
         ///////////////////////////////////////////
@@ -244,6 +246,7 @@ public class UserController {
             InstructionModel instructionNew = new InstructionModel(i+1,instructions[i]);
             instructionNew.setRecipes_instruction(recipe);
             instructionList.add(instructionNew);
+            instructionRepository.save(instructionNew);
         }
         recipe.setInstructionModels(instructionList);
         ///////////////////////////////////////////
@@ -271,14 +274,45 @@ public class UserController {
 
     @PostMapping("/recipe/update")
     public RedirectView UpdateUserOwnRecipe(@RequestParam String name, @RequestParam String description,
+                                            @RequestParam String ingredientModels,  // @RequestParam String instructionModels,
                                             @RequestParam Integer recipe_id) {
-        int update = recipeRepository.updateRecipeModelById(name, description, recipe_id);
+        RecipeModel recipe = recipeRepository.getById(recipe_id);
+        // For Ingredients :////////////////////////
+        String[] ingredients = ingredientModels.split(",");
+        //recipe.getIngredientModels().removeAll(recipe.getIngredientModels());
+        recipe.getIngredientModels().clear();
+        for (Ingredient in:
+             recipe.getIngredientModels()) {
+
+        }
+        List<Ingredient> ingredientList = new ArrayList<>();
+        for (String ingredient:
+                ingredients) {
+            Ingredient ingredientNew = new Ingredient(ingredient);
+            ingredientNew.setRecipes_ingredient(recipe);
+            ingredientList.add(ingredientNew);
+        }
+        recipe.setIngredientModels(ingredientList);
+        ///////////////////////////////////////////
+        // For Instructions :////////////////////////
+//        String[] instructions = instructionModels.split(",");
+//        recipe.getInstructionModels().removeAll(recipe.getInstructionModels());
+//        List<InstructionModel> instructionList = new ArrayList<>();
+//        for (int i = 0; i <instructions.length ; i++) {
+//            InstructionModel instructionNew = new InstructionModel(i+1,instructions[i]);
+//            instructionNew.setRecipes_instruction(recipe);
+//            instructionList.add(instructionNew);
+//        }
+//        recipe.setInstructionModels(instructionList);
+        recipeRepository.save(recipe);
+        int update = recipeRepository.updateRecipeModelById(name, description,recipe_id);
         return new RedirectView("/user/recipes");
 
     }
 
     @GetMapping("/recipe/update")
-    public String UpdateUserOwnRecipeByGet(@RequestParam Integer recipe_id, @RequestParam String name, @RequestParam String description, Model model) {
+    public String UpdateUserOwnRecipeByGet(@RequestParam Integer recipe_id, @RequestParam String name, @RequestParam String description,
+                                           Model model) {
         model.addAttribute("recipe_id", recipe_id);
         model.addAttribute("recipe_name", name);
         model.addAttribute("recipe_description", description);

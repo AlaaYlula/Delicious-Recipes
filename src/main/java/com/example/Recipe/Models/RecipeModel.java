@@ -26,7 +26,7 @@ public class RecipeModel {
         private String thumbnail_url = "https://www.cvent.com/sites/default/files/styles/focus_scale_and_crop_800x450/public/migrated_attachments/meal-918638_1280-1.jpg?itok=dMJGxEC2"; // image
         @Column(length = 5000)
 
-        @OneToMany(mappedBy = "recipeModelComments", cascade = CascadeType.MERGE )
+        @OneToMany(mappedBy = "recipeModelComments", cascade = CascadeType.ALL )
         List<Comment> comments;
 
         @ManyToOne
