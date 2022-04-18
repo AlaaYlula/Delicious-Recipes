@@ -1,10 +1,11 @@
 package com.example.Recipe.Controller;
 
 import com.example.Recipe.Models.*;
-import com.example.Recipe.Repositories.CommentRepository;
-import com.example.Recipe.Repositories.RecipeRepository;
-import com.example.Recipe.Repositories.UserAppRepository;
+import com.example.Recipe.Repositories.*;
+import com.example.Recipe.Security.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,15 +16,24 @@ import java.util.List;
 @Controller
 public class UserController {
 
+    @Autowired
+    UserDetailsServiceImpl service;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     private final UserAppRepository userAppRepository;
     private final RecipeRepository recipeRepository;
     private final CommentRepository commentRepository;
+    private final IngredientRepository ingredientRepository;
+    private final InstructionRepository instructionRepository;
 
 
-    public UserController(UserAppRepository userAppRepository, RecipeRepository recipeRepository, CommentRepository commentRepository) {
+    public UserController(UserAppRepository userAppRepository, RecipeRepository recipeRepository, CommentRepository commentRepository, IngredientRepository ingredientRepository, InstructionRepository instructionRepository) {
         this.userAppRepository = userAppRepository;
         this.recipeRepository = recipeRepository;
         this.commentRepository = commentRepository;
+        this.ingredientRepository = ingredientRepository;
+        this.instructionRepository = instructionRepository;
     }
 
     /*
@@ -218,14 +228,20 @@ public class UserController {
         User Can Add Own Recipes
      */
     @PostMapping("/user/newRecipe")
-    public RedirectView AddNewOwnRecipe(@RequestParam String name, @RequestParam String description ,
-                                        @RequestParam String ingredientModels , @RequestParam String instructionModels) {
+    public RedirectView AddNewOwnRecipe(@RequestParam String name, @RequestParam String description,
+                                        @RequestParam String ingredientModels , @RequestParam String instructionModels
+                                        ){
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         UserApp userApp = userAppRepository.findByUsername(currentUser);
 
         RecipeModel recipe = new RecipeModel();
         recipe.setName(name);
         recipe.setDescription(description);
+
+        recipe.setUserOwnRecipe(userApp);
+        List<RecipeModel> ownRecipeList = userApp.getOwnRecipes();
+        ownRecipeList.add(recipe);
+        recipeRepository.save(recipe);
         // For Ingredients :////////////////////////
         String[] ingredients = ingredientModels.split(",");
         List<Ingredient> ingredientList = new ArrayList<>();
@@ -234,6 +250,8 @@ public class UserController {
             Ingredient ingredientNew = new Ingredient(ingredient);
             ingredientNew.setRecipes_ingredient(recipe);
             ingredientList.add(ingredientNew);
+            ingredientRepository.save(ingredientNew);
+
         }
         recipe.setIngredientModels(ingredientList);
         ///////////////////////////////////////////
@@ -244,13 +262,13 @@ public class UserController {
             InstructionModel instructionNew = new InstructionModel(i+1,instructions[i]);
             instructionNew.setRecipes_instruction(recipe);
             instructionList.add(instructionNew);
+            instructionRepository.save(instructionNew);
+
+
         }
         recipe.setInstructionModels(instructionList);
         ///////////////////////////////////////////
-        recipe.setUserOwnRecipe(userApp);
-        List<RecipeModel> ownRecipeList = userApp.getOwnRecipes();
-        ownRecipeList.add(recipe);
-        recipeRepository.save(recipe);
+
 
         return new RedirectView("/user/recipes");
     }
@@ -271,8 +289,38 @@ public class UserController {
 
     @PostMapping("/recipe/update")
     public RedirectView UpdateUserOwnRecipe(@RequestParam String name, @RequestParam String description,
+                                            @RequestParam String ingredientModels, @RequestParam String instructionModels,
                                             @RequestParam Integer recipe_id) {
-        int update = recipeRepository.updateRecipeModelById(name, description, recipe_id);
+        RecipeModel recipe = recipeRepository.getById(recipe_id);
+        // For Ingredients :////////////////////////
+        String[] ingredients = ingredientModels.split(",");
+        //recipe.getIngredientModels().removeAll(recipe.getIngredientModels());
+        recipe.getIngredientModels().clear();
+        for (Ingredient in:
+                recipe.getIngredientModels()) {
+
+        }
+        List<Ingredient> ingredientList = new ArrayList<>();
+        for (String ingredient:
+                ingredients) {
+            Ingredient ingredientNew = new Ingredient(ingredient);
+            ingredientNew.setRecipes_ingredient(recipe);
+            ingredientList.add(ingredientNew);
+        }
+        recipe.setIngredientModels(ingredientList);
+        ///////////////////////////////////////////
+        // For Instructions :////////////////////////
+        String[] instructions = instructionModels.split(",");
+        recipe.getInstructionModels().removeAll(recipe.getInstructionModels());
+        List<InstructionModel> instructionList = new ArrayList<>();
+        for (int i = 0; i <instructions.length ; i++) {
+            InstructionModel instructionNew = new InstructionModel(i+1,instructions[i]);
+            instructionNew.setRecipes_instruction(recipe);
+            instructionList.add(instructionNew);
+        }
+        recipe.setInstructionModels(instructionList);
+        recipeRepository.save(recipe);
+        int update = recipeRepository.updateRecipeModelById(name, description,recipe_id);
         return new RedirectView("/user/recipes");
 
     }
@@ -317,6 +365,7 @@ public class UserController {
             List<RecipeModel> userFavRecipe2 = currentuser.getFavoriteRecipeModels();
             model.addAttribute("username", name);
             model.addAttribute("favoriteRecipesList", userFavRecipe2);
+            model.addAttribute("userInfo", currentuser);
             return "myprofile";
         } else {
             //check if the user follow the logged in account, and you want to show this logged in account
@@ -405,5 +454,41 @@ public class UserController {
         return new RedirectView("/user/account/"+user_id);
 
     }
+
+
+//    @PostMapping("/user/update")
+//    public RedirectView updateUser( String username, String password,
+//                                    String firstName,  String lastName,
+//                                    Date dateOfBirth,
+//                                    String nationality, String bio, Integer id,
+//                                    Model model) {
+//
+//        UserApp userApp1=userAppRepository.findByUsername(username);
+//        if(userApp1 != null){
+//            return new RedirectView("/user/update") ;
+//        }
+//
+//        int updateInfo = service.updateUsersInfo(username, passwordEncoder.encode(password), firstName, lastName, dateOfBirth, nationality, bio,id);
+//
+//        return new RedirectView("/login");
+//
+//    }
+//
+//    @GetMapping("/user/update")
+//    public String updateUserInfo( String username,String password,
+//                                  String firstName, String lastName,
+//                                  Date dateOfBirth,
+//                                  String nationality, String bio,Integer id, Model model) {
+//        model.addAttribute("username", username);
+//        model.addAttribute("password", password);
+//        model.addAttribute("firstname", firstName);
+//        model.addAttribute("lastname", lastName);
+//        model.addAttribute("dateOfBirth", dateOfBirth);
+//        model.addAttribute("nationality", nationality);
+//        model.addAttribute("bio", bio);
+//        model.addAttribute("id", id);
+//        return "updateUsers";
+//
+//    }
 
 }

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <form method="post"  action="/user/update"  id="updateInfo">
+      <label for="updateusername"> Username </label>
+      <input type="text" id="updateusername" th:value="${username}" name="username">
+
+      <label for="updatepassword"> Password </label>
+      <input type="text" id="updatepassword" th:value="${password}"  name="password">
+
+        <label for="updatefirstname"> First_Name </label>
+        <input type="text" id="updatefirstname" th:value="${firstname}" name="firstName">
+
+        <label for="updatelastname"> Last_Name </label>
+        <input type="text" id="updatelastname" th:value="${lastname}" name="lastName">
+
+        <label for="updatedateofbirth"> DateOBirth </label>
+        <input type="date" id="updatedateofbirth" th:value="${dateOfBirth}" name="dateOfBirth">
+
+        <label for="updatenationality"> Nationality </label>
+        <input type="text" id="updatenationality" th:value="${nationality}" name="nationality">
+
+        <label for="updatebio"> Bio </label>
+        <input type="text" id="updatebio" th:value="${bio}" name="bio">
+
+      <input type="hidden" th:value="${id}" name="id">
+
+      <button type="submit">Done</button>
+    </form>
+
+</body>
+</html>

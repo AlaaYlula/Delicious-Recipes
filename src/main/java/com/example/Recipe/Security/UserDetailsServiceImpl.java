@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -58,8 +59,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
          * TODO: Get Ingredient By keywords
          */
 
-        public List<RecipeModel> getByIngredientKeyword(String keywords){
-            return RecipeRepository.searchIngredient(keywords);
+        public List<RecipeModel> getByIngredientKeyword(String keyword){
+            return RecipeRepository.searchIngredient(keyword);
         }
+
+
+    public int updateUsersInfo(String username, String password, String first_name,
+                               String last_name, Date date_of_birth, String nationality, String bio, Integer id){
+
+        return userAppRepository.updateUserInfo(username, password, first_name, last_name, date_of_birth, nationality, bio, id);
+    }
+
 
 }
