@@ -58,7 +58,7 @@ public class RecipeApplication {
 	CommandLineRunner initDatabase(RecipeRepository recipeRepository, IngredientRepository ingredientRepository ,
 
 								   InstructionRepository instructionRepository , UserAppRepository userAppRepository,RoleRepository roleRepository
-								   ,CommentRepository commentRepository) {
+			,CommentRepository commentRepository) {
 
 		return args -> {
 			if (roleRepository.findAll().size() == 0)
@@ -173,46 +173,46 @@ public class RecipeApplication {
 		Faker faker = new Faker();
 		RecipeModel recipe = new RecipeModel();
 
-			// For each Recipe
-			String name = faker.food().dish();
-			String description = faker.food().dish();
-			recipe.setName(name);
-			recipe.setDescription(description);
+		// For each Recipe
+		String name = faker.food().dish();
+		String description = faker.food().dish();
+		recipe.setName(name);
+		recipe.setDescription(description);
 
-			// Ingredients
-			String ingredient1 = faker.food().ingredient();
-			String ingredient2= faker.food().ingredient();
-			String ingredient3 = faker.food().ingredient();
+		// Ingredients
+		String ingredient1 = faker.food().ingredient();
+		String ingredient2= faker.food().ingredient();
+		String ingredient3 = faker.food().ingredient();
 
-			Ingredient ingredientObj1 = new Ingredient(ingredient1);
-			ingredientObj1.setRecipes_ingredient(recipe);
-			Ingredient ingredientObj2 = new Ingredient(ingredient2);
-			ingredientObj1.setRecipes_ingredient(recipe);
-			Ingredient ingredientObj3 = new Ingredient(ingredient3);
-			ingredientObj1.setRecipes_ingredient(recipe);
+		Ingredient ingredientObj1 = new Ingredient(ingredient1);
+		ingredientObj1.setRecipes_ingredient(recipe);
+		Ingredient ingredientObj2 = new Ingredient(ingredient2);
+		ingredientObj1.setRecipes_ingredient(recipe);
+		Ingredient ingredientObj3 = new Ingredient(ingredient3);
+		ingredientObj1.setRecipes_ingredient(recipe);
 
-			List<Ingredient> ingredients = new ArrayList<>();
-			ingredients.add(ingredientObj1);
-			ingredients.add(ingredientObj2);
-			ingredients.add(ingredientObj3);
-			recipe.setIngredientModels(ingredients);
+		List<Ingredient> ingredients = new ArrayList<>();
+		ingredients.add(ingredientObj1);
+		ingredients.add(ingredientObj2);
+		ingredients.add(ingredientObj3);
+		recipe.setIngredientModels(ingredients);
 
 
-			// Instructions
-			String instruction1 = faker.food().measurement();
-			String instruction2 = faker.food().measurement();
+		// Instructions
+		String instruction1 = faker.food().measurement();
+		String instruction2 = faker.food().measurement();
 
-			InstructionModel instructionObj1 = new InstructionModel(1,instruction1);
-			instructionObj1.setRecipes_instruction(recipe);
-			InstructionModel instructionObj2 = new InstructionModel(2,instruction2);
-			instructionObj2.setRecipes_instruction(recipe);
+		InstructionModel instructionObj1 = new InstructionModel(1,instruction1);
+		instructionObj1.setRecipes_instruction(recipe);
+		InstructionModel instructionObj2 = new InstructionModel(2,instruction2);
+		instructionObj2.setRecipes_instruction(recipe);
 
-			List<InstructionModel> instructions  = new ArrayList<>();
-			instructions.add(instructionObj1);
-			instructions.add(instructionObj2);
-			recipe.setInstructionModels(instructions);
+		List<InstructionModel> instructions  = new ArrayList<>();
+		instructions.add(instructionObj1);
+		instructions.add(instructionObj2);
+		recipe.setInstructionModels(instructions);
 
-			recipe.setUserOwnRecipe(user);
+		recipe.setUserOwnRecipe(user);
 
 		return recipe;
 	}
@@ -245,7 +245,7 @@ public class RecipeApplication {
 	}
 
 	///////////////////////////////////////////// DATABASE //////////////////////////////////////////////////////
-		public static String ReadFromAPI() throws FileNotFoundException {
+	public static String ReadFromAPI() throws FileNotFoundException {
 		String dataJson = "";
 		try {
 			// Make connection
@@ -297,8 +297,6 @@ public class RecipeApplication {
 		return results;
 	}
 }
-
-
 
 
 
