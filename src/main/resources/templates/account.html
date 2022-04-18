@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>user profile</title>
 <!--    <link th:href="@{/Style.css}" rel="stylesheet"/>-->
 <!--    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
 <!--    <style>-->
@@ -35,7 +35,7 @@
     <link rel="stylesheet" th:href="@{css/style.scss}">
 </head>
 <body>
-
+<div th:replace="fragments/header :: header"></div>
 
 <section style="background-color: #eee;">
     <div class="container py-5">
@@ -289,7 +289,6 @@
 
 
 <!--</ul>-->
-
-
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

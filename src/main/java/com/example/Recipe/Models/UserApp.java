@@ -58,7 +58,7 @@ public class UserApp implements UserDetails {
     List<RecipeModel> favoriteRecipeModels;
 
 
-    @OneToMany(mappedBy = "userComments",cascade = CascadeType.ALL)///////////////////////////
+    @OneToMany(mappedBy = "userComments")///////////////////////////
     List<Comment> comments;
 
     @ManyToMany(cascade=CascadeType.ALL)

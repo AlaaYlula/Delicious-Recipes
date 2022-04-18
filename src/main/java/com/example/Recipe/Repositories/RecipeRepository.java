@@ -34,7 +34,7 @@ public interface RecipeRepository extends JpaRepository<RecipeModel, Integer> {
 //    @Query("update RecipeModel r set r.name = ?1, r.description = ?2 r.ingredientModels = ?3 where r.recipe_id = ?4")
 //    int updateRecipeModelById(String name, String description, List<Ingredient> ingredientModels, Integer id);
 
-    @Query(value = "SELECT * FROM recipe_model R INNER JOIN ingredient I ON R.recipe_id = I.recipes_ingredient_recipe_id AND I.name LIKE %:keywords%", nativeQuery = true)
-    List<RecipeModel> searchIngredient(@Param("keywords") String keyword);
+    @Query(value = "SELECT * FROM recipe_model R INNER JOIN ingredient I ON R.recipe_id = I.recipes_ingredient_recipe_id AND I.name LIKE %:keyword%", nativeQuery = true)
+    List<RecipeModel> searchIngredient(@Param("keyword") String keyword);
 
 }
