@@ -39,6 +39,7 @@ public class AdminController {
         {
 //            userList
             model.addAttribute("userList", userAppRepository.findAll());
+            System.out.println("aya aya ^_^");
             return "admin";
         }
 
