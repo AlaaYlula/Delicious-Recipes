@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -190,7 +190,7 @@
                     </div>
                 </div>
 
-                <!--Recipes-->
+                <!--Fav Recipes-->
                 <div class="row row-cols-1 row-cols-md-2 g-4">
 
                     <div class="col" th:each="favRecipe: ${favoriteRecipesList}">

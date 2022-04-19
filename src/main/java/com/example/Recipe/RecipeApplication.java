@@ -68,6 +68,7 @@ public class RecipeApplication {
 			}
 			if(recipeRepository.findAll().size() == 0)
 			{
+
 				Recipe recipe = ReadJsonFile("recipe.json");
 				//System.out.println(recipe);
 
@@ -174,18 +175,8 @@ public class RecipeApplication {
 		Ingredient ingredientObj1 = new Ingredient(ingredient1);
 		ingredientObj1.setRecipes_ingredient(recipe);
 		ingredientRepository.save(ingredientObj1);
-		Ingredient ingredientObj2 = new Ingredient(ingredient2);
-		ingredientObj1.setRecipes_ingredient(recipe);
-		ingredientRepository.save(ingredientObj2);
-		Ingredient ingredientObj3 = new Ingredient(ingredient3);
-		ingredientObj1.setRecipes_ingredient(recipe);
-		ingredientRepository.save(ingredientObj3);
-
-
 		List<Ingredient> ingredients = new ArrayList<>();
 		ingredients.add(ingredientObj1);
-		ingredients.add(ingredientObj2);
-		ingredients.add(ingredientObj3);
 		recipe.setIngredientModels(ingredients);
 
 
@@ -236,6 +227,7 @@ public class RecipeApplication {
 	}
 
 	///////////////////////////////////////////// DATABASE //////////////////////////////////////////////////////
+		// We used this at First To Get the data and write it on the File
 		public static String ReadFromAPI() throws FileNotFoundException {
 		String dataJson = "";
 		try {

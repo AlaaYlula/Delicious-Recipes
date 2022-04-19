@@ -36,6 +36,13 @@ public class Ingredient {
 
     }
 
+    public Long getIngredientId() {
+        return ingredientId;
+    }
+
+    public void setIngredientId(Long ingredientId) {
+        this.ingredientId = ingredientId;
+    }
 
     public RecipeModel getRecipes_ingredient() {
         return recipes_ingredient;
@@ -43,5 +50,10 @@ public class Ingredient {
 
     public void setRecipes_ingredient(RecipeModel recipesModel) {
         this.recipes_ingredient = recipesModel;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

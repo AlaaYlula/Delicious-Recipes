@@ -52,9 +52,9 @@
 
             <!-- Nested row for non-featured blog posts-->
             <div class="row">
-                <div class="col-lg-6" th:each="userRecipe: ${userRecipes}">
+                <div th:each="userRecipe: ${userRecipes}"  class="col-lg-6">
                     <!-- Blog post-->
-                    <div class="card mb-4 h-100">
+                    <div   class="card mb-4 h-100">
                         <img
                                 class="card-img-top"
                                 th:src="${userRecipe.thumbnail_url}"
@@ -77,67 +77,59 @@
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
 
-<!--                            <form method="get" action="/recipe/update">-->
-<!--                                <input type="hidden" th:value="${userRecipe.recipe_id}" name="recipe_id">-->
-<!--                                <input type="hidden" th:value="${userRecipe.name}" name="name">-->
-<!--                                <input type="hidden" th:value="${userRecipe.description}" name="description">-->
-<!--                                <input type="submit" class="btn btn-success" value="Update">-->
-<!--                            </form>-->
-                                <input type="hidden" th:value="${userRecipe.recipe_id}" name="recipe_id">
                                 <!-- Button trigger modal -->
-                                <button type="submit" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+                                <button type="button" class="btn btn-primary" data-mdb-toggle="modal" th:attr="data-mdb-target='#exampleModal'+${userRecipe.recipe_id }">
                                     Update
                                 </button>
-
                                 <!-- Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" th:attr="id='exampleModal'+${userRecipe.recipe_id }" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                <h5 class="modal-title" id="exampleModalLabel">Update Recipe</h5>
                                                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-
                                                 <form method="post"  action="/recipe/update">
-                                                    <!--recipe id-->
-
                                                     <!-- Name-->
                                                     <div class="input-group mb-4">
-
+                                                        <label>Recipe Name</label></br>
                                                         <input type="text" id="form4Example1" name="name" th:value="${userRecipe.name}" class="form-control rounded" placeholder="Recipe Name" />
-
                                                     </div>
-
                                                     <!-- Description -->
-                                                    <div class="input-group mb-4">
-                                                        <textarea class="form-control rounded"  name="description" th:value="${userRecipe.description}" id="form4Example3" rows="4" placeholder="Recipe Description"></textarea>
+                                                    <div class="input-group mb-4" >
+                                                        <label>Recipe Description</label></br>
+                                                        <textarea class="form-control rounded"  name="description" th:text="${userRecipe.description}" id="form4Example3" rows="4" placeholder="Recipe Description"></textarea>
                                                     </div>
-
+                                                    <label>If you need add more Ingredients or Instructions just separate it by , </label></br>
                                                     <!-- ingredients -->
-                                                    <div class="input-group mb-4">
-                                                        <textarea class="form-control rounded"  name="ingredientModels" th:value="${userRecipe.ingredientModels}" id="ingredientModels" rows="4" placeholder="Recipe Description"></textarea>
+                                                    <div class="input-group mb-4" >
+                                                        <label>Recipe Ingredients</label></br>
+                                                        <textarea th:each="ing : ${userRecipe.ingredientModels}" class="form-control rounded"  name="ingredientModels" th:text="${ing.name}" id="ingredientModels" rows="4" placeholder="Recipe Ingredients"></textarea>
                                                     </div>
+                                                    <!-- instructions -->
                                                     <div class="input-group mb-4">
-                                                        <textarea class="form-control rounded"  name="instructionModels" th:value="${userRecipe.instructionModels}" id="instructionModels" rows="4" placeholder="Recipe Description"></textarea>
+                                                        <label>Recipe Instructions</label></br>
+                                                        <textarea th:each="inst : ${userRecipe.instructionModels}" class="form-control rounded"  name="instructionModels" th:text="${inst.display_text}" id="instructionModels" rows="4" placeholder="Recipe Instructions"></textarea>
                                                     </div>
-
-
                                                     <!-- Submit button -->
                                                     <div class="modal-footer">
-
+                                                        <!--recipe id-->
+                                                        <input type="hidden" th:value="${userRecipe.recipe_id}" name="recipe_id">
                                                         <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-primary">Update</button>
                                                     </div>
                                                 </form>
 
                                             </div>
+
+                                     </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
                 </div>
             </div>
         </div>
