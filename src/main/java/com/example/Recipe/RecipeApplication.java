@@ -78,8 +78,10 @@ public class RecipeApplication {
 				String bio = "Lorem ipsum dolor sit amet";
 				String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
 				UserApp admin = new UserApp(username, hashedPassword, firstName, lastName, dateOfBirth, nationality, bio);
+			////
+				admin.getRoles().add(role);
 				admin.setRole(role);
-
+           ////
 				userAppRepository.save(admin);
 			}
 
@@ -148,7 +150,10 @@ public class RecipeApplication {
 		String bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incid";
 		String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
 		UserApp user = new UserApp(username, hashedPassword, firstName, lastName, dateOfBirth, nationality, bio);
+	////
+		user.getRoles().add(role);
 		user.setRole(role);
+		//////
 		SetData(user);
 
 	}

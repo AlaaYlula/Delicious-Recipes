@@ -76,7 +76,10 @@ public class MainController {
 
         UserApp userApp = new UserApp(username,passwordEncoder.encode(password),firstname,lastname,dateOfBirth,nationality,bio);
         Role role = roleRepository.getById(2L);
+        ///
+        userApp.getRoles().add(role);
         userApp.setRole(role);
+        ///
         userAppRepository.save(userApp);
 
         return "login";

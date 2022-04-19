@@ -113,16 +113,6 @@ class RecipeApplicationTests {
 				.andExpect(view().name("userRecipe"));
 	}
 
-//	@WithMockUser("spring")
-//	@Test
-//	@DisplayName("User Information page test")  // pass
-//	public void testUserInformationPage() throws Exception {
-//		mockMvc.perform(MockMvcRequestBuilders.get("/information"))
-//				.andDo(print())
-//				.andExpect(status().isOk())
-//				.andExpect(view().name("/userInfo"));
-//	}
-
 	@WithMockUser("spring")
 	@Test
 	@DisplayName("User My Profile page test")  //pass
@@ -286,7 +276,7 @@ class RecipeApplicationTests {
 
 	///////////////////////////////////////////////// Admin controller testing /////////////////////////////////////////////////
 
-	@WithMockUser("secret")
+	@WithMockUser("admin")
 	@Test
 	@DisplayName("admin page test") //failed
 	public void testAdminPage() throws Exception {
