@@ -52,11 +52,16 @@ public class InstructionModel {
         this.recipes_instruction = recipes_instruction;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
-        return "InstructionModel{" +
-                "position=" + position +
-                ", display_text='" + display_text + '\'' +
-                '}';
+        return display_text ;
     }
 }

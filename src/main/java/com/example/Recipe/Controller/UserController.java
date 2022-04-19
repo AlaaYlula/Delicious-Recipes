@@ -2,15 +2,21 @@ package com.example.Recipe.Controller;
 
 import com.example.Recipe.Models.*;
 import com.example.Recipe.Repositories.*;
+
+
 import com.example.Recipe.Security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -228,34 +234,36 @@ public class UserController {
         List<RecipeModel> ownRecipeList = userApp.getOwnRecipes();
         ownRecipeList.add(recipe);
         recipeRepository.save(recipe);
-        // For Ingredients :////////////////////////
-        String[] ingredients = ingredientModels.split(",");
-        List<Ingredient> ingredientList = new ArrayList<>();
-        for (String ingredient:
-             ingredients) {
-            Ingredient ingredientNew = new Ingredient(ingredient);
-            ingredientNew.setRecipes_ingredient(recipe);
-            ingredientList.add(ingredientNew);
-            ingredientRepository.save(ingredientNew);
+        if(ingredientModels != null) {
+            // For Ingredients :////////////////////////
+            String[] ingredients = ingredientModels.split(",");
+            List<Ingredient> ingredientList = new ArrayList<>();
+            for (String ingredient :
+                    ingredients) {
+                Ingredient ingredientNew = new Ingredient(ingredient);
+                ingredientNew.setRecipes_ingredient(recipe);
+                ingredientList.add(ingredientNew);
+                ingredientRepository.save(ingredientNew);
 
+            }
+            recipe.setIngredientModels(ingredientList);
         }
-        recipe.setIngredientModels(ingredientList);
         ///////////////////////////////////////////
         // For Instructions :////////////////////////
-        String[] instructions = instructionModels.split(",");
-        List<InstructionModel> instructionList = new ArrayList<>();
-        for (int i = 0; i <instructions.length ; i++) {
-            InstructionModel instructionNew = new InstructionModel(i+1,instructions[i]);
-            instructionNew.setRecipes_instruction(recipe);
-            instructionList.add(instructionNew);
-            instructionRepository.save(instructionNew);
+        if(ingredientModels != null) {
+            String[] instructions = instructionModels.split(",");
+            List<InstructionModel> instructionList = new ArrayList<>();
+            for (int i = 0; i < instructions.length; i++) {
+                InstructionModel instructionNew = new InstructionModel(i + 1, instructions[i]);
+                instructionNew.setRecipes_instruction(recipe);
+                instructionList.add(instructionNew);
+                instructionRepository.save(instructionNew);
 
-
+            }
+            recipe.setInstructionModels(instructionList);
         }
-        recipe.setInstructionModels(instructionList);
+        recipeRepository.save(recipe);
         ///////////////////////////////////////////
-
-
         return new RedirectView("/user/recipes");
     }
 
@@ -275,50 +283,73 @@ public class UserController {
 
     @PostMapping("/recipe/update")
     public RedirectView UpdateUserOwnRecipe(@RequestParam String name, @RequestParam String description,
-                                            @RequestParam String ingredientModels, @RequestParam String instructionModels,
+
+                                           @RequestParam String ingredientModels, @RequestParam String instructionModels,
+
                                             @RequestParam Integer recipe_id) {
         RecipeModel recipe = recipeRepository.getById(recipe_id);
         // For Ingredients :////////////////////////
-        String[] ingredients = ingredientModels.split(",");
-        //recipe.getIngredientModels().removeAll(recipe.getIngredientModels());
-        recipe.getIngredientModels().clear();
-        for (Ingredient in:
-                recipe.getIngredientModels()) {
-
+        List<Ingredient> ingredientsOld = recipe.getIngredientModels();
+        Iterator<Ingredient> ingredientIterator = ingredientsOld.iterator();
+        while (ingredientIterator.hasNext()) {
+            Ingredient ingredient = ingredientIterator.next();
+            if (ingredient != null) {
+                ingredientIterator.remove();
+                ingredientRepository.deleteById(ingredient.getIngredientId());
+            }
         }
+
+        recipeRepository.save(recipe);
+        // For Ingredients :////////////////////////
+        String[] ingredients = ingredientModels.split(",");
         List<Ingredient> ingredientList = new ArrayList<>();
         for (String ingredient:
                 ingredients) {
             Ingredient ingredientNew = new Ingredient(ingredient);
             ingredientNew.setRecipes_ingredient(recipe);
             ingredientList.add(ingredientNew);
+            ingredientRepository.save(ingredientNew);
         }
         recipe.setIngredientModels(ingredientList);
         ///////////////////////////////////////////
         // For Instructions :////////////////////////
+        List<InstructionModel> instructionsOld = recipe.getInstructionModels();
+        Iterator<InstructionModel> instructionIterator = instructionsOld.iterator();
+        while (instructionIterator.hasNext()) {
+            InstructionModel instruction = instructionIterator.next();
+            if (instruction != null) {
+                instructionIterator.remove();
+                instructionRepository.deleteById(instruction.getId());
+            }
+        }
+
+        recipeRepository.save(recipe);
+        // For Instructions :////////////////////////
         String[] instructions = instructionModels.split(",");
-        recipe.getInstructionModels().removeAll(recipe.getInstructionModels());
         List<InstructionModel> instructionList = new ArrayList<>();
         for (int i = 0; i <instructions.length ; i++) {
             InstructionModel instructionNew = new InstructionModel(i+1,instructions[i]);
             instructionNew.setRecipes_instruction(recipe);
             instructionList.add(instructionNew);
+            instructionRepository.save(instructionNew);
         }
         recipe.setInstructionModels(instructionList);
+
         recipeRepository.save(recipe);
         int update = recipeRepository.updateRecipeModelById(name, description,recipe_id);
         return new RedirectView("/user/recipes");
 
     }
 
-    @GetMapping("/recipe/update")
-    public String UpdateUserOwnRecipeByGet(@RequestParam Integer recipe_id, @RequestParam String name, @RequestParam String description, Model model) {
-        model.addAttribute("recipe_id", recipe_id);
-        model.addAttribute("recipe_name", name);
-        model.addAttribute("recipe_description", description);
-        return "updateRecipe";
-
-    }
+//    @GetMapping("/recipe/update")
+//    public String UpdateUserOwnRecipeByGet(@RequestParam Integer recipe_id, @RequestParam String name, @RequestParam String description,
+//                                           Model model) {
+//        model.addAttribute("recipe_id", recipe_id);
+//        model.addAttribute("recipe_name", name);
+//        model.addAttribute("recipe_description", description);
+//        return "updateRecipe";
+//
+//    }
     /*
    Get the /account page for each user
    In the Other way using the path variable id

@@ -88,6 +88,7 @@ public class RecipeApplication {
 
 			if(recipeRepository.findAll().size() == 0)
 			{
+
 				Recipe recipe = ReadJsonFile("recipe.json");
 				//System.out.println(recipe);
 
@@ -165,6 +166,8 @@ public class RecipeApplication {
 
 		log.info("Preloading" + recipeRepository.save(recipe));
 
+		// Create Instruction and Ingredient
+		createInstructionAndIngredient(user,recipe);
 		// Add comment For this recipe
 		getComment(user,recipe);
 
@@ -177,12 +180,17 @@ public class RecipeApplication {
 	public  RecipeModel createRecipes(UserApp user){
 		Faker faker = new Faker();
 		RecipeModel recipe = new RecipeModel();
-
 		// For each Recipe
 		String name = faker.food().dish();
 		String description = faker.food().dish();
 		recipe.setName(name);
 		recipe.setDescription(description);
+
+		return recipe;
+	}
+	public void createInstructionAndIngredient(UserApp user , RecipeModel recipe){
+		Faker faker = new Faker();
+		// For each Recipe
 
 		// Ingredients
 		String ingredient1 = faker.food().ingredient();
@@ -191,15 +199,9 @@ public class RecipeApplication {
 
 		Ingredient ingredientObj1 = new Ingredient(ingredient1);
 		ingredientObj1.setRecipes_ingredient(recipe);
-		Ingredient ingredientObj2 = new Ingredient(ingredient2);
-		ingredientObj1.setRecipes_ingredient(recipe);
-		Ingredient ingredientObj3 = new Ingredient(ingredient3);
-		ingredientObj1.setRecipes_ingredient(recipe);
-
+		ingredientRepository.save(ingredientObj1);
 		List<Ingredient> ingredients = new ArrayList<>();
 		ingredients.add(ingredientObj1);
-		ingredients.add(ingredientObj2);
-		ingredients.add(ingredientObj3);
 		recipe.setIngredientModels(ingredients);
 
 
@@ -209,8 +211,10 @@ public class RecipeApplication {
 
 		InstructionModel instructionObj1 = new InstructionModel(1,instruction1);
 		instructionObj1.setRecipes_instruction(recipe);
+		instructionRepository.save(instructionObj1);
 		InstructionModel instructionObj2 = new InstructionModel(2,instruction2);
 		instructionObj2.setRecipes_instruction(recipe);
+		instructionRepository.save(instructionObj2);
 
 		List<InstructionModel> instructions  = new ArrayList<>();
 		instructions.add(instructionObj1);
@@ -218,8 +222,6 @@ public class RecipeApplication {
 		recipe.setInstructionModels(instructions);
 
 		recipe.setUserOwnRecipe(user);
-
-		return recipe;
 	}
 	//Write comments on the users Recipe
 	public  void getComment(UserApp user,RecipeModel recipe) {
@@ -250,7 +252,10 @@ public class RecipeApplication {
 	}
 
 	///////////////////////////////////////////// DATABASE //////////////////////////////////////////////////////
+
+		// We used this at First To Get the data and write it on the File
 	public static String ReadFromAPI() throws FileNotFoundException {
+
 		String dataJson = "";
 		try {
 			// Make connection
