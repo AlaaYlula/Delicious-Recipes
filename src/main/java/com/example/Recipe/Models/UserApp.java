@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.*;
 import java.sql.Date;
-import java.util.List;
 
 //@JsonIgnoreProperties({"favoriteRecipeModels"})
 @Setter
@@ -40,11 +41,30 @@ public class UserApp implements UserDetails {
 
     private String userImage;
 
-
-    @OneToOne
+/////////////////
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
+//////////////
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
+    public void setRole1(Role newRole) {
+        roles.add(newRole);
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+////////////////////////////////
     @OneToMany(mappedBy = "userOwnRecipe",cascade = CascadeType.ALL)
     List<RecipeModel> ownRecipeModels;
 
@@ -78,7 +98,7 @@ public class UserApp implements UserDetails {
 
     public UserApp(String username, String password, String firstName, String lastName, Date dateOfBirth, String nationality, String bio) {
         this.username = username;
-        this.password = password;
+        this.password =  password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -158,7 +178,14 @@ public class UserApp implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Set<Role> roles = getRoles();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+
+        return authorities;
     }
 
     public String getPassword() {
@@ -208,7 +235,7 @@ public class UserApp implements UserDetails {
     public void setBio(String bio) {
         this.bio = bio;
     }
-
+////////////////////////
     public Role getRole() {
         return role;
     }
@@ -216,7 +243,7 @@ public class UserApp implements UserDetails {
     public void setRole(Role role) {
         this.role = role;
     }
-
+//////////////////////////////////////////
     public List<RecipeModel> getOwnRecipes() {
         return ownRecipeModels;
     }

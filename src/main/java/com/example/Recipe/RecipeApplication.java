@@ -58,7 +58,7 @@ public class RecipeApplication {
 	CommandLineRunner initDatabase(RecipeRepository recipeRepository, IngredientRepository ingredientRepository ,
 
 								   InstructionRepository instructionRepository , UserAppRepository userAppRepository,RoleRepository roleRepository
-								   ,CommentRepository commentRepository) {
+			,CommentRepository commentRepository) {
 
 		return args -> {
 			if (roleRepository.findAll().size() == 0)
@@ -66,6 +66,26 @@ public class RecipeApplication {
 				log.info("Preloading " + roleRepository.save(new Role("ADMIN")));
 				log.info("Preloading " + roleRepository.save(new Role("USERS")));
 			}
+
+			if (userAppRepository.findByUsername("admin") == null) {
+				Role role = roleRepository.getById(1L);
+				String firstName = "admin";
+				String lastName = "admin";
+				String username = "admin";
+				Date dateOfBirth = new Date(1991, 6, 15);
+				String password = "1234";
+				String nationality = "Jordanian";
+				String bio = "Lorem ipsum dolor sit amet";
+				String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+				UserApp admin = new UserApp(username, hashedPassword, firstName, lastName, dateOfBirth, nationality, bio);
+			////
+				admin.getRoles().add(role);
+				admin.setRole(role);
+           ////
+				userAppRepository.save(admin);
+			}
+
+
 			if(recipeRepository.findAll().size() == 0)
 			{
 
@@ -131,7 +151,10 @@ public class RecipeApplication {
 		String bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incid";
 		String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
 		UserApp user = new UserApp(username, hashedPassword, firstName, lastName, dateOfBirth, nationality, bio);
+	////
+		user.getRoles().add(role);
 		user.setRole(role);
+		//////
 		SetData(user);
 
 	}
@@ -157,10 +180,12 @@ public class RecipeApplication {
 	public  RecipeModel createRecipes(UserApp user){
 		Faker faker = new Faker();
 		RecipeModel recipe = new RecipeModel();
+		// For each Recipe
 		String name = faker.food().dish();
 		String description = faker.food().dish();
 		recipe.setName(name);
 		recipe.setDescription(description);
+
 		return recipe;
 	}
 	public void createInstructionAndIngredient(UserApp user , RecipeModel recipe){
@@ -227,8 +252,10 @@ public class RecipeApplication {
 	}
 
 	///////////////////////////////////////////// DATABASE //////////////////////////////////////////////////////
+
 		// We used this at First To Get the data and write it on the File
-		public static String ReadFromAPI() throws FileNotFoundException {
+	public static String ReadFromAPI() throws FileNotFoundException {
+
 		String dataJson = "";
 		try {
 			// Make connection
@@ -280,8 +307,6 @@ public class RecipeApplication {
 		return results;
 	}
 }
-
-
 
 
 
