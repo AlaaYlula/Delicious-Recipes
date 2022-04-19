@@ -1,6 +1,7 @@
 package com.example.Recipe.Models;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Role {
@@ -10,7 +11,18 @@ public class Role {
     private Long id;
 
     private String name;
+/////////////////////////////////////////
+    @ManyToMany(mappedBy = "roles",fetch = FetchType.EAGER)
+    private Set<UserApp> user1;
 
+    public Set<UserApp> getUser1() {
+        return user1;
+    }
+
+    public void setUser1(Set<UserApp> user1) {
+        this.user1 = user1;
+    }
+///////////////////////////////////////////
     @OneToOne(mappedBy = "role")
     private UserApp user;
 
@@ -52,7 +64,7 @@ public class Role {
     public String toString() {
         return "Role{" +
                 "name='" + name + '\'' +
-                ", user=" + user +
+//                ", user=" + user +
                 '}';
     }
 }

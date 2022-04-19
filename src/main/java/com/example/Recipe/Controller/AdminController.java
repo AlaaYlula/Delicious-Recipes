@@ -2,9 +2,13 @@ package com.example.Recipe.Controller;
 
 
 import com.example.Recipe.Models.RecipeModel;
+import com.example.Recipe.Models.Role;
 import com.example.Recipe.Models.UserApp;
+import com.example.Recipe.Repositories.RoleRepository;
 import com.example.Recipe.Repositories.UserAppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -25,9 +29,11 @@ public class AdminController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    RoleRepository roleRepository;
 
-    // Add users
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
     public String adminPage(Model model)
         {
@@ -49,6 +55,9 @@ public class AdminController {
     {
 
         UserApp userApp = new UserApp(username,passwordEncoder.encode(password),firstname,lastname,dateOfBirth,nationality,bio);
+        Role role = roleRepository.getById(2L);
+        userApp.getRoles().add(role);
+        userApp.setRole(role);
         userAppRepository.save(userApp);
         return "admin";
     }
