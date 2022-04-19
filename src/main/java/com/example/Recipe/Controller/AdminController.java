@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.sql.Date;
 
@@ -37,14 +38,12 @@ public class AdminController {
     @GetMapping("/admin")
     public String adminPage(Model model)
         {
-//            userList
             model.addAttribute("userList", userAppRepository.findAll());
-            System.out.println("aya aya ^_^");
             return "admin";
         }
 
     @PostMapping("/admin/users")
-    public String getSignupPage(
+    public RedirectView getSignupPage(
             @RequestParam String username,
             @RequestParam String password,
             @RequestParam String firstname,
@@ -60,15 +59,16 @@ public class AdminController {
         userApp.getRoles().add(role);
         userApp.setRole(role);
         userAppRepository.save(userApp);
-        return "admin";
+        return new RedirectView("/admin");
     }
 
     @PostMapping("/delete/users")
-    public String deleteUsers(@RequestParam(value = "id", required =false) int id, Model model){
+    public RedirectView deleteUsers(@RequestParam(value = "id", required =false) int id, Model model){
 
+        System.out.println("*************************************************************" +id);
         userAppRepository.deleteById((long) id);
         model.addAttribute("userList",userAppRepository.findAll());
-        return "admin";
+        return new RedirectView("/admin") ;
     }
 
 
