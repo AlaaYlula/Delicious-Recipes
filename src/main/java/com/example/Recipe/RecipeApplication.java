@@ -61,12 +61,13 @@ public class RecipeApplication {
 			,CommentRepository commentRepository) {
 
 		return args -> {
-			if (roleRepository.findAll().size() == 0)
+			// initiate the Role
+			if (roleRepository.findAll().size() == 0 )
 			{
 				log.info("Preloading " + roleRepository.save(new Role("ADMIN")));
 				log.info("Preloading " + roleRepository.save(new Role("USERS")));
 			}
-
+			// create an ADMIN
 			if (userAppRepository.findByUsername("admin") == null) {
 				Role role = roleRepository.getById(1L);
 				String firstName = "admin";
@@ -78,20 +79,17 @@ public class RecipeApplication {
 				String bio = "Lorem ipsum dolor sit amet";
 				String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
 				UserApp admin = new UserApp(username, hashedPassword, firstName, lastName, dateOfBirth, nationality, bio);
-			////
-				admin.getRoles().add(role);
+
 				admin.setRole(role);
-           ////
+
 				userAppRepository.save(admin);
 			}
 
-
+			// Write On DATABASE
 			if(recipeRepository.findAll().size() == 0)
 			{
 
 				Recipe recipe = ReadJsonFile("recipe.json");
-				//System.out.println(recipe);
-
 				for (Result r:recipe.results
 				) {
 					RecipeModel recipeModel = new RecipeModel(r.name,r.description,r.thumbnail_url);
@@ -126,7 +124,7 @@ public class RecipeApplication {
 
 			}
 			/*
-			Add 8 users
+			Add Maximum 6 users
 			 */
 			if(userAppRepository.findAll().size() < 6) {
 				// Create 3 users
@@ -137,7 +135,7 @@ public class RecipeApplication {
 			}
 		};
 	}
-	////////////////////////////////////// INIT  DATA ////////////////////////////////////////
+	////////////////////////////////////// Initiate  DATA ////////////////////////////////////////
 	public void GetUser (){
 		Role role = roleRepository.getById(2L);
 
@@ -151,8 +149,6 @@ public class RecipeApplication {
 		String bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incid";
 		String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
 		UserApp user = new UserApp(username, hashedPassword, firstName, lastName, dateOfBirth, nationality, bio);
-	////
-		user.getRoles().add(role);
 		user.setRole(role);
 		//////
 		SetData(user);
@@ -194,9 +190,6 @@ public class RecipeApplication {
 
 		// Ingredients
 		String ingredient1 = faker.food().ingredient();
-		String ingredient2= faker.food().ingredient();
-		String ingredient3 = faker.food().ingredient();
-
 		Ingredient ingredientObj1 = new Ingredient(ingredient1);
 		ingredientObj1.setRecipes_ingredient(recipe);
 		ingredientRepository.save(ingredientObj1);
@@ -225,7 +218,6 @@ public class RecipeApplication {
 	}
 	//Write comments on the users Recipe
 	public  void getComment(UserApp user,RecipeModel recipe) {
-		Faker faker = new Faker();
 		Comment comment = new Comment("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
 		comment.setRecipeComments(recipe);
 		comment.setUserComments(user);
@@ -306,6 +298,8 @@ public class RecipeApplication {
 
 		return results;
 	}
+
+
 }
 
 

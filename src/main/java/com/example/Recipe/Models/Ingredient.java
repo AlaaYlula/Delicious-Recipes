@@ -15,6 +15,12 @@ public class Ingredient {
 
     private String name;
 
+    @ManyToOne
+    RecipeModel recipes_ingredient;
+
+    public Ingredient() {
+
+    }
     public Ingredient(String name) {
         this.name = name;
     }
@@ -25,15 +31,6 @@ public class Ingredient {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    //@ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.MERGE,CascadeType.DETACH})
-    //@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    @ManyToOne
-    RecipeModel recipes_ingredient;
-
-    public Ingredient() {
-
     }
 
     public Long getIngredientId() {

@@ -7,30 +7,22 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class RecipeController {
 
-    private final IngredientRepository ingredientRepository;
-    private final InstructionRepository instructionRepository;
     private final RecipeRepository recipeRepository;
     private final UserAppRepository userAppRepository;
     private final CommentRepository commentRepository;
 
-    public RecipeController(IngredientRepository ingredientRepository,
-                            InstructionRepository instructionRepository,
+    public RecipeController(
                             RecipeRepository recipeRepository,
                             UserAppRepository userAppRepository,
                             CommentRepository commentRepository) {
-        this.ingredientRepository = ingredientRepository;
-        this.instructionRepository = instructionRepository;
         this.recipeRepository = recipeRepository;
         this.userAppRepository = userAppRepository;
         this.commentRepository = commentRepository;
@@ -52,6 +44,7 @@ public class RecipeController {
         model.addAttribute("currentUserId",userApp.getId());
         model.addAttribute("allComment",recipeModel.getComments());
         model.addAttribute("username",currentUser);
+        model.addAttribute("Role_id", userApp.getRole().getId()) ;
 
 
         return "recipeinfo";
@@ -66,22 +59,23 @@ public class RecipeController {
         UserApp userApp=userAppRepository.findByUsername(currentUser);
         // add to favorite list
         List<RecipeModel> favList= userApp.getFavoriteRecipeModels();
-        favList.add(recipeModel);
-        userApp.setFavoriteRecipeModels(favList);
-        userAppRepository.save(userApp);
+        if(!favList.contains(recipeModel)) {
+            favList.add(recipeModel);
+            userApp.setFavoriteRecipeModels(favList);
+            userAppRepository.save(userApp);
 
-        List<UserApp> usersFav = recipeModel.getUserFavRecipe();
-        usersFav.add(userApp);
-        recipeModel.setUserFavRecipe(usersFav);
+            List<UserApp> usersFav = recipeModel.getUserFavRecipe();
+            usersFav.add(userApp);
+            recipeModel.setUserFavRecipe(usersFav);
 
-        recipeRepository.save(recipeModel); // added by alaa
-
+            recipeRepository.save(recipeModel);
+        }
         return new RedirectView("/recipe?id="+id);
     }
 
-
+    // Add Comment To the Recipes
     @PostMapping("/recipe/comment")
-    public RedirectView addComment(@RequestParam String text,@RequestParam int id ,Model model){
+    public RedirectView addComment(@RequestParam String text,@RequestParam int id ){
         RecipeModel recipeModel=recipeRepository.getById(id);
         //current user
         String currentUser= SecurityContextHolder.getContext().getAuthentication().getName();
@@ -100,11 +94,9 @@ public class RecipeController {
 
     }
 
-
+    // Delete Comment
     @PostMapping("/deletecomment")
     public RedirectView deleteComment(@RequestParam int id, @RequestParam int rid, @RequestParam int cUid){
-        RecipeModel recipeModel=recipeRepository.getById(rid);
-
         String currentUser= SecurityContextHolder.getContext().getAuthentication().getName();
         UserApp userApp=userAppRepository.findByUsername(currentUser);
 
@@ -112,11 +104,8 @@ public class RecipeController {
             commentRepository.deleteById((long) id);
         }
 
-
         return new RedirectView("/recipe?id="+rid);
     }
-
-
 
 
 

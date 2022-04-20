@@ -32,7 +32,6 @@ public class RecipeModel {
         @ManyToOne
         UserApp userOwnRecipe;
 
-//        @ManyToMany(mappedBy = "favoriteRecipeModels",cascade = CascadeType.ALL, fetch= FetchType.EAGER)
        @ManyToMany(mappedBy = "favoriteRecipeModels",cascade=CascadeType.ALL, fetch = FetchType.EAGER)
         private List<UserApp> userFavRecipe;
 
@@ -146,12 +145,6 @@ public class RecipeModel {
                         ", name='" + name + '\'' +
                         ", description='" + description + '\'' +
                         ", thumbnail_url='" + thumbnail_url + '\'' +
-//                        ", original_video_url='" + original_video_url + '\'' +
-//                        ", instructions=" + instructions +
-//                        ", sections=" + sections +
-//                        ", comments=" + comments +
-//                        ", userOwnRecipe=" + userOwnRecipe +
-//                        ", userFavRecipe=" + userFavRecipe +
                         '}';
         }
 }

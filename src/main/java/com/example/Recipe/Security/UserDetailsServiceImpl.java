@@ -32,39 +32,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
 
-
-
-        public List<RecipeModel> getAllRecipes(){
-            List<RecipeModel> list =  RecipeRepository.findAll();
-            return list;
-        }
-
-        /*
-         * TODO: Get Recipe By keyword
-         */
-
         public List<RecipeModel> getByKeyword(String keyword){
             return RecipeRepository.search(keyword);
         }
 
 
 
-        public List<Ingredient> getAllIngredients(){
-            List<Ingredient> listIngredient =  IngredientRepository.findAll();
-            return listIngredient;
-        }
-
-
-        /*
-         * TODO: Get Ingredient By keywords
-         */
-
         public List<RecipeModel> getByIngredientKeyword(String keyword){
             return RecipeRepository.searchIngredient(keyword);
         }
 
-
-    public int updateUsersInfo(String username, String password, String first_name,
+       // TODO: 4/20/2022
+        public int updateUsersInfo(String username, String password, String first_name,
                                String last_name, Date date_of_birth, String nationality, String bio, Integer id){
 
         return userAppRepository.updateUserInfo(username, password, first_name, last_name, date_of_birth, nationality, bio, id);

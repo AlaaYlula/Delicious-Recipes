@@ -206,7 +206,11 @@
                                                                 -webkit-box-orient: vertical;">
                                     <span th:text="${favRecipe.description}"></span>
                                 </p>
-                                <a class="btn btn-primary" th:href = "'/recipe?id=' + ${favRecipe.recipe_id}">Read more →</a>
+                                <form  method="post" action="/recipe/favorite/delete">
+                                    <a class="btn btn-primary" th:href = "'/recipe?id=' + ${favRecipe.recipe_id}">Read more →</a>
+                                    <input type="hidden"   th:value="${favRecipe.recipe_id}" name="Recipe_id">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
                             </div>
                         </div>
                     </div>
