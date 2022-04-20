@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -32,13 +33,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
 
-        public List<RecipeModel> getByKeyword(String keyword){
+        public Set<RecipeModel> getByKeyword(String keyword){
             return RecipeRepository.search(keyword);
         }
 
 
 
-        public List<RecipeModel> getByIngredientKeyword(String keyword){
+        public Set<RecipeModel> getByIngredientKeyword(String keyword){
             return RecipeRepository.searchIngredient(keyword);
         }
 

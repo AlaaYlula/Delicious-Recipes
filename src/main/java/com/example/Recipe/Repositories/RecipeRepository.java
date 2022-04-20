@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.data.jpa.repository.Modifying;
 
 import javax.transaction.Transactional;
@@ -17,11 +19,11 @@ public interface RecipeRepository extends JpaRepository<RecipeModel, Integer> {
 
 
     @Query(value = "select * from recipe_model s where s.name like %:searchterms% or s.description like %:searchterms%", nativeQuery = true)
-    List<RecipeModel> search(@Param("searchterms") String keyword);
+    Set<RecipeModel> search(@Param("searchterms") String keyword);
 
 
     @Query(value = "SELECT * FROM recipe_model R INNER JOIN ingredient I ON R.recipe_id = I.recipes_ingredient_recipe_id AND I.name LIKE %:searchterms%", nativeQuery = true)
-    List<RecipeModel> searchIngredient(@Param("searchterms") String keyword);
+    Set<RecipeModel> searchIngredient(@Param("searchterms") String keyword);
 
     @Transactional
     @Modifying
