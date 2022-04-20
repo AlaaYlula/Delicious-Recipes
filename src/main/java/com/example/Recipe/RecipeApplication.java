@@ -61,7 +61,7 @@ public class RecipeApplication {
 			,CommentRepository commentRepository) {
 
 		return args -> {
-			if (roleRepository.findAll().size() == 0)
+			if (roleRepository.findAll().size() == 0 )
 			{
 				log.info("Preloading " + roleRepository.save(new Role("ADMIN")));
 				log.info("Preloading " + roleRepository.save(new Role("USERS")));
@@ -90,8 +90,6 @@ public class RecipeApplication {
 			{
 
 				Recipe recipe = ReadJsonFile("recipe.json");
-				//System.out.println(recipe);
-
 				for (Result r:recipe.results
 				) {
 					RecipeModel recipeModel = new RecipeModel(r.name,r.description,r.thumbnail_url);
@@ -306,6 +304,8 @@ public class RecipeApplication {
 
 		return results;
 	}
+
+
 }
 
 

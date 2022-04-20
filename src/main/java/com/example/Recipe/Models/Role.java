@@ -12,16 +12,16 @@ public class Role {
 
     private String name;
 /////////////////////////////////////////
-    @ManyToMany(mappedBy = "roles",fetch = FetchType.EAGER)
-    private Set<UserApp> user1;
-
-    public Set<UserApp> getUser1() {
-        return user1;
-    }
-
-    public void setUser1(Set<UserApp> user1) {
-        this.user1 = user1;
-    }
+//    @ManyToMany(mappedBy = "roles",fetch = FetchType.EAGER)
+//    private Set<UserApp> user1;
+//
+//    public Set<UserApp> getUser1() {
+//        return user1;
+//    }
+//
+//    public void setUser1(Set<UserApp> user1) {
+//        this.user1 = user1;
+//    }
 ///////////////////////////////////////////
     @OneToOne(mappedBy = "role")
     private UserApp user;

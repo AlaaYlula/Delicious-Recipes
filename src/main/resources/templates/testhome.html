@@ -56,9 +56,9 @@
         <form action="/search" method="get"  name="searchform" onSubmit="return dosearch();">
 
             <label th:text="${item}"></label>
-            <input type="radio" name="type"  value="recipe" /> Search by Recipe <br />
+            <input type="radio" name="type"  value="recipe" checked /> Search by Recipe <br />
             <input type="radio"  name="type" value="ingredient" /> Search by Ingredients <br />
-            <input type="text" name="searchterms">
+            <input type="text" name="searchterms" required>
 
             <button type="submit" class="btn btn-outline-primary">search</button>
         </form>
