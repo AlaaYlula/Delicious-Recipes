@@ -58,4 +58,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/perform_logout")
                 .deleteCookies("JSESSIONID");
     }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .inMemoryAuthentication()
+                .withUser("user").password("1234").roles("USER")
+                .and()
+                .withUser("admin").password("1234").roles("ADMIN");
+    }
 }
