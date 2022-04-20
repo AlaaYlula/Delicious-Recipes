@@ -1,7 +1,5 @@
 package com.example.Recipe.Models;
-;
 
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
@@ -24,6 +22,9 @@ public class Comment {
 
     public Comment() {
     }
+    public Comment(String text) {
+        this.text = text;
+    }
 
     public RecipeModel getRecipeModelComments() {
         return recipeModelComments;
@@ -31,10 +32,6 @@ public class Comment {
 
     public void setRecipeModelComments(RecipeModel recipeModelComments) {
         this.recipeModelComments = recipeModelComments;
-    }
-
-    public Comment(String text) {
-        this.text = text;
     }
 
     public Long getId() {

@@ -1,13 +1,11 @@
 package com.example.Recipe.Controller;
 
 
-import com.example.Recipe.Models.RecipeModel;
 import com.example.Recipe.Models.Role;
 import com.example.Recipe.Models.UserApp;
 import com.example.Recipe.Repositories.RoleRepository;
 import com.example.Recipe.Repositories.UserAppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.sql.Date;
+import java.util.List;
 
 @Controller
 public class AdminController {
@@ -38,7 +37,16 @@ public class AdminController {
     @GetMapping("/admin")
     public String adminPage(Model model)
         {
-            model.addAttribute("userList", userAppRepository.findAll());
+            final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            UserApp appUser = userAppRepository.findByUsername(currentUser);
+            // Remove the current user From the users List
+            List<UserApp> allUser = userAppRepository.findAll();
+            allUser.remove(appUser);
+
+            model.addAttribute("userList", allUser);
+            model.addAttribute("username", currentUser);
+            model.addAttribute("Role_id", appUser.getRole().getId()) ;
+
             return "admin";
         }
 
@@ -53,10 +61,12 @@ public class AdminController {
             @RequestParam String bio
     )
     {
-
+        UserApp userApp1=userAppRepository.findByUsername(username);
+        if(userApp1 != null){
+            return new RedirectView("/admin");
+        }
         UserApp userApp = new UserApp(username,passwordEncoder.encode(password),firstname,lastname,dateOfBirth,nationality,bio);
         Role role = roleRepository.getById(2L);
-        userApp.getRoles().add(role);
         userApp.setRole(role);
         userAppRepository.save(userApp);
         return new RedirectView("/admin");
@@ -64,10 +74,7 @@ public class AdminController {
 
     @PostMapping("/delete/users")
     public RedirectView deleteUsers(@RequestParam(value = "id", required =false) int id, Model model){
-
-        System.out.println("*************************************************************" +id);
         userAppRepository.deleteById((long) id);
-        model.addAttribute("userList",userAppRepository.findAll());
         return new RedirectView("/admin") ;
     }
 

@@ -11,18 +11,7 @@ public class Role {
     private Long id;
 
     private String name;
-/////////////////////////////////////////
-//    @ManyToMany(mappedBy = "roles",fetch = FetchType.EAGER)
-//    private Set<UserApp> user1;
-//
-//    public Set<UserApp> getUser1() {
-//        return user1;
-//    }
-//
-//    public void setUser1(Set<UserApp> user1) {
-//        this.user1 = user1;
-//    }
-///////////////////////////////////////////
+
     @OneToOne(mappedBy = "role")
     private UserApp user;
 
@@ -30,14 +19,12 @@ public class Role {
     public Role() {
     }
 
+    public Role(String name) {
+        this.name = name;
+    }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-
-    public Role(String name) {
-        this.name = name;
     }
 
     public String getName() {
@@ -62,9 +49,6 @@ public class Role {
 
     @Override
     public String toString() {
-        return "Role{" +
-                "name='" + name + '\'' +
-//                ", user=" + user +
-                '}';
+        return  name;
     }
 }

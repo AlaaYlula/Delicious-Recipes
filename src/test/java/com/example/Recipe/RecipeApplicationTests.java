@@ -6,6 +6,7 @@ import com.example.Recipe.Controller.UserController;
 
 import com.example.Recipe.Repositories.RecipeRepository;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -89,6 +90,7 @@ class RecipeApplicationTests {
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(view().name("testhome"));
+			//	.andExpect(content().string(Matchers.containsString("Delicious Recipes")));
 	}
 
 	///////////////////////////////////////////////// User controller testing /////////////////////////////////////////////////

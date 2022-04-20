@@ -10,20 +10,22 @@ public class InstructionModel {
     @Column(name = "id", nullable = false)
     private Long id;
 
-
-
     private int position;
+
     @Column(columnDefinition = "TEXT")
     private String display_text;
 
+    @ManyToOne
+    RecipeModel recipes_instruction;
+
+    public InstructionModel() {
+
+    }
     public InstructionModel(int position, String display_text) {
         this.position = position;
         this.display_text = display_text;
     }
 
-    public InstructionModel() {
-
-    }
 
     public int getPosition() {
         return position;
@@ -40,9 +42,6 @@ public class InstructionModel {
     public void setDisplay_text(String display_text) {
         this.display_text = display_text;
     }
-
-    @ManyToOne
-    RecipeModel recipes_instruction;
 
     public RecipeModel getRecipes_instruction() {
         return recipes_instruction;

@@ -149,6 +149,11 @@
                 <p class="card-text">
                     <span th:text="${user.firstName}"></span> <span th:text="${user.lastName}"></span>
                 </p>
+                <form action="/delete/users" method="post">
+                    <input type="hidden" name="id" th:value="${user.id}">
+                    <button> Delete </button>
+                </form>
+
             </div>
         </div>
     </div>
