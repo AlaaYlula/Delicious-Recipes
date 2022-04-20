@@ -68,8 +68,6 @@ class RecipeApplicationTests {
 		mockMvc.perform(MockMvcRequestBuilders.get("/login")).andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(view().name("login"));
-
-
 	}
 
 	@Test
@@ -78,24 +76,22 @@ class RecipeApplicationTests {
 		mockMvc.perform(MockMvcRequestBuilders.get("/signup")).andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(view().name("signup"));
-
-
 	}
 
-	@WithMockUser("spring")
+	@WithMockUser("admin")
 	@Test
 	@DisplayName("Root page test") // pass
 	public void testRootPage() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/"))
 				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(view().name("testhome"));
-			//	.andExpect(content().string(Matchers.containsString("Delicious Recipes")));
+				.andExpect(view().name("home"))
+				.andExpect(content().string(Matchers.containsString("Delicious Recipes")));
 	}
 
 	///////////////////////////////////////////////// User controller testing /////////////////////////////////////////////////
 
-	@WithMockUser("spring")
+	@WithMockUser("admin")
 	@Test
 	@DisplayName("users page test")  //pass
 	public void testUserPage() throws Exception {
@@ -105,7 +101,7 @@ class RecipeApplicationTests {
 				.andExpect(view().name("users"));
 	}
 
-	@WithMockUser("spring")
+	@WithMockUser("admin")
 	@Test
 	@DisplayName("user recipe page test") //pass
 	public void testUserRecipePage() throws Exception {
@@ -115,7 +111,7 @@ class RecipeApplicationTests {
 				.andExpect(view().name("userRecipe"));
 	}
 
-	@WithMockUser("spring")
+	@WithMockUser("admin")
 	@Test
 	@DisplayName("User My Profile page test")  //pass
 	public void testMyProfilePage() throws Exception {
@@ -125,7 +121,17 @@ class RecipeApplicationTests {
 				.andExpect(view().name("myprofile"));
 	}
 
-	@WithMockUser("spring")
+	@WithMockUser("admin")
+	@Test
+	@DisplayName(" post new recipe test")  //pass
+	public void testUserNewRecipe() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.post("/user/newRecipe").param("name","flafel").param("description","flafel").param("ingredientModels","flafel,Homos").param("instructionModels","cook for 10 mins"))
+				.andDo(print())
+				.andExpect(status().is(302));
+
+	}
+	// After this : the recipe_model table removed can not see the ID for the added recipe
+	@WithMockUser("admin")
 	@Test
 	@DisplayName(" post delete own recipe test")  //pass
 	public void testDeleteRecipe() throws Exception {
@@ -144,8 +150,17 @@ class RecipeApplicationTests {
 				.andExpect(status().is(302));
 	}
 
+	// the mockUser must log in to see the result
+	@WithMockUser("admin")
+	@Test
+	@DisplayName("Add to favorite test")   // pass
+	public void testFavoriteRoute() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.post("/favorite").param("id", "4"))
+				.andDo(print())
+				.andExpect(status().is(302));
+	}
 
-	@WithMockUser("vaughn.carter")
+	@WithMockUser("admin")
 	@Test
 	@DisplayName(" post delete from favorite list User rout test")  //pass
 	public void testDeleteFavorite() throws Exception {
@@ -202,15 +217,7 @@ class RecipeApplicationTests {
 				.andExpect(view().name("users"));
 	}
 
-	@WithMockUser("vaughn.carter")
-	@Test
-	@DisplayName(" post new recipe test")  //pass
-	public void testUserNewRecipe() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/user/newRecipe").param("name","flafel").param("description","flafel"))
-				.andDo(print())
-				.andExpect(status().is(302));
 
-	}
 
 	@WithMockUser("vaughn.carter")
 	@Test
@@ -264,15 +271,6 @@ class RecipeApplicationTests {
 				.andExpect(status().is(302));
 	}
 
-	// the mockUser must log in to see the result
-	@WithMockUser("stanford.bednar")
-	@Test
-	@DisplayName("Add to favorite test")   // pass
-	public void testFavoriteRoute() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/favorite").param("id", "4"))
-				.andDo(print())
-				.andExpect(status().is(302));
-	}
 
 
 
