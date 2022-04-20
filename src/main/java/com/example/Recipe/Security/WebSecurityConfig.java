@@ -49,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login", "/signup").permitAll()
 //                .antMatchers("/css/style.css", "/css/style.css", "/js/bootstrap.js","carouselExampleControls","/css/style.scss").permitAll()
                 .antMatchers("/css/style.css","/js/bootstrap.js","carouselExampleControls","/css/style.scss").permitAll()
+
                 .antMatchers("/admin").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()

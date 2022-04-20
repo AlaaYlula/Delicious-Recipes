@@ -48,39 +48,7 @@
 <body>
 <!-- Navigation-->
 <div th:replace="fragments/header :: header"></div>
-<!-- Section-->
-<!--<section class="py-5">-->
-<!--    <div class="container px-4 px-lg-5 mt-5">-->
-<!--        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">-->
-<!--            <div class="col mb-5" th:each="user: ${usersList}">-->
-<!--                <div class="card h-100">-->
-<!--                    &lt;!&ndash; User image&ndash;&gt;-->
-<!--                    <img class="card-img-top" th:src="${user.userImage}" alt="..." />-->
-<!--                    &lt;!&ndash; User details&ndash;&gt;-->
-<!--                    <div class="card-body p-4">-->
-<!--                        <div class="text-center">-->
-<!--                            &lt;!&ndash; Username&ndash;&gt;-->
-<!--                            <h5 class="fw-bolder"><a th:href = "'/user/account/' + ${user.id}" th:text="${user.firstName}"> </a></h5>-->
-<!--                            &lt;!&ndash; Full name&ndash;&gt;-->
-<!--                           <span th:text="${user.firstName}"></span> <span th:text="${user.lastName}"></span>-->
-<!--                            &lt;!&ndash;Follow&ndash;&gt;-->
-<!--                            <form  th:if="${user.flag == 'true'}" method="post" action="/users/follow">-->
-<!--                                <input type="hidden" th:value="${user.id}" name="user_id">-->
-<!--                                <button  type="submit" class="btn btn-success">Follow</button>-->
-<!--                            </form>-->
-<!--                            &lt;!&ndash;Unfollow&ndash;&gt;-->
-<!--                            <form  th:unless="!${user.flag == 'false'}" method="post" action="/users/unfollow">-->
-<!--                                <input type="hidden" th:value="${user.id}" name="user_id">-->
-<!--                                <button type="submit" class="btn btn-danger">UnFollow</button>-->
-<!--                            </form>-->
 
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
 
     <div class="container py-5 h-100">
         <div class="row row-cols-1 row-cols-md-2 g-4 d-flex justify-content-center align-items-center h-100">
