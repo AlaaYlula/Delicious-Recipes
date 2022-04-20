@@ -1,6 +1,5 @@
 package com.example.Recipe.Repositories;
 
-import com.example.Recipe.Models.RecipeModel;
 import com.example.Recipe.Models.UserApp;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.sql.Date;
-import java.util.List;
 
 @Repository
 public interface UserAppRepository extends JpaRepository<UserApp,Long> {
@@ -17,7 +15,7 @@ public interface UserAppRepository extends JpaRepository<UserApp,Long> {
 
     UserApp findUserAppById(Long id);
 
-
+    // TODO: 4/20/2022  
     @Transactional
     @Modifying
     @Query(value= "update user_app set username = ?1, " +

@@ -65,9 +65,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/users">User's</a>
                     </li>
-                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                        <div ><a  class="nav-link" href="/admin">Admin</a></div>
+<!--                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">-->
+<!--                        <div ><a  class="nav-link" href="/admin">Admin</a></div>-->
+<!--                    </li>-->
+                    <li class="nav-item"  th:if="${Role_id == 1}">
+                        <div ><a  class="nav-link" href="/admin">Admin page</a></div>
                     </li>
+
                 </ul>
 
 
