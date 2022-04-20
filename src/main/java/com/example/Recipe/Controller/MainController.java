@@ -88,7 +88,7 @@ public class MainController {
         model.addAttribute("username", currentUser) ;
         model.addAttribute("Role_id", current.getRole().getId()) ;
 
-        return "testhome";
+        return "home";
     }
 
 

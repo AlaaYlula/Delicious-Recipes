@@ -42,7 +42,7 @@ public class SearchController {
             model.addAttribute("recipesList", list);
         }
 
-        return "testhome";
+        return "home";
     }
 
 }
