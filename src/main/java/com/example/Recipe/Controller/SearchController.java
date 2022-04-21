@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class SearchController {
@@ -33,12 +34,12 @@ public class SearchController {
 
         System.out.println(type);
         if(type.equals("recipe")) {
-            List<RecipeModel> list = service.getByKeyword(searchterms);
+            Set<RecipeModel> list = service.getByKeyword(searchterms);
             model.addAttribute("recipesList", list);
         }
 
         else if(type.equals("ingredient")) {
-            List<RecipeModel> list = service.getByIngredientKeyword(searchterms);
+            Set<RecipeModel> list = service.getByIngredientKeyword(searchterms);
             model.addAttribute("recipesList", list);
         }
 
