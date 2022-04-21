@@ -260,16 +260,4 @@ class RecipeApplicationTests {
 
 
 
-	///////////////////////////////////////////////// Admin controller testing /////////////////////////////////////////////////
-
-//	@WithMockUser("admin")
-//	@Test
-//	@DisplayName("admin page test") //failed
-//	public void testAdminPage() throws Exception {
-//		mockMvc.perform(MockMvcRequestBuilders.get("/admin"))
-//				.andDo(print())
-//				.andExpect(status().isOk())
-//				.andExpect(view().name("admin"));
-//	}
-
 }

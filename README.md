@@ -1,4 +1,6 @@
 # Group2
+---------------------------------------------------------------------------------------------------------------------------------------
+## A recipe is full of quantities, measurements, and instructions, but it’s not just a formula. Often, it’s a memory—of that week you were in Florence, or of your mom baking cookies, or of your homeland across the world. Which is to say: Often, it’s personal.
 
 ## **Wireframe:**
 
@@ -99,11 +101,17 @@
 
 
 ## Domain Modeling
-![](./images/Mid-Project-Model-Digram.png)
+![](./images/Class%20Digram.png)
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
 
 ## DataBase Schema Diagram
-![](./images/DataBase-Schema-Diagram.png)
+![](./images/Database%20Schema.png)
 
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+PowerPoint link for the presentation:
+https://1drv.ms/p/s!AgjL-zBDWaP4e8MBtXx5V2Qqrtc?e=KWFq5F
